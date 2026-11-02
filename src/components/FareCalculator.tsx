@@ -62,10 +62,15 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
   const filterPlaces = (val: string) => {
     if (!val.trim()) return POPULAR_INDIAN_LOCATIONS.slice(0, 6).map(p => p.name);
     const q = val.toLowerCase();
-    return POPULAR_INDIAN_LOCATIONS
+    const matches = POPULAR_INDIAN_LOCATIONS
       .filter(p => p.name.toLowerCase().includes(q) || p.aliases?.some(a => a.toLowerCase().includes(q)))
       .slice(0, 6)
       .map(p => p.name);
+    const looksLikeAddress = /[,\d]/.test(val) || val.trim().split(/\s+/).length >= 3;
+    if (looksLikeAddress && !findLocationByName(val)) {
+      return [val.trim(), ...matches.filter((place) => place.toLowerCase() !== q)].slice(0, 6);
+    }
+    return matches.length ? matches : [val.trim()];
   };
 
   const handlePickupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -304,7 +309,8 @@ Please confirm cab availability and fare for my travel date.`;
                     setShowPickupList(true);
                   }}
                   onBlur={() => setTimeout(() => setShowPickupList(false), 200)}
-                  placeholder="e.g. Modinagar, Ghaziabad, Meerut..."
+                  placeholder={lang === 'hi' ? 'शहर, लैंडमार्क या पूरा पता' : 'City, landmark, or full address'}
+                  maxLength={250}
                   className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
                 />
               </div>
@@ -322,7 +328,7 @@ Please confirm cab availability and fare for my travel date.`;
                       className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between"
                     >
                       <span className="font-medium">{place}</span>
-                      <span className="text-[10px] text-slate-400">Select</span>
+                      <span className="text-[10px] text-slate-400">{findLocationByName(place) ? (lang === 'hi' ? 'चुनें' : 'Select') : (lang === 'hi' ? 'पूरा पता इस्तेमाल करें' : 'Use this address')}</span>
                     </div>
                   ))}
                 </div>
@@ -346,7 +352,8 @@ Please confirm cab availability and fare for my travel date.`;
                     setShowDropList(true);
                   }}
                   onBlur={() => setTimeout(() => setShowDropList(false), 200)}
-                  placeholder="e.g. Delhi, Meerut, Chandigarh..."
+                  placeholder={lang === 'hi' ? 'शहर, लैंडमार्क या पूरा पता' : 'City, landmark, or full address'}
+                  maxLength={250}
                   className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
                 />
               </div>
@@ -364,7 +371,7 @@ Please confirm cab availability and fare for my travel date.`;
                       className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between transition-colors"
                     >
                       <span className="font-semibold">{place}</span>
-                      <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md">Select</span>
+                      <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md">{findLocationByName(place) ? (lang === 'hi' ? 'चुनें' : 'Select') : (lang === 'hi' ? 'पूरा पता इस्तेमाल करें' : 'Use this address')}</span>
                     </div>
                   ))}
                 </div>

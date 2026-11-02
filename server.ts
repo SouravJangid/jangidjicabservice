@@ -34,6 +34,47 @@ const ai = new GoogleGenAI({
 const app = express();
 app.use(express.json({ limit: '256kb' }));
 
+type GeocodedPlace = { lat: number; lng: number };
+const geocodeCache = new Map<string, { place: GeocodedPlace; expiresAt: number }>();
+
+async function geocodeIndianAddress(address: string): Promise<GeocodedPlace | undefined> {
+  const cacheKey = address.trim().toLowerCase();
+  const cached = geocodeCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) return cached.place;
+  if (cached) geocodeCache.delete(cacheKey);
+
+  const query = /\bindia\b/i.test(address) ? address : `${address}, India`;
+  const url = new URL('https://photon.komoot.io/api/');
+  url.searchParams.set('q', query);
+  url.searchParams.set('limit', '5');
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'JangidJiCabService/1.0' }
+    });
+    if (!response.ok) return undefined;
+
+    const payload = await response.json();
+    const feature = payload.features?.find((item: any) => item.properties?.countrycode === 'IN');
+    const [lng, lat] = feature?.geometry?.coordinates ?? [];
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < 6 || lat > 38 || lng < 67 || lng > 98) {
+      return undefined;
+    }
+
+    const place = { lat, lng };
+    if (geocodeCache.size >= 500) geocodeCache.delete(geocodeCache.keys().next().value!);
+    geocodeCache.set(cacheKey, { place, expiresAt: Date.now() + 24 * 60 * 60 * 1000 });
+    return place;
+  } catch {
+    return undefined;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 app.get('/api/content', (_req: Request, res: Response) => {
   res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
   return res.json({ version: 1, domains: publicContentDomains });
@@ -76,39 +117,41 @@ app.get('/api/content/:domain', (req: Request, res: Response) => {
       if (
         typeof originName !== 'string' || typeof destName !== 'string' ||
         !originName.trim() || !destName.trim() ||
-        originName.length > 120 || destName.length > 120
+        originName.length > 250 || destName.length > 250
       ) {
-        return res.status(400).json({ error: 'Pickup and Drop locations are required' });
+        return res.status(400).json({ error: 'Pickup and destination are required (up to 250 characters each).' });
       }
 
-      // Resolve coordinates
-      let startLat = originLat;
-      let startLng = originLng;
-      if (!startLat || !startLng) {
-        const found = findLocationByName(originName);
-        if (found) {
-          startLat = found.lat;
-          startLng = found.lng;
-        } else {
-          // Default to Modinagar if unspecified
-          startLat = brandData.baseLocation.lat;
-          startLng = brandData.baseLocation.lng;
-        }
+      const hasOriginCoordinates = originLat !== undefined || originLng !== undefined;
+      const hasDestinationCoordinates = destLat !== undefined || destLng !== undefined;
+      const isValidCoordinates = (lat: unknown, lng: unknown) =>
+        typeof lat === 'number' && Number.isFinite(lat) && lat >= -90 && lat <= 90 &&
+        typeof lng === 'number' && Number.isFinite(lng) && lng >= -180 && lng <= 180;
+
+      if (
+        (hasOriginCoordinates && !isValidCoordinates(originLat, originLng)) ||
+        (hasDestinationCoordinates && !isValidCoordinates(destLat, destLng))
+      ) {
+        return res.status(400).json({ error: 'Coordinates must contain valid latitude and longitude values.' });
       }
 
-      let endLat = destLat;
-      let endLng = destLng;
-      if (!endLat || !endLng) {
-        const found = findLocationByName(destName);
-        if (found) {
-          endLat = found.lat;
-          endLng = found.lng;
-        } else {
-          // Default to Haridwar if origin was Modinagar
-          endLat = 29.9457;
-          endLng = 78.1642;
-        }
+      const [originPlace, destinationPlace] = await Promise.all([
+        hasOriginCoordinates
+          ? Promise.resolve({ lat: originLat as number, lng: originLng as number })
+          : Promise.resolve(findLocationByName(originName)).then((place) => place ?? geocodeIndianAddress(originName)),
+        hasDestinationCoordinates
+          ? Promise.resolve({ lat: destLat as number, lng: destLng as number })
+          : Promise.resolve(findLocationByName(destName)).then((place) => place ?? geocodeIndianAddress(destName))
+      ]);
+
+      if (!originPlace || !destinationPlace) {
+        return res.status(422).json({ error: 'Could not locate one or both places. Try a more complete address in India.' });
       }
+
+      const startLat = originPlace.lat;
+      const startLng = originPlace.lng;
+      const endLat = destinationPlace.lat;
+      const endLng = destinationPlace.lng;
 
       let distanceKm = 0;
       let durationStr = '';

@@ -78,16 +78,10 @@ export function findLocationByName(query: string): IndianLocation | undefined {
   // Exact or alias match
   const match = locations.find(loc => {
     if (loc.name.toLowerCase() === q) return true;
-    if (loc.aliases?.some(a => a.toLowerCase() === q || q.includes(a.toLowerCase()))) return true;
-    return false;
+    return loc.aliases?.some(a => a.toLowerCase() === q) ?? false;
   });
 
-  if (match) return match;
-
-  // Substring match
-  return locations.find(loc =>
-    loc.name.toLowerCase().includes(q) || loc.aliases?.some(a => a.toLowerCase().includes(q))
-  );
+  return match;
 }
 
 // Generate intermediate bezier-curved points between two coordinates for smooth map route visualization
