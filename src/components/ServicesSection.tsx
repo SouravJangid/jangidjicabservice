@@ -5,6 +5,8 @@ import {
   Mountain, 
   Train, 
   MapPin, 
+  Wind,
+  Car,
   Sparkles, 
   ArrowRight,
   ShieldCheck,
@@ -23,6 +25,8 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Mountain: <Mountain className="w-6 h-6 text-emerald-500" />,
   Train: <Train className="w-6 h-6 text-indigo-500" />,
   MapPin: <MapPin className="w-6 h-6 text-rose-500" />,
+  Wind: <Wind className="w-6 h-6 text-blue-500" />,
+  Car: <Car className="w-6 h-6 text-emerald-500" />,
   Sparkles: <Sparkles className="w-6 h-6 text-amber-500" />
 };
 

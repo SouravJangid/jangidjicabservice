@@ -11,7 +11,7 @@ import {
   MapPin,
   BookOpen
 } from 'lucide-react';
-import { brandData } from '../content/data';
+import { brandData, imageData } from '../content/data';
 
 interface NavbarProps {
   lang: 'en' | 'hi';
@@ -28,33 +28,24 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
     <nav className="sticky top-0 z-40 bg-[#070B14]/85 backdrop-blur-2xl border-b border-white/10 text-white transition-all shadow-[0_10px_35px_rgba(0,0,0,0.4)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo & Brand with glowing iridescent halo */}
-          <Link to="/" className="flex items-center gap-3.5 group">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-amber-400 via-violet-500 to-emerald-400 opacity-70 blur-sm group-hover:opacity-100 transition-opacity animate-pulse-subtle" />
-              <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0B0F19] to-slate-900 border border-amber-400/50 text-amber-400 flex items-center justify-center font-black text-xl shadow-lg group-hover:scale-105 transition-transform">
-                <Car className="w-6 h-6 text-amber-400" />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight group-hover:text-amber-300 transition-colors">
-                  Jangid Ji <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-300">Cab Service</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-400/30 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  {lang === 'hi' ? 'कैब सेवा' : 'Cab Service'}
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
+          {/* Brand logo */}
+          <Link to="/" className="flex items-center gap-2.5 group" aria-label={brandData.name}>
+            <img
+              src={imageData.logo || '/assets/images/logo.png'}
+              alt={brandData.name}
+              className="h-14 w-32 sm:w-40 object-contain shrink-0 transition-transform group-hover:scale-[1.03]"
+            />
+            <span className="hidden sm:flex flex-col text-[11px] text-slate-400">
+              <span className="font-semibold text-slate-200">{lang === 'hi' ? 'कैब सेवा' : 'Cab Service'}</span>
+              <span className="flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-amber-400" />
-                Modinagar
-              </p>
-            </div>
+                {brandData.baseCity}
+              </span>
+            </span>
           </Link>
 
           {/* Desktop Navigation Links with Gen-Z Glass Pills */}
-          <div className="hidden lg:flex items-center gap-1 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-inner text-xs font-semibold">
+          <div className="hidden xl:flex items-center gap-1 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-inner text-xs font-semibold">
             <Link
               to="/"
               className={`px-3.5 py-1.5 rounded-xl transition-all ${
@@ -129,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           </div>
 
           {/* Actions: Lang toggle, Shining Glass buttons */}
-          <div className="hidden sm:flex items-center gap-2.5">
+          <div className="hidden xl:flex items-center gap-2.5">
             {/* Language Switcher Glass Pill */}
             <button
               onClick={onToggleLang}
@@ -162,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           </div>
 
           {/* Mobile Menu Toggle Button */}
-          <div className="flex sm:hidden items-center gap-2">
+          <div className="flex xl:hidden items-center gap-2">
             <button
               onClick={onToggleLang}
               className="px-2.5 py-1.5 rounded-xl bg-white/10 text-slate-200 text-xs font-bold border border-white/15 backdrop-blur-md"
@@ -181,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
 
       {/* Mobile Drawer Dropdown with Glass Panel */}
       {mobileMenuOpen && (
-        <div className="sm:hidden bg-slate-950/95 border-b border-white/10 px-5 pt-3 pb-6 space-y-3 backdrop-blur-2xl">
+        <div className="xl:hidden bg-slate-950/95 border-b border-white/10 px-5 pt-3 pb-6 space-y-3 backdrop-blur-2xl">
           <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-300">
             <Link
               to="/"

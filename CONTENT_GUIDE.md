@@ -1,6 +1,6 @@
 # Editing Site Content
 
-The editable source of truth is [`src/data/content.json`](src/data/content.json). The website imports this file through typed adapters; `src/content/data.ts` and `src/content/blogData.ts` are compatibility facades, not places to edit content.
+The editable source of truth is [`src/data/content.json`](src/data/content.json). The server exposes this validated catalog through `GET /api/content/catalog`; the website loads it at startup and falls back to the bundled JSON if the API is unavailable. `src/content/data.ts` and `src/content/blogData.ts` are compatibility facades, not places to edit content.
 
 ## What You Can Change
 
@@ -27,6 +27,7 @@ Article HTML in `contentHtml` and `contentHtml_hi` is sanitized before rendering
 The read-only JSON endpoints are:
 
 - `GET /api/content` lists available domains.
+- `GET /api/content/catalog` returns the complete public JSON catalog used by the website.
 - `GET /api/content/brand`
 - `GET /api/content/assets`
 - `GET /api/content/fleet`

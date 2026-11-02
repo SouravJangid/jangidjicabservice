@@ -14,5 +14,7 @@ export {
   seoContent,
   serviceAreas,
   servicesData,
-  getPublicContentDomain
+  getPublicContentCatalog,
+  getPublicContentDomain,
+  replacePublicContentCatalog
 } from '../services/contentCatalog';

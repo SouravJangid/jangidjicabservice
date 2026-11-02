@@ -1,9 +1,20 @@
 import { DistanceCalculationResult } from '../types';
 import { BlogPost } from '../types/blog';
 import { BLOG_POSTS, getBlogPostBySlug } from '../content/blogData';
-import { popularRoutes } from '../content/data';
+import { popularRoutes, replacePublicContentCatalog } from '../content/data';
 
 export const apiService = {
+  async loadContentCatalog(): Promise<boolean> {
+    try {
+      const response = await fetch('/api/content/catalog');
+      if (!response.ok) return false;
+      const payload = await response.json();
+      return payload.version === 1 && replacePublicContentCatalog(payload.data);
+    } catch {
+      return false;
+    }
+  },
+
   async getContentIndex(): Promise<{ version: number; domains: string[] }> {
     const response = await fetch('/api/content');
     if (!response.ok) throw new Error('Could not load content domain list');

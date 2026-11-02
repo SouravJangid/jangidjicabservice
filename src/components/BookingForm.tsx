@@ -24,7 +24,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
   const [phone, setPhone] = useState('');
   const [pickup, setPickup] = useState('Modinagar');
   const [drop, setDrop] = useState('Delhi');
-  const [car, setCar] = useState('ac');
+  const [car, setCar] = useState(fleetData[0]?.id ?? '');
   const [tripType, setTripType] = useState('oneway');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');

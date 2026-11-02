@@ -9,9 +9,8 @@ import {
   findLocationByName, 
   estimateRoadDistanceAndDuration, 
   generateRoutePoints,
-  POPULAR_INDIAN_LOCATIONS 
 } from './src/lib/indianPlaces.ts';
-import { brandData, getPublicContentDomain, publicContentDomains, popularRoutes } from './src/content/data.ts';
+import { brandData, fleetData, getPublicContentCatalog, getPublicContentDomain, indianLocations, publicContentDomains, popularRoutes } from './src/content/data.ts';
 import { BLOG_POSTS } from './src/content/blogData.ts';
 
 dotenv.config();
@@ -33,11 +32,16 @@ const ai = new GoogleGenAI({
 });
 
 const app = express();
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '256kb' }));
 
 app.get('/api/content', (_req: Request, res: Response) => {
   res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
   return res.json({ version: 1, domains: publicContentDomains });
+});
+
+app.get('/api/content/catalog', (_req: Request, res: Response) => {
+  res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+  return res.json({ version: 1, data: getPublicContentCatalog() });
 });
 
 app.get('/api/content/:domain', (req: Request, res: Response) => {
@@ -50,27 +54,12 @@ app.get('/api/content/:domain', (req: Request, res: Response) => {
   return res.json({ version: 1, domain: req.params.domain, data });
 });
 
-// In-memory bookings store for live leads
-const bookings: Array<{
-    id: string;
-    createdAt: string;
-    name: string;
-    phone: string;
-    pickup: string;
-    drop: string;
-    car: string;
-    tripType: string;
-    date: string;
-    time: string;
-    passengers: number;
-    estimatedKm: number;
-    estimatedFare: number;
-    notes?: string;
-}> = [];
-
   // API 1: Distance and Fare calculation
   app.post('/api/distance', async (req: Request, res: Response) => {
     try {
+      if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+        return res.status(400).json({ error: 'Request body must be a JSON object.' });
+      }
       const {
         originName,
         destName,
@@ -78,13 +67,17 @@ const bookings: Array<{
         originLng,
         destLat,
         destLng,
-        car = 'ac',
+        car = fleetData[0]?.id ?? '',
         tripType = 'oneway',
         days = 1,
         isNight = false
       } = req.body;
 
-      if (!originName || !destName) {
+      if (
+        typeof originName !== 'string' || typeof destName !== 'string' ||
+        !originName.trim() || !destName.trim() ||
+        originName.length > 120 || destName.length > 120
+      ) {
         return res.status(400).json({ error: 'Pickup and Drop locations are required' });
       }
 
@@ -243,8 +236,13 @@ const bookings: Array<{
   // Feature block: "You MUST add image generation to the app using model gemini-3-pro-image-preview and provide an affordance for the user to specify the image size (1K, 2K, and 4K)."
   app.post('/api/generate-image', async (req: Request, res: Response) => {
     try {
-      const { prompt, size = '1K', carType = 'AC or Non-AC cab' } = req.body;
-      const effectivePrompt = prompt || `Promotional visual for ${brandData.name} in Modinagar, India. Show AC and Non-AC cab options for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at ${brandData.phoneDisplay}. Do not add vehicle models, rates, ratings, or availability claims.`;
+      if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+        return res.status(400).json({ error: 'Request body must be a JSON object.' });
+      }
+      const { prompt, size = '1K' } = req.body || {};
+      if (prompt !== undefined && (typeof prompt !== 'string' || prompt.length > 1000)) {
+        return res.status(400).json({ error: 'Prompt must be text with at most 1000 characters.' });
+      }
 
       // Resolution map
       const resolutionMap: Record<string, string> = {
@@ -252,7 +250,11 @@ const bookings: Array<{
         '2K': '2048x2048',
         '4K': '3840x2160'
       };
-      const requestedRes = resolutionMap[size] || '1024x1024';
+      if (typeof size !== 'string' || !(size in resolutionMap)) {
+        return res.status(400).json({ error: 'Image size must be 1K, 2K, or 4K.' });
+      }
+      const effectivePrompt = prompt?.trim() || `Promotional visual for ${brandData.name} in Modinagar, India. Show AC and Non-AC cab options for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at ${brandData.phoneDisplay}. Do not add vehicle models, rates, ratings, or availability claims.`;
+      const requestedRes = resolutionMap[size];
 
       let imageUrl = '';
       let generatedHeadline = '';
@@ -327,51 +329,48 @@ const bookings: Array<{
   // API 3: Booking submission endpoint
   app.post('/api/booking', (req: Request, res: Response) => {
     try {
+      if (!req.body || typeof req.body !== 'object' || Array.isArray(req.body)) {
+        return res.status(400).json({ error: 'Request body must be a JSON object.' });
+      }
       const {
         name,
         phone,
         pickup,
         drop,
-        car = 'ac',
+        car = fleetData[0]?.id ?? '',
         tripType = 'oneway',
         date,
         time,
         passengers = 1,
-        estimatedKm = 0,
-        estimatedFare = 0,
         notes = ''
-      } = req.body;
+      } = req.body || {};
 
-      if (!name || !phone || !pickup || !drop) {
+      if (
+        typeof name !== 'string' || !name.trim() || name.length > 100 ||
+        typeof phone !== 'string' || phone.length > 20 ||
+        typeof pickup !== 'string' || !pickup.trim() || pickup.length > 160 ||
+        typeof drop !== 'string' || !drop.trim() || drop.length > 160 ||
+        typeof car !== 'string' || !/^[a-z0-9-]{1,40}$/i.test(car) ||
+        !['oneway', 'round'].includes(tripType) ||
+        !fleetData.some((vehicle) => vehicle.id === car) ||
+        (date !== undefined && (typeof date !== 'string' || date.length > 32)) ||
+        (time !== undefined && (typeof time !== 'string' || time.length > 32)) ||
+        !Number.isInteger(Number(passengers)) || Number(passengers) < 1 || Number(passengers) > 12 ||
+        typeof notes !== 'string' || notes.length > 500
+      ) {
         return res.status(400).json({ error: 'Please provide full name, 10-digit mobile number, pickup, and drop location.' });
       }
 
       // Validate 10-digit Indian phone
       const phoneClean = phone.replace(/[^0-9]/g, '');
       const validIndianPhone = /^[6-9]\d{9}$/.test(phoneClean.slice(-10));
-      if (!validIndianPhone && phoneClean.length < 10) {
+      if (!validIndianPhone || phoneClean.length < 10 || phoneClean.length > 12) {
         return res.status(400).json({ error: 'Please provide a valid 10-digit Indian mobile number.' });
       }
 
       const bookingId = `JJC-${Date.now().toString().slice(-6)}`;
-      const newBooking = {
-        id: bookingId,
-        createdAt: new Date().toISOString(),
-        name,
-        phone: phoneClean,
-        pickup,
-        drop,
-        car,
-        tripType,
-        date: date || 'Today',
-        time: time || 'ASAP',
-        passengers: Number(passengers) || 1,
-        estimatedKm: Number(estimatedKm) || 0,
-        estimatedFare: Number(estimatedFare) || 0,
-        notes
-      };
-
-      bookings.unshift(newBooking);
+      const bookingDate = date || 'Today';
+      const bookingTime = time || 'ASAP';
 
       // Pre-format direct WhatsApp link for instant 1-tap confirmation
       const waMsg = `Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.
@@ -382,7 +381,7 @@ const bookings: Array<{
 *Drop:* ${drop}
 *Vehicle:* ${car.toUpperCase()}
 *Trip Type:* ${tripType === 'oneway' ? 'One-Way' : 'Round Trip'}
-*Date & Time:* ${newBooking.date} at ${newBooking.time}
+*Date & Time:* ${bookingDate} at ${bookingTime}
 Please confirm cab availability and share the fare.`;
 
       const whatsappUrl = `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(waMsg)}`;
@@ -404,9 +403,9 @@ Please confirm cab availability and share the fare.`;
   app.get('/api/locations', (req: Request, res: Response) => {
     const q = (req.query.q as string || '').toLowerCase().trim();
     if (!q) {
-      return res.json(POPULAR_INDIAN_LOCATIONS.slice(0, 10));
+      return res.json(indianLocations.slice(0, 10));
     }
-    const filtered = POPULAR_INDIAN_LOCATIONS.filter(l =>
+    const filtered = indianLocations.filter(l =>
       l.name.toLowerCase().includes(q) ||
       l.state.toLowerCase().includes(q) ||
       l.aliases?.some(a => a.toLowerCase().includes(q))

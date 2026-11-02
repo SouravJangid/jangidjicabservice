@@ -21,13 +21,17 @@
     "baseLocation": { "lat": 28.8333, "lng": 77.5833 }
   },
   "assets": {
-    "logo": "",
-    "heroDriver": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400",
+    "logo": "/assets/images/logo.png",
+    "heroDriver": "/assets/images/sachinpic.jpeg",
+    "wagonr": "/assets/images/WagonR.png",
+    "dzire": "/assets/images/Dzire.png",
+    "aura": "/assets/images/Aura.png",
+    "ertiga": "/assets/images/Ertiga%20.png",
     "cabAc": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800",
     "cabNonAc": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800",
-    "blogCab": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200",
-    "blogRoutes": "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&q=80&w=1200",
-    "blogBooking": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=1200"
+    "blogCab": "/assets/images/WagonR.png",
+    "blogRoutes": "/assets/images/Dzire.png",
+    "blogBooking": "/assets/images/Aura.png"
   },
   "serviceAreas": ["Modinagar", "Muradnagar", "Raj Nagar", "Ghaziabad", "Delhi", "Noida", "Greater Noida", "Gurugram", "Haryana", "Punjab", "Chandigarh", "Meerut", "Saharanpur", "Haridwar", "Rishikesh"],
   "hero": {
@@ -40,43 +44,77 @@
   },
   "fleet": [
     {
-      "id": "ac",
-      "name": "AC Cab",
-      "category": "AC Cab",
+      "id": "wagonr",
+      "name": "WagonR",
+      "category": "Hatchback",
       "modelYear": null,
-      "models": "AC Cab",
+      "models": "WagonR",
       "seats": null,
       "luggage": "Confirm when booking",
       "ac": true,
-      "ratePerKm": null,
+      "ratePerKm": 15,
       "minFare": null,
-      "image": "cabAc",
-      "features": ["Air-conditioned cab"],
+      "image": "wagonr",
+      "features": ["Air-conditioned cab", "Local and outstation travel"],
       "bestFor": "Local and outstation travel",
-      "description": "AC cab service for local and outstation trips. Confirm vehicle availability and fare before booking."
+      "description": "WagonR for local and outstation travel. Confirm availability and fare before booking."
     },
     {
-      "id": "non-ac",
-      "name": "Non-AC Cab",
-      "category": "Non-AC Cab",
+      "id": "dzire",
+      "name": "Dzire",
+      "category": "Sedan",
       "modelYear": null,
-      "models": "Non-AC Cab",
+      "models": "Dzire",
       "seats": null,
       "luggage": "Confirm when booking",
-      "ac": false,
-      "ratePerKm": null,
+      "ac": true,
+      "ratePerKm": 18,
       "minFare": null,
-      "image": "cabNonAc",
-      "features": ["Non-air-conditioned cab"],
+      "image": "dzire",
+      "features": ["Air-conditioned cab", "Local and outstation travel"],
       "bestFor": "Local and outstation travel",
-      "description": "Non-AC cab service for local and outstation trips. Confirm vehicle availability and fare before booking."
+      "description": "Dzire sedan for local and outstation travel. Confirm availability and fare before booking."
+    },
+    {
+      "id": "aura",
+      "name": "Aura",
+      "category": "Sedan",
+      "modelYear": null,
+      "models": "Aura",
+      "seats": null,
+      "luggage": "Confirm when booking",
+      "ac": true,
+      "ratePerKm": 18,
+      "minFare": null,
+      "image": "aura",
+      "features": ["Air-conditioned cab", "Local and outstation travel"],
+      "bestFor": "Local and outstation travel",
+      "description": "Aura sedan for local and outstation travel. Confirm availability and fare before booking."
+    },
+    {
+      "id": "ertiga",
+      "name": "Ertiga",
+      "category": "MPV",
+      "modelYear": null,
+      "models": "Ertiga",
+      "seats": null,
+      "luggage": "Confirm when booking",
+      "ac": true,
+      "ratePerKm": 22,
+      "minFare": null,
+      "image": "ertiga",
+      "features": ["Air-conditioned cab", "Local and outstation travel"],
+      "bestFor": "Local and outstation travel",
+      "description": "Ertiga MPV for local and outstation travel. Confirm availability and fare before booking."
     }
   ],
   "pricing": {
     "currency": "INR",
     "rates": {
-      "ac": { "perKm": null, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null },
-      "non-ac": { "perKm": null, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null }
+      "wagonr": { "perKm": 15, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null },
+      "dzire": { "perKm": 18, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null },
+      "aura": { "perKm": 18, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null },
+      "ertiga": { "perKm": 22, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null }
     },
     "nightCharge": { "enabled": false, "from": "", "to": "", "amount": null },
     "notes": [

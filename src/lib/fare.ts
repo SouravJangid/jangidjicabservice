@@ -21,7 +21,8 @@ export interface FareBreakdown {
 
 export function calculateFare(input: FareCalculationInput): FareBreakdown {
   const { distanceKm, carId, tripType, days = 1, isNight = false } = input;
-  const carRates = pricingConfig.rates[carId] || pricingConfig.rates.ac;
+  const carRates = pricingConfig.rates[carId] ?? pricingConfig.rates[Object.keys(pricingConfig.rates)[0]];
+  if (!carRates) throw new Error('No vehicle pricing rates are configured.');
   const ratePerKm = carRates.perKm;
   const minimumFare = carRates.minFare;
 

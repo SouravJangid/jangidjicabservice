@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { PhoneCall, MessageSquare, ShieldCheck, Star, Award, Clock, MapPin, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
-import { brandData, componentContent, heroContent, imageData } from '../content/data';
+import { PhoneCall, MessageSquare, ShieldCheck, Star, Award, Clock, MapPin, CheckCircle2, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { brandData, componentContent, fleetData, heroContent, imageData } from '../content/data';
 
 interface HeroProps {
   lang: 'en' | 'hi';
@@ -11,6 +11,15 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [activeVehicleIndex, setActiveVehicleIndex] = useState(0);
+
+  useEffect(() => {
+    if (fleetData.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => {
+      setActiveVehicleIndex((index) => (index + 1) % fleetData.length);
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const configuredPhrases = lang === 'hi' ? heroContent.rotatingPhrases_hi : heroContent.rotatingPhrases;
@@ -39,6 +48,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
 
     return () => window.clearTimeout(timer);
   }, [lang, phraseIndex, typedText, isDeleting]);
+
+  const activeVehicle = fleetData[activeVehicleIndex % fleetData.length];
 
   return (
     <div className="relative overflow-hidden bg-[#050811] text-white pt-10 pb-16 md:pt-16 md:pb-24 border-b border-white/10">
@@ -236,25 +247,58 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 </div>
 
                 {/* Car Banner Showcase with Shining Gloss */}
-                <div className="shining-beam relative rounded-2xl overflow-hidden bg-black/60 border border-white/10 p-3.5">
+                <div className="shining-beam relative rounded-2xl overflow-hidden bg-black/60 border border-white/10 p-3.5" aria-label="Available cab models" aria-roledescription="carousel">
                   <img
-                    src={imageData.cabAc}
+                    key={activeVehicle.id}
+                    src={activeVehicle.imageUrl || imageData.cabAc}
                     onError={(event) => {
                       event.currentTarget.onerror = null;
-                      event.currentTarget.src = imageData.cabNonAc;
+                      event.currentTarget.src = imageData.cabAc;
                     }}
-                    alt="Cab service vehicle"
-                    className="w-full h-36 object-cover rounded-xl shadow-md"
+                    alt={activeVehicle.name}
+                    className="w-full h-36 sm:h-44 object-contain rounded-xl bg-white shadow-md"
                   />
-                  <div className="mt-3 flex items-center justify-between text-xs">
+                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
                     <div>
-                      <span className="font-bold text-white">{lang === 'hi' ? 'कैब प्रकार' : 'Cab Types'}</span>
-                      <p className="text-[11px] text-slate-400">AC • Non-AC</p>
+                      <span className="font-bold text-white">{activeVehicle.name}</span>
+                      <p className="text-[11px] text-slate-400">{activeVehicle.category} · {activeVehicle.ac ? 'AC Cab' : 'Non-AC Cab'}</p>
                     </div>
                     <span className="px-3.5 py-1 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 font-black shadow-[0_0_15px_rgba(245,158,11,0.4)]">
-                      {lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}
+                      {activeVehicle.ratePerKm > 0 ? `₹${activeVehicle.ratePerKm}/km` : lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}
                     </span>
                   </div>
+                  {fleetData.length > 1 && (
+                    <div className="mt-3 flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => setActiveVehicleIndex((index) => (index + fleetData.length - 1) % fleetData.length)}
+                        aria-label="Previous vehicle"
+                        className="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <div className="flex items-center gap-2" role="group" aria-label="Choose a vehicle">
+                        {fleetData.map((vehicle, index) => (
+                          <button
+                            key={vehicle.id}
+                            type="button"
+                            onClick={() => setActiveVehicleIndex(index)}
+                            aria-label={`Show ${vehicle.name}`}
+                            aria-pressed={index === activeVehicleIndex}
+                            className={`h-2.5 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 ${index === activeVehicleIndex ? 'w-6 bg-amber-400' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setActiveVehicleIndex((index) => (index + 1) % fleetData.length)}
+                        aria-label="Next vehicle"
+                        className="w-9 h-9 inline-flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Direct quick call card */}

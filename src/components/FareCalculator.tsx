@@ -39,7 +39,7 @@ const QUICK_ROUTES = [
 export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onBookClick }) => {
   const [pickup, setPickup] = useState<string>('Modinagar');
   const [drop, setDrop] = useState<string>('Delhi');
-  const [selectedCar, setSelectedCar] = useState<string>('ac');
+  const [selectedCar, setSelectedCar] = useState<string>(fleetData[0]?.id ?? '');
   const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
   const [days, setDays] = useState<number>(1);
   const [isNight, setIsNight] = useState<boolean>(false);

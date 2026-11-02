@@ -63,7 +63,7 @@ export const AboutDriver: React.FC<AboutDriverProps> = ({ lang = 'en' }) => {
                         event.currentTarget.onerror = null;
                         event.currentTarget.src = imageData.cabAc;
                       }}
-                      alt="Jangid Ji Cab Service"
+                      alt={`Owner of ${brandData.name}`}
                       className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-2 border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.35)]"
                     />
                     <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-white p-1 rounded-full border-2 border-[#080C17] shadow-[0_0_12px_rgba(16,185,129,0.7)]">

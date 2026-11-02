@@ -73,9 +73,10 @@ export function estimateRoadDistanceAndDuration(
 export function findLocationByName(query: string): IndianLocation | undefined {
   const q = query.trim().toLowerCase();
   if (!q) return undefined;
+  const locations = indianLocations as IndianLocation[];
 
   // Exact or alias match
-  const match = POPULAR_INDIAN_LOCATIONS.find(loc => {
+  const match = locations.find(loc => {
     if (loc.name.toLowerCase() === q) return true;
     if (loc.aliases?.some(a => a.toLowerCase() === q || q.includes(a.toLowerCase()))) return true;
     return false;
@@ -84,7 +85,7 @@ export function findLocationByName(query: string): IndianLocation | undefined {
   if (match) return match;
 
   // Substring match
-  return POPULAR_INDIAN_LOCATIONS.find(loc =>
+  return locations.find(loc =>
     loc.name.toLowerCase().includes(q) || loc.aliases?.some(a => a.toLowerCase().includes(q))
   );
 }

@@ -13,6 +13,7 @@ import { BlogHubPage } from './pages/BlogHubPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { SeoHead } from './components/SeoHead';
+import { apiService } from './services/api';
 
 // Scroll to top automatically when route changes
 function ScrollToTop() {
@@ -27,13 +28,20 @@ function ScrollToTop() {
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'hi'>('en');
+  const [contentVersion, setContentVersion] = useState(0);
+
+  useEffect(() => {
+    void apiService.loadContentCatalog().then((loaded) => {
+      if (loaded) setContentVersion((version) => version + 1);
+    });
+  }, []);
 
   const toggleLanguage = () => {
     setLang(prev => (prev === 'en' ? 'hi' : 'en'));
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
+    <div data-content-version={contentVersion} className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       <ScrollToTop />
       <SeoHead lang={lang} />
 

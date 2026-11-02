@@ -32,8 +32,8 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
 
         {/* Fleet Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {fleetData.map((car: Vehicle) => {
-            const isFeatured = car.id === 'ac';
+          {fleetData.map((car: Vehicle, index) => {
+            const isFeatured = index === 0;
             return (
               <div
                 key={car.id}
@@ -83,7 +83,7 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                       <div className="text-right">
                         <span className="text-sm font-black text-amber-400">
                           {car.ratePerKm > 0
-                            ? `₹${car.ratePerKm}`
+                            ? `₹${car.ratePerKm}/km`
                             : (lang === 'hi' ? componentContent.fleet.fareLabel_hi : componentContent.fleet.fareLabel)}
                         </span>
                       </div>
