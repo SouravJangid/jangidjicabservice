@@ -1,0 +1,672 @@
+You have 10 year of experinece of desining webdesigning and bussiness analysis
+now you work with mordern website and application , 
+now you want to build a design of website for cab driver so that client or customer interact with the design and can call him so driver can get more and more ammount , 
+Task: 
+
+first market research and check what sthings should be in that design j
+give me best color and design prompt so that we can generate image by another ai assistent with proper ui and all information
+i need one more feature the so with that i can see the location in km when someone type location from this distance to that distance in km with real data or location
+primarirly location should modinagar,ghaziabad,gurgara,delhi,noida,haridwar,meerut,and all india
+give me prompt fir for designing prompt,system prmpt ,structurre, and what things should in that form and direct call
+
+output: 
+        give me prompt with proper detsils ,
+
+Cab Driver Website: Research and Prompts
+1. Market research: what converts on a cab driver’s site
+
+Most customers in India find a driver through Google Maps, WhatsApp, or a local search like “Modinagar to Haridwar taxi”. They decide in about 10 seconds. The site has to answer three questions fast: Can I trust him? What will it cost? How do I reach him right now?
+
+Must-have elements
+
+Sticky Call Now and WhatsApp buttons on every screen. On mobile, make them a bottom bar. This is the single most important element.
+Hero section with the driver’s photo, name, city, “24x7 Available”, and a call button.
+Trust signals: years of experience, number of trips, verified or police-verified badge, Google rating, customer reviews, car photos, and registration, permit, and insurance details.
+Fleet: Sedan (Dzire, Etios), SUV (Ertiga, Innova), and Tempo Traveller if available. Show seats, luggage capacity, AC, and rate per km.
+Services: local city rides, airport transfer (Delhi IGI), railway station pickup, outstation one-way and round trip, Haridwar-Rishikesh pilgrimage trips, Kanwar Yatra, wedding and event cars, and monthly or corporate bookings.
+Popular routes with fixed or estimated fares: Modinagar, Ghaziabad, Meerut, Delhi, Noida, Gurugram, Haridwar, and All India.
+Distance and fare estimator (the feature you requested).
+Simple booking form that opens WhatsApp or a call with details pre-filled.
+Reviews, FAQ (toll, parking, night charges, waiting charges, cancellation), Hindi and English toggle, and a footer with address, hours, and Google Maps embed.
+Local SEO: separate landing pages for routes such as “Modinagar to Haridwar Taxi” and “Ghaziabad to Delhi Airport Cab”. Local drivers get most of their leads this way.
+
+What to avoid: long forms, forced signup, heavy animations, small tap targets, and hidden pricing. Customers leave when they can’t see a price or a phone number.
+
+2. Color palette and design direction
+Role	Color	Hex
+Primary	Taxi Yellow	
+#FFC107
+Dark / text / headers	Charcoal Black	
+#111827
+Call button	Green	
+#16A34A
+WhatsApp	WhatsApp Green	
+#25D366
+Accent / highlights	Trust Blue	
+#2563EB
+Background	Off-white	
+#F9FAFB
+Cards	White	
+#FFFFFF
+
+Style: Modern, bold, mobile-first, rounded corners (12–16px), soft shadows. Use Poppins for headings and Inter for body text. Yellow and black is instantly recognized as “taxi”, and green draws the eye to the call button.
+
+3. Prompt 1: UI design image (for Midjourney, Stitch, v0, Figma AI, etc.)
+Design a modern, high-converting, mobile-first website UI for an individual
+cab/taxi driver based in Modinagar, Ghaziabad (NCR), India. Show a mobile
+mockup (390px) and a desktop mockup (1440px) side by side.
+
+STYLE: Clean, bold, trustworthy, professional. Color palette: taxi yellow
+#FFC107, charcoal black #111827, call-button green #16A34A, WhatsApp green
+#25D366, accent blue #2563EB, background #F9FAFB, white cards. Fonts: Poppins
+(headings), Inter (body). Rounded corners 16px, soft shadows, high contrast,
+large tap targets.
+
+SECTIONS (top to bottom):
+1. Sticky top navbar: logo "[Driver Name] Cabs", links (Home, Services,
+   Fleet, Routes, Reviews, Contact), language toggle EN/हिंदी, green
+   "Call Now" button.
+2. Hero: left side headline "Safe, Comfortable & Affordable Cab Service –
+   Modinagar to All India", subtext "24x7 Available | Verified Driver |
+   Fixed Rates". Two big buttons: green "📞 Call Now" and WhatsApp green
+   "Chat on WhatsApp". Right side: friendly driver photo next to a clean
+   white sedan. Small trust chips: "10+ Years Experience", "5000+ Trips",
+   "4.9★ Rating".
+3. Floating card overlapping the hero: "Check Distance & Fare" with
+   From location field, To location field, car type dropdown, trip type
+   toggle (One-way / Round trip), and yellow "Calculate" button. Below it
+   a result strip: "Distance: 142 km | Time: 3h 10m | Estimated Fare:
+   ₹X,XXX".
+4. Services grid (icons + short text): Local Rides, Airport Transfer,
+   Railway Station Pickup, Outstation, Haridwar-Rishikesh Yatra,
+   Wedding & Events, Corporate/Monthly.
+5. Fleet cards: Sedan (4 seats), SUV Ertiga (6 seats), Innova (7 seats),
+   Tempo Traveller. Each with car photo, seats, bags, AC badge, "₹/km"
+   and a "Book Now" button.
+6. Popular routes: cards for Modinagar–Delhi, Modinagar–Haridwar,
+   Ghaziabad–Meerut, Noida–Gurugram, Delhi–Haridwar, and an "All India
+   Trips" card, each showing distance and a "Get Fare" link.
+7. Why choose us: 4 icon blocks (Verified Driver, Clean AC Cars, No Hidden
+   Charges, 24x7 Support).
+8. Customer reviews carousel with star ratings and Google-review badge.
+9. Booking form card: Name, Phone, Pickup, Drop, Date, Time, Car type,
+   Passengers, "Book via WhatsApp" and "Request Callback" buttons.
+10. FAQ accordion (toll, waiting charges, night charges, cancellation).
+11. Footer: address, phone, WhatsApp, working hours "Open 24x7", embedded
+    map, social icons.
+12. Mobile only: sticky bottom bar with two equal buttons, green "Call"
+    and WhatsApp green "WhatsApp".
+
+Make it look like a real production website, with realistic Indian context
+(Delhi-NCR landmarks, Haridwar Har ki Pauri imagery), ample white space and
+clear visual hierarchy. High resolution, Dribbble/Behance quality.
+4. Prompt 2: Distance (km) and fare feature
+
+Use this in your code-building AI (Cursor, Claude Code, Bolt, Lovable):
+
+Build a "Distance & Fare Calculator" component for a taxi website.
+
+FUNCTIONALITY:
+- Two inputs: "Pickup location" and "Drop location" with live autocomplete.
+- Autocomplete must prioritize these places: Modinagar, Ghaziabad,
+  Gurugram, Delhi, Noida, Haridwar, Meerut, and also support any city,
+  town, or address across India (restrict country to IN).
+- On submit, calculate REAL ROAD distance (not straight-line) and travel
+  duration using a real routing API.
+- Show: distance in km, estimated duration, estimated fare, and a route
+  preview on a map with pickup and drop markers.
+- Options: car type (Sedan/SUV/Innova/Tempo Traveller) and trip type
+  (One-way / Round trip).
+- Fare formula (configurable in a single config file, drivers edit rates):
+    one-way fare  = max(distance_km * rate_per_km[car], minimum_fare[car])
+    round-trip    = max(distance_km * 2, min_daily_km * days) * rate_per_km
+    + driver_allowance (if overnight) + night_charge (if 10pm-6am)
+  Show "Toll and parking extra as per actual" as a note.
+- Result card has two CTAs: "Book on WhatsApp" (pre-filled message with
+  pickup, drop, km, fare, car type) and "Call Now" (tel: link).
+
+DATA SOURCE (choose one and implement):
+  Option A (recommended for production): Google Maps Platform, using the
+  Places Autocomplete API plus the Routes/Directions API
+  (needs an API key and billing).
+  Option B (free): OpenStreetMap Nominatim for geocoding (restrict to
+  countrycodes=in) plus OSRM or OpenRouteService for road distance.
+  Use Leaflet for the map. Respect usage policies, add caching and
+  debounce (400 ms).
+
+TECH: Next.js (App Router) + TypeScript + Tailwind. Put API calls in
+server routes (/api/distance) so keys stay hidden. Validate inputs, handle
+errors (location not found, API down), show loading states, round km to
+1 decimal, and cache repeated routes.
+
+QUICK-PICK: show chips for common routes (Modinagar→Delhi,
+Modinagar→Haridwar, Ghaziabad→Meerut, Noida→Gurugram, Delhi→Haridwar)
+that auto-fill the form.
+
+Distances from the API are real road distances. Fares are estimates, so the driver should set his own per-km rates. I have not looked up current market rates, so use placeholders until he decides.
+
+5. Prompt 3: System prompt for the AI builder (structure and form details)
+You are a senior full-stack engineer and UI/UX designer with 10 years of
+experience in web design and business analysis. Build a production-ready,
+mobile-first website for an individual cab driver in Modinagar, Ghaziabad
+(Delhi-NCR, India). The business goal is to maximize inbound phone calls and
+WhatsApp bookings.
+
+PRIORITIES (in order): 1) one-tap call/WhatsApp everywhere, 2) transparent
+pricing, 3) trust, 4) speed (Lighthouse 90+), 5) local SEO.
+
+TECH STACK: Next.js 14+ (App Router), TypeScript, Tailwind CSS, shadcn/ui,
+Framer Motion (light use), Leaflet or Google Maps. Deployable on Vercel.
+
+SITE STRUCTURE:
+/                  Home (hero, fare calculator, services, fleet, routes,
+                   reviews, FAQ, booking form)
+/services          Service details
+/fleet             Vehicles with rates
+/routes/[slug]     SEO pages, e.g. modinagar-to-haridwar-taxi,
+                   ghaziabad-to-delhi-airport-cab, meerut-to-delhi-taxi
+/about             Driver profile, experience, documents
+/reviews           Customer reviews
+/contact           Form, map, call, WhatsApp
+/privacy, /terms
+
+GLOBAL COMPONENTS: Navbar with Call button, language toggle (EN/HI),
+sticky mobile bottom bar (Call + WhatsApp), floating WhatsApp button, Footer.
+
+DESIGN SYSTEM: Primary yellow #FFC107, dark #111827, call green #16A34A,
+WhatsApp #25D366, accent blue #2563EB, bg #F9FAFB. Poppins + Inter.
+Radius 16px, large 48px+ tap targets, WCAG AA contrast.
+
+BOOKING FORM FIELDS:
+- Full name (required)
+- Mobile number (required, 10-digit Indian format validation)
+- Pickup location (autocomplete, required)
+- Drop location (autocomplete, required)
+- Trip type: Local / Airport / One-way outstation / Round trip
+- Travel date and time (required)
+- Car type: Sedan / SUV / Innova / Tempo Traveller
+- Number of passengers and luggage
+- Return date (if round trip)
+- Special requests (optional)
+- Auto-shown: calculated distance (km) and estimated fare
+- Buttons: "Book on WhatsApp" (wa.me link with all details pre-filled),
+  "Request Callback", "Call Now" (tel:+91XXXXXXXXXX)
+- On submit: also save to a database/Google Sheet and email/notify the
+  driver. Add spam protection (honeypot/reCAPTCHA).
+
+DIRECT CALL / CONTACT:
+- tel:+91XXXXXXXXXX and https://wa.me/91XXXXXXXXXX?text=<prefilled message>
+- Track clicks on call/WhatsApp buttons (GA4 events).
+
+SEO AND LOCAL: Schema.org LocalBusiness + TaxiService JSON-LD, meta tags,
+Open Graph, sitemap, Google Business Profile link, route landing pages with
+unique content, fast images (next/image, WebP), alt text.
+
+ADMIN (simple): a protected page where the driver can edit rates per km,
+minimum fares, and see booking requests.
+
+DELIVERABLES: folder structure, all components, Tailwind config, config file
+for rates, API routes, env variable list, and deployment steps. Write clean,
+commented code. Ask me only if something critical is missing; otherwise use
+placeholders like [Driver Name], +91XXXXXXXXXX.
+Suggested workflow
+Run Prompt 1 in an image or UI AI to get the visual direction.
+Pick the best design, then give it to a code builder along with Prompts 3 and 2.
+Create the driver’s Google Business Profile. For local taxi leads, it matters about as much as the website.
+
+If you want, I can write the fare config file, the WhatsApp message template, or the route SEO page content (Hindi and English) next.
+
+give me content so that i can use in website so i can use with proper staucred, as data use as json and use in websites , proper system design and responsive for all devices , security check and proper location with live data connect with google map
+
+Cab Driver Website: JSON Content, System Design, Security and Google Maps
+1. Architecture
+Browser (Next.js, mobile-first)
+   │
+   ├── Static content  ← /content/*.json (edited by the driver or developer)
+   │
+   ├── Google Maps JS API (browser)      → map display, Places Autocomplete
+   │      key restricted by HTTP referrer
+   │
+   └── /api/* routes (server only)
+          ├── /api/distance  → Google Routes API (computeRoutes)  [server key]
+          ├── /api/booking   → validate → save (Google Sheet / DB) → notify driver
+          └── /api/track     → optional analytics events
+
+Why this split: autocomplete and the map run in the browser with a referrer-restricted key. Distance and fare run on the server with a separate IP-restricted key, so no one can tamper with prices or steal the key.
+
+Folder structure
+
+/app
+  page.tsx
+  routes/[slug]/page.tsx
+  api/distance/route.ts
+  api/booking/route.ts
+/components
+  Navbar.tsx  Hero.tsx  FareCalculator.tsx  Fleet.tsx  Services.tsx
+  Routes.tsx  Reviews.tsx  FAQ.tsx  BookingForm.tsx  StickyCallBar.tsx
+/content
+  site.json  fleet.json  services.json  routes.json  reviews.json  faq.json  pricing.json
+/lib
+  fare.ts  validate.ts  rateLimit.ts
+.env.local
+2. JSON content files
+content/site.json
+json
+{
+  "brand": {
+    "name": "[Driver Name] Cabs",
+    "tagline": "Safe, Comfortable & Affordable Cab Service",
+    "tagline_hi": "सुरक्षित, आरामदायक और किफायती कैब सेवा",
+    "baseCity": "Modinagar, Ghaziabad, Uttar Pradesh"
+  },
+  "contact": {
+    "phone": "+91XXXXXXXXXX",
+    "whatsapp": "91XXXXXXXXXX",
+    "email": "driver@example.com",
+    "address": "[Full address], Modinagar, Ghaziabad, UP 201204",
+    "hours": "Open 24x7",
+    "mapsLink": "https://maps.google.com/?q=Modinagar",
+    "baseLocation": { "lat": 28.8333, "lng": 77.5833 }
+  },
+  "hero": {
+    "headline": "Modinagar to All India – Reliable Cab Service",
+    "headline_hi": "मोदीनगर से पूरे भारत तक – भरोसेमंद कैब सेवा",
+    "subtext": "24x7 Available | Verified Driver | Fixed Rates | No Hidden Charges",
+    "primaryCta": { "label": "Call Now", "action": "tel" },
+    "secondaryCta": { "label": "Chat on WhatsApp", "action": "whatsapp" },
+    "trustBadges": [
+      { "label": "Years Experience", "value": "10+" },
+      { "label": "Happy Trips", "value": "5000+" },
+      { "label": "Google Rating", "value": "4.9★" }
+    ]
+  },
+  "whyChooseUs": [
+    { "icon": "shield-check", "title": "Verified Driver", "text": "ID, licence and vehicle documents verified." },
+    { "icon": "sparkles", "title": "Clean AC Cars", "text": "Sanitised, well-maintained cars on every trip." },
+    { "icon": "badge-indian-rupee", "title": "No Hidden Charges", "text": "Clear rate per km. Toll and parking as per actual." },
+    { "icon": "clock", "title": "24x7 Support", "text": "Call or WhatsApp anytime, day or night." }
+  ],
+  "serviceAreas": ["Modinagar", "Ghaziabad", "Meerut", "Delhi", "Noida", "Gurugram", "Haridwar", "Rishikesh", "All India"],
+  "seo": {
+    "title": "Modinagar Taxi & Cab Service | Outstation, Airport, Haridwar | [Driver Name]",
+    "description": "Book a verified cab in Modinagar, Ghaziabad. Delhi airport, Haridwar, Meerut, Noida, Gurugram and all-India trips. Call or WhatsApp now.",
+    "keywords": ["modinagar taxi", "ghaziabad cab service", "modinagar to haridwar taxi", "delhi airport cab", "outstation cab"]
+  }
+}
+content/fleet.json
+json
+[
+  {
+    "id": "sedan",
+    "name": "Sedan",
+    "models": "Swift Dzire / Etios or similar",
+    "seats": 4,
+    "luggage": "2 large bags",
+    "ac": true,
+    "image": "/images/sedan.webp",
+    "bestFor": "Couples, small families, airport trips"
+  },
+  {
+    "id": "ertiga",
+    "name": "SUV Ertiga",
+    "models": "Maruti Ertiga or similar",
+    "seats": 6,
+    "luggage": "3 large bags",
+    "ac": true,
+    "image": "/images/ertiga.webp",
+    "bestFor": "Family trips, pilgrimage"
+  },
+  {
+    "id": "innova",
+    "name": "Innova",
+    "models": "Toyota Innova / Crysta",
+    "seats": 7,
+    "luggage": "4 large bags",
+    "ac": true,
+    "image": "/images/innova.webp",
+    "bestFor": "Long routes, groups, comfort"
+  },
+  {
+    "id": "tempo",
+    "name": "Tempo Traveller",
+    "models": "12 to 17 seater",
+    "seats": 12,
+    "luggage": "Large luggage space",
+    "ac": true,
+    "image": "/images/tempo.webp",
+    "bestFor": "Weddings, group tours, Kanwar Yatra"
+  }
+]
+content/pricing.json (placeholders, the driver must set real rates)
+json
+{
+  "currency": "INR",
+  "rates": {
+    "sedan":  { "perKm": 0, "minFare": 0, "minKmPerDay": 250, "driverAllowancePerNight": 0, "waitingPerHour": 0 },
+    "ertiga": { "perKm": 0, "minFare": 0, "minKmPerDay": 250, "driverAllowancePerNight": 0, "waitingPerHour": 0 },
+    "innova": { "perKm": 0, "minFare": 0, "minKmPerDay": 250, "driverAllowancePerNight": 0, "waitingPerHour": 0 },
+    "tempo":  { "perKm": 0, "minFare": 0, "minKmPerDay": 250, "driverAllowancePerNight": 0, "waitingPerHour": 0 }
+  },
+  "nightCharge": { "enabled": true, "from": "22:00", "to": "06:00", "amount": 0 },
+  "notes": [
+    "Toll, parking and state entry tax are extra as per actual.",
+    "Fare shown is an estimate. Final fare is confirmed by the driver.",
+    "Round trips are charged on the minimum daily km."
+  ]
+}
+content/services.json
+json
+[
+  { "id": "local", "icon": "map-pin", "title": "Local City Rides", "title_hi": "लोकल राइड", "text": "Hourly and point-to-point rides in Modinagar, Ghaziabad and nearby areas." },
+  { "id": "airport", "icon": "plane", "title": "Delhi Airport Transfer", "title_hi": "एयरपोर्ट ट्रांसफर", "text": "On-time pickup and drop to IGI Airport, with flight tracking." },
+  { "id": "railway", "icon": "train", "title": "Railway Station Pickup", "title_hi": "रेलवे स्टेशन पिकअप", "text": "New Delhi, Old Delhi, Ghaziabad and Meerut stations." },
+  { "id": "outstation", "icon": "route", "title": "Outstation One-way & Round Trip", "title_hi": "आउटस्टेशन ट्रिप", "text": "Comfortable long-distance trips across India." },
+  { "id": "yatra", "icon": "mountain", "title": "Haridwar & Rishikesh Yatra", "title_hi": "हरिद्वार ऋषिकेश यात्रा", "text": "Pilgrimage trips, Ganga Aarti, Kanwar Yatra bookings." },
+  { "id": "events", "icon": "party-popper", "title": "Wedding & Events", "title_hi": "शादी और इवेंट", "text": "Decorated cars and group vehicles for functions." },
+  { "id": "corporate", "icon": "briefcase", "title": "Corporate & Monthly", "title_hi": "कॉर्पोरेट और मंथली", "text": "Daily office commute and monthly packages." }
+]
+content/routes.json (powers the SEO pages)
+
+Distances are approximate placeholders for display only. The calculator gives the real figure.
+
+json
+[
+  {
+    "slug": "modinagar-to-delhi-taxi",
+    "from": "Modinagar",
+    "to": "Delhi",
+    "approxKm": 45,
+    "approxTime": "1h 30m",
+    "title": "Modinagar to Delhi Taxi Service",
+    "intro": "Book a clean AC cab from Modinagar to Delhi, any area, airport or railway station.",
+    "faq": [{ "q": "Is toll included?", "a": "Toll and parking are extra as per actual." }]
+  },
+  {
+    "slug": "modinagar-to-haridwar-taxi",
+    "from": "Modinagar",
+    "to": "Haridwar",
+    "approxKm": 165,
+    "approxTime": "3h 30m",
+    "title": "Modinagar to Haridwar Taxi Service",
+    "intro": "One-way and round-trip cabs to Haridwar and Rishikesh with an experienced hill-route driver."
+  },
+  {
+    "slug": "ghaziabad-to-delhi-airport-cab",
+    "from": "Ghaziabad",
+    "to": "Delhi Airport (IGI)",
+    "approxKm": 40,
+    "approxTime": "1h 15m",
+    "title": "Ghaziabad to Delhi Airport Cab",
+    "intro": "Reliable 24x7 airport pickup and drop."
+  },
+  {
+    "slug": "modinagar-to-meerut-taxi",
+    "from": "Modinagar",
+    "to": "Meerut",
+    "approxKm": 28,
+    "approxTime": "50m",
+    "title": "Modinagar to Meerut Taxi",
+    "intro": "Quick and comfortable rides to Meerut."
+  },
+  {
+    "slug": "noida-to-gurugram-taxi",
+    "from": "Noida",
+    "to": "Gurugram",
+    "approxKm": 55,
+    "approxTime": "1h 30m",
+    "title": "Noida to Gurugram Taxi",
+    "intro": "Office, airport and city-to-city transfers."
+  },
+  {
+    "slug": "delhi-to-haridwar-taxi",
+    "from": "Delhi",
+    "to": "Haridwar",
+    "approxKm": 220,
+    "approxTime": "4h 30m",
+    "title": "Delhi to Haridwar Taxi",
+    "intro": "Pilgrimage and family trips from Delhi."
+  }
+]
+content/reviews.json
+
+Replace with real reviews from the driver’s customers. Don’t publish invented reviews, because that breaks Google’s policies and Indian consumer law.
+
+json
+[
+  { "name": "[Customer Name]", "city": "Delhi", "rating": 5, "text": "[Real review text]", "date": "2026-10-01", "source": "Google" }
+]
+content/faq.json
+json
+[
+  { "q": "Are toll and parking included?", "a": "No. Toll, parking and state tax are charged as per actual." },
+  { "q": "Is there a night charge?", "a": "A small night charge applies between 10 PM and 6 AM." },
+  { "q": "How do I book?", "a": "Call or WhatsApp us, or use the booking form. We confirm quickly." },
+  { "q": "What is your cancellation policy?", "a": "Free cancellation up to [X] hours before pickup." },
+  { "q": "Do you do all-India trips?", "a": "Yes, we handle outstation trips across India." }
+]
+3. Google Maps: live distance and location
+Setup
+Create a project in Google Cloud Console and enable billing. Google gives a monthly free credit, but billing must be on.
+Enable these APIs: Maps JavaScript API, Places API (New), Routes API.
+Create two keys:
+Browser key (NEXT_PUBLIC_GMAPS_KEY): restrict by HTTP referrer to your domain, and by API to Maps JS and Places only.
+Server key (GMAPS_SERVER_KEY): restrict by IP or leave to server only, and by API to Routes only.
+Set a daily quota cap and budget alert so a bot cannot run up a bill.
+.env.local
+NEXT_PUBLIC_GMAPS_KEY=browser_key_here
+GMAPS_SERVER_KEY=server_key_here
+DRIVER_WHATSAPP=91XXXXXXXXXX
+lib/fare.ts
+ts
+import pricing from "@/content/pricing.json";
+
+export function calcFare(distanceKm: number, car: keyof typeof pricing.rates,
+  tripType: "oneway" | "round", days = 1, night = false) {
+  const r = pricing.rates[car];
+  let fare: number;
+  if (tripType === "oneway") {
+    fare = Math.max(distanceKm * r.perKm, r.minFare);
+  } else {
+    const billableKm = Math.max(distanceKm * 2, r.minKmPerDay * days);
+    fare = billableKm * r.perKm + (days > 1 ? (days - 1) * r.driverAllowancePerNight : 0);
+  }
+  if (night && pricing.nightCharge.enabled) fare += pricing.nightCharge.amount;
+  return Math.round(fare);
+}
+app/api/distance/route.ts (server, uses Routes API)
+ts
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { calcFare } from "@/lib/fare";
+import { rateLimit } from "@/lib/rateLimit";
+
+const schema = z.object({
+  originPlaceId: z.string().min(5).max(300),
+  destPlaceId: z.string().min(5).max(300),
+  car: z.enum(["sedan", "ertiga", "innova", "tempo"]),
+  tripType: z.enum(["oneway", "round"]),
+  days: z.number().int().min(1).max(30).optional(),
+});
+
+export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") ?? "anon";
+  if (!rateLimit(ip, 20, 60_000)) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
+  const parsed = schema.safeParse(await req.json());
+  if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+  const { originPlaceId, destPlaceId, car, tripType, days } = parsed.data;
+
+  const res = await fetch("https://routes.googleapis.com/directions/v2:computeRoutes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": process.env.GMAPS_SERVER_KEY!,
+      "X-Goog-FieldMask": "routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline",
+    },
+    body: JSON.stringify({
+      origin: { placeId: originPlaceId },
+      destination: { placeId: destPlaceId },
+      travelMode: "DRIVE",
+      routingPreference: "TRAFFIC_AWARE",
+      regionCode: "IN",
+    }),
+  });
+
+  if (!res.ok) return NextResponse.json({ error: "Route not found" }, { status: 502 });
+  const data = await res.json();
+  const route = data.routes?.[0];
+  if (!route) return NextResponse.json({ error: "No route" }, { status: 404 });
+
+  const km = Math.round((route.distanceMeters / 1000) * 10) / 10;
+  const seconds = parseInt(route.duration);          // e.g. "11400s"
+  const fare = calcFare(km, car, tripType, days ?? 1);
+
+  return NextResponse.json({
+    km,
+    duration: `${Math.floor(seconds / 3600)}h ${Math.round((seconds % 3600) / 60)}m`,
+    fare,
+    polyline: route.polyline.encodedPolyline,
+  });
+}
+lib/rateLimit.ts (simple, use Upstash Redis in production)
+ts
+const hits = new Map<string, number[]>();
+export function rateLimit(key: string, limit: number, windowMs: number) {
+  const now = Date.now();
+  const arr = (hits.get(key) ?? []).filter(t => now - t < windowMs);
+  arr.push(now);
+  hits.set(key, arr);
+  return arr.length <= limit;
+}
+Autocomplete in the browser (restricted to India)
+tsx
+"use client";
+import { useEffect, useRef } from "react";
+
+export function PlaceInput({ onSelect, placeholder }:
+  { onSelect: (p: { placeId: string; name: string; lat: number; lng: number }) => void; placeholder: string }) {
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Script loaded via: https://maps.googleapis.com/maps/api/js?key=KEY&libraries=places&loading=async
+    const ac = new google.maps.places.Autocomplete(ref.current!, {
+      componentRestrictions: { country: "in" },
+      fields: ["place_id", "name", "geometry"],
+      // bias results toward Modinagar / NCR
+      locationBias: { center: { lat: 28.8333, lng: 77.5833 }, radius: 100000 } as any,
+    });
+    ac.addListener("place_changed", () => {
+      const p = ac.getPlace();
+      if (!p.place_id || !p.geometry?.location) return;
+      onSelect({ placeId: p.place_id, name: p.name ?? "",
+        lat: p.geometry.location.lat(), lng: p.geometry.location.lng() });
+    });
+  }, [onSelect]);
+
+  return <input ref={ref} placeholder={placeholder}
+    className="w-full h-12 px-4 rounded-2xl border border-gray-300 text-base focus:ring-2 focus:ring-yellow-400" />;
+}
+
+Draw the route on the map by decoding the returned polyline with google.maps.geometry.encoding.decodePath and passing it to a google.maps.Polyline.
+
+WhatsApp message builder
+
+ts
+const msg = `Hello, I want to book a cab.
+Pickup: ${from}
+Drop: ${to}
+Distance: ${km} km
+Car: ${car}
+Estimated fare: ₹${fare}
+Date: ${date}`;
+const link = `https://wa.me/${process.env.NEXT_PUBLIC_WA}?text=${encodeURIComponent(msg)}`;
+
+Free alternative: OpenStreetMap with OSRM and Leaflet works with no billing, but the data is less accurate for Indian addresses. Google is the better choice for a business site.
+
+4. Responsive design rules
+Item	Rule
+Approach	Mobile-first; breakpoints at 640, 768, 1024 and 1280px
+Layout	Single column on mobile, 2 columns on tablet, 3 to 4 on desktop (CSS Grid)
+Tap targets	At least 48x48px; buttons are full width on mobile
+Sticky bar	Fixed bottom Call and WhatsApp bar below 768px; floating WhatsApp button above
+Typography	clamp() for headings; body at least 16px so iOS doesn’t zoom on inputs
+Images	next/image, WebP or AVIF, lazy loading, explicit width and height to avoid layout shift
+Map	Fixed height of 300px on mobile and 450px on desktop; touch-action handled by the Maps SDK
+Performance	Load Maps script only when the calculator scrolls into view; target LCP under 2.5s
+Languages	EN and HI toggle driven by the _hi keys in the JSON
+Accessibility	Alt text, visible focus states, AA contrast, labels on every input
+Testing	Check at 360, 390, 768, 1024 and 1440px, plus a slow 3G throttle in DevTools
+tsx
+// Sticky mobile bar
+<div className="fixed bottom-0 inset-x-0 z-50 flex gap-2 p-2 bg-white shadow-[0_-2px_10px_rgba(0,0,0,.1)] md:hidden pb-[env(safe-area-inset-bottom)]">
+  <a href={`tel:${site.contact.phone}`} className="flex-1 h-12 grid place-items-center rounded-xl bg-green-600 text-white font-semibold">📞 Call</a>
+  <a href={waLink} className="flex-1 h-12 grid place-items-center rounded-xl bg-[#25D366] text-white font-semibold">WhatsApp</a>
+</div>
+5. Security checklist
+
+API keys
+
+ Two separate keys (browser and server), both restricted as described above
+ Server key never prefixed with NEXT_PUBLIC_; .env.local in .gitignore
+ Daily quota cap and budget alerts set in Google Cloud
+
+Forms and API
+
+ Validate everything on the server with Zod; never trust client-side checks alone
+ Indian mobile regex: /^[6-9]\d{9}$/
+ Rate limit /api/distance and /api/booking (use Upstash Redis in production)
+ Spam protection: honeypot field plus Cloudflare Turnstile or reCAPTCHA on the booking form
+ Sanitise text fields; never render user input as raw HTML (avoids XSS)
+ The server calculates fares; ignore any fare sent from the client
+
+Transport and headers (next.config.js)
+
+js
+headers: async () => [{
+  source: "/(.*)",
+  headers: [
+    { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "X-Frame-Options", value: "DENY" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self)" },
+    { key: "Content-Security-Policy", value:
+      "default-src 'self'; script-src 'self' 'unsafe-inline' https://maps.googleapis.com; " +
+      "img-src 'self' data: https://maps.gstatic.com https://*.googleapis.com; " +
+      "connect-src 'self' https://maps.googleapis.com; style-src 'self' 'unsafe-inline'; " +
+      "font-src 'self' data:; frame-src https://www.google.com" }
+  ]
+}]
+
+Tune the CSP after testing, since Google Maps needs a few extra domains.
+
+Admin and data
+
+ Admin page behind real authentication (NextAuth or Clerk), with a strong password and optional 2FA
+ Store bookings in a database or Google Sheet via a service account; don’t expose it publicly
+ Privacy policy page, because you collect phone numbers (India’s DPDP Act applies)
+ Run npm audit regularly and keep dependencies updated
+ Use HTTPS only (Vercel gives this by default); enable Cloudflare for DDoS protection if traffic grows
+
+Business-side
+
+ Show only real reviews, real documents and real ratings
+ Display the final-fare disclaimer next to every estimate
+6. Prompt to give your code-building AI
+Use the attached JSON files in /content as the single source of truth for all
+site text, fleet, services, routes, FAQ and pricing. Build the Next.js 14
+site described earlier. Components must read from the JSON (no hard-coded
+text). Implement the /api/distance route using the Google Routes API with
+Zod validation and rate limiting, the Places Autocomplete restricted to
+India, a route polyline on the map, WhatsApp pre-filled booking, the sticky
+mobile call bar, EN/HI toggle, security headers, and generate pages for each
+entry in routes.json at /routes/[slug] with LocalBusiness JSON-LD schema.
+Follow the security checklist and responsive rules given.
+Before you launch
+The driver must set real rates in pricing.json. I left them at 0 on purpose because I haven’t verified current local fares.
+Approximate distances in routes.json are rough placeholders. Check them against Google Maps before publishing.
+Create a Google Business Profile for the driver. Local search leads usually come from it.
+
+I can also write the booking API route with Google Sheets saving, or the Hindi versions of all JSON text next.

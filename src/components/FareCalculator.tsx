@@ -1,0 +1,556 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Calculator, 
+  MapPin, 
+  Car, 
+  Clock, 
+  ArrowRight, 
+  PhoneCall, 
+  MessageSquare, 
+  ShieldCheck, 
+  CheckCircle2, 
+  RefreshCw, 
+  Calendar,
+  Moon,
+  Info,
+  Sparkles
+} from 'lucide-react';
+import { fleetData, brandData, pricingConfig } from '../content/data';
+import { POPULAR_INDIAN_LOCATIONS } from '../lib/indianPlaces';
+import { DistanceCalculationResult } from '../types';
+import { RouteMap } from './RouteMap';
+
+interface FareCalculatorProps {
+  lang?: 'en' | 'hi';
+  onBookClick?: (details: any) => void;
+}
+
+const QUICK_ROUTES = [
+  { from: 'Modinagar', to: 'Haridwar (Har Ki Pauri)', label: 'Modinagar ➔ Haridwar' },
+  { from: 'Modinagar', to: 'Delhi (Connaught Place / Central)', label: 'Modinagar ➔ Delhi' },
+  { from: 'Ghaziabad', to: 'Delhi IGI Airport (T1 / T2 / T3)', label: 'Ghaziabad ➔ Delhi Airport' },
+  { from: 'Modinagar', to: 'Meerut', label: 'Modinagar ➔ Meerut' },
+  { from: 'Noida (Sector 18 / Expressway)', to: 'Gurugram (Cyber City / IFFCO)', label: 'Noida ➔ Gurugram' },
+  { from: 'Delhi (Connaught Place / Central)', to: 'Haridwar (Har Ki Pauri)', label: 'Delhi ➔ Haridwar' },
+  { from: 'Modinagar', to: 'Rishikesh (Triveni Ghat / Tapovan)', label: 'Modinagar ➔ Rishikesh' },
+  { from: 'Modinagar', to: 'Agra (Taj Mahal / Cantt)', label: 'Modinagar ➔ Agra' },
+];
+
+export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onBookClick }) => {
+  const [pickup, setPickup] = useState<string>('Modinagar (Base)');
+  const [drop, setDrop] = useState<string>('Haridwar (Har Ki Pauri)');
+  const [selectedCar, setSelectedCar] = useState<string>('wagonr');
+  const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
+  const [days, setDays] = useState<number>(1);
+  const [isNight, setIsNight] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [result, setResult] = useState<DistanceCalculationResult | null>(null);
+  const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
+
+  // Autocomplete dropdown states
+  const [pickupSuggestions, setPickupSuggestions] = useState<string[]>([]);
+  const [dropSuggestions, setDropSuggestions] = useState<string[]>([]);
+  const [showPickupList, setShowPickupList] = useState<boolean>(false);
+  const [showDropList, setShowDropList] = useState<boolean>(false);
+
+  // Auto-calculate on initial load
+  useEffect(() => {
+    handleCalculate();
+  }, []);
+
+  const filterPlaces = (val: string) => {
+    if (!val.trim()) return POPULAR_INDIAN_LOCATIONS.slice(0, 6).map(p => p.name);
+    const q = val.toLowerCase();
+    return POPULAR_INDIAN_LOCATIONS
+      .filter(p => p.name.toLowerCase().includes(q) || p.aliases?.some(a => a.toLowerCase().includes(q)))
+      .slice(0, 6)
+      .map(p => p.name);
+  };
+
+  const handlePickupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setPickup(val);
+    setPickupSuggestions(filterPlaces(val));
+    setShowPickupList(true);
+  };
+
+  const handleDropChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setDrop(val);
+    setDropSuggestions(filterPlaces(val));
+    setShowDropList(true);
+  };
+
+  const handleSelectQuickRoute = (r: { from: string; to: string }) => {
+    setPickup(r.from);
+    setDrop(r.to);
+    triggerCalculation(r.from, r.to, selectedCar, tripType, days, isNight);
+  };
+
+  const triggerCalculation = async (
+    p: string,
+    d: string,
+    car: string,
+    type: 'oneway' | 'round',
+    numDays: number,
+    night: boolean
+  ) => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/distance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          originName: p,
+          destName: d,
+          car,
+          tripType: type,
+          days: numDays,
+          isNight: night
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setResult({
+          from: data.from,
+          to: data.to,
+          km: data.km,
+          duration: data.duration,
+          durationSeconds: data.durationSeconds,
+          fare: data.fare,
+          car: data.car,
+          tripType: data.tripType,
+          days: data.days,
+          nightChargeApplied: night,
+          tollNote: 'Toll & parking extra as per actual receipts',
+          coordinates: data.coordinates,
+          polylinePoints: data.routePoints
+        });
+      }
+    } catch (err) {
+      console.error('Calculation error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCalculate = () => {
+    triggerCalculation(pickup, drop, selectedCar, tripType, days, isNight);
+  };
+
+  // Build WhatsApp Pre-filled link
+  const getWhatsAppBookingLink = () => {
+    const carObj = fleetData.find(c => c.id === selectedCar);
+    const carName = carObj ? carObj.name : 'WagonR 2025';
+    const kmText = result ? `${result.km} km` : 'Pending';
+    const fareText = result ? `₹${result.fare}` : 'As per per-km rate';
+
+    const msg = `Hello Sachin Sharma ji, I want to book a cab with Sachin Sharma Cabs.
+*Pickup:* ${pickup}
+*Drop:* ${drop}
+*Vehicle:* ${carName}
+*Trip Type:* ${tripType === 'oneway' ? 'One-Way' : `Round Trip (${days} Day${days > 1 ? 's' : ''})`}
+*Road Distance:* ${kmText}
+*Estimated Fare:* ${fareText}
+Please confirm vehicle availability and final rate for my travel date.`;
+
+    return `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(msg)}`;
+  };
+
+  const activeVehicle = fleetData.find(c => c.id === selectedCar) || fleetData[0];
+
+  return (
+    <div id="calculator" className="w-full max-w-6xl mx-auto relative">
+      {/* Decorative ambient backdrop orbs */}
+      <div className="absolute -top-12 -left-12 w-72 h-72 bg-gradient-to-tr from-violet-600/15 to-transparent rounded-full blur-3xl pointer-events-none animate-float" />
+      <div className="absolute -bottom-12 -right-12 w-72 h-72 bg-gradient-to-br from-amber-400/15 to-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-float-reverse" />
+
+      {/* Iridescent Gen-Z Border Frame */}
+      <div className="p-[1px] rounded-3xl bg-gradient-to-r from-amber-400/40 via-violet-500/30 to-emerald-400/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)]">
+        <div className="relative glass-panel rounded-3xl overflow-hidden">
+          {/* Top Header Strip with Cyber Obsidian style */}
+          <div className="bg-[#070B14]/95 backdrop-blur-2xl px-6 py-5 text-white flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-300 to-yellow-500 text-slate-950 flex items-center justify-center font-black shadow-[0_0_15px_rgba(245,158,11,0.4)] shrink-0">
+                <Calculator className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-xl font-black tracking-tight text-white flex items-center gap-2 flex-wrap">
+                  <span>{lang === 'hi' ? 'दूरी (किमी) व किराया कैलकुलेटर' : 'Live Distance (km) & Fare Calculator'}</span>
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+                    {lang === 'hi' ? 'वास्तविक सड़क दूरी' : 'Real Road KM'}
+                  </span>
+                </h2>
+                <p className="text-xs text-slate-400">
+                  {lang === 'hi'
+                    ? 'मोदीनगर, गाजियाबाद, दिल्ली, हरिद्वार और पूरे भारत के लिए पारदर्शी प्रति-किमी किराया'
+                    : 'Instant calculation across Modinagar, Ghaziabad, Delhi, Haridwar & All India'}
+                </p>
+              </div>
+            </div>
+
+            {/* Trip Type Toggle (One-way vs Round Trip) - Gen-Z Glass Pill */}
+            <div className="flex items-center bg-white/5 backdrop-blur-xl p-1.5 rounded-2xl border border-white/10 shadow-inner">
+              <button
+                type="button"
+                onClick={() => {
+                  setTripType('oneway');
+                  triggerCalculation(pickup, drop, selectedCar, 'oneway', days, isNight);
+                }}
+                className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                  tripType === 'oneway'
+                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.4)] font-black'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                {lang === 'hi' ? 'एक तरफ (One-Way)' : 'One-Way'}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTripType('round');
+                  triggerCalculation(pickup, drop, selectedCar, 'round', days, isNight);
+                }}
+                className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                  tripType === 'round'
+                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.4)] font-black'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                {lang === 'hi' ? 'राउंड ट्रिप (Round Trip)' : 'Round Trip'}
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Pick Route Chips - Frosted sub-strip */}
+          <div className="bg-white/50 backdrop-blur-md px-6 py-3 border-b border-slate-200/60 flex items-center gap-2 overflow-x-auto scrollbar-none">
+            <span className="text-xs font-black text-slate-700 whitespace-nowrap flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+              {lang === 'hi' ? 'लोकप्रिय रूट:' : 'Popular Routes:'}
+            </span>
+            <div className="flex items-center gap-2">
+              {QUICK_ROUTES.map((r, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => handleSelectQuickRoute(r)}
+                  className="text-xs font-semibold px-3 py-1 bg-white hover:bg-amber-100 hover:text-amber-900 text-slate-700 rounded-full border border-slate-200/80 transition-all shadow-xs whitespace-nowrap active:scale-95"
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+        {/* Main Form Body */}
+        <div className="p-6 md:p-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end">
+            {/* Pickup Input */}
+            <div className="md:col-span-4 relative">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                {lang === 'hi' ? 'पिकअप स्थान (Pickup Location)' : 'Pickup Location'}
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-600" />
+                <input
+                  type="text"
+                  value={pickup}
+                  onChange={handlePickupChange}
+                  onFocus={() => {
+                    setPickupSuggestions(filterPlaces(pickup));
+                    setShowPickupList(true);
+                  }}
+                  onBlur={() => setTimeout(() => setShowPickupList(false), 200)}
+                  placeholder="e.g. Modinagar, Ghaziabad, Meerut..."
+                  className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
+                />
+              </div>
+
+              {/* Autocomplete Dropdown */}
+              {showPickupList && (
+                <div className="absolute top-full left-0 right-0 z-30 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden max-h-48 overflow-y-auto">
+                  {pickupSuggestions.map((place, idx) => (
+                    <div
+                      key={idx}
+                      onMouseDown={() => {
+                        setPickup(place);
+                        setShowPickupList(false);
+                      }}
+                      className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between"
+                    >
+                      <span className="font-medium">{place}</span>
+                      <span className="text-[10px] text-slate-400">Select</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Drop Input */}
+            <div className="md:col-span-4 relative">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+                {lang === 'hi' ? 'ड्रॉप स्थान (Drop Destination)' : 'Drop Destination'}
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-600" />
+                <input
+                  type="text"
+                  value={drop}
+                  onChange={handleDropChange}
+                  onFocus={() => {
+                    setDropSuggestions(filterPlaces(drop));
+                    setShowDropList(true);
+                  }}
+                  onBlur={() => setTimeout(() => setShowDropList(false), 200)}
+                  placeholder="e.g. Haridwar, Delhi Airport, Rishikesh..."
+                  className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
+                />
+              </div>
+
+              {/* Autocomplete Dropdown */}
+              {showDropList && (
+                <div className="absolute top-full left-0 right-0 z-30 mt-1.5 bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl overflow-hidden max-h-48 overflow-y-auto">
+                  {dropSuggestions.map((place, idx) => (
+                    <div
+                      key={idx}
+                      onMouseDown={() => {
+                        setDrop(place);
+                        setShowDropList(false);
+                      }}
+                      className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between transition-colors"
+                    >
+                      <span className="font-semibold">{place}</span>
+                      <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md">Select</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Car Selection */}
+            <div className="md:col-span-4">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <span>{lang === 'hi' ? 'गाड़ी का प्रकार (Car Type)' : 'Car Type'}</span>
+                <span className="text-amber-600 font-extrabold px-2 py-0.5 bg-amber-50 rounded-md border border-amber-200/60 text-[11px]">₹{activeVehicle.ratePerKm}/km</span>
+              </label>
+              <div className="relative">
+                <Car className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <select
+                  value={selectedCar}
+                  onChange={(e) => {
+                    setSelectedCar(e.target.value);
+                    triggerCalculation(pickup, drop, e.target.value, tripType, days, isNight);
+                  }}
+                  className="w-full h-12 pl-10 pr-8 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white/90 backdrop-blur-sm shadow-xs cursor-pointer appearance-none transition-all"
+                >
+                  {fleetData.map((car) => (
+                    <option key={car.id} value={car.id}>
+                      {car.name} ({car.seats} seats) • ₹{car.ratePerKm}/km
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
+                  ▼
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Secondary Controls (Days for roundtrip & Night travel toggle) */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2 pb-1 border-t border-slate-100">
+            <div className="flex flex-wrap items-center gap-6">
+              {/* Days selection if round-trip */}
+              {tripType === 'round' && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-slate-500" />
+                  <span className="text-xs font-semibold text-slate-700">
+                    {lang === 'hi' ? 'यात्रा के दिन:' : 'Trip Duration:'}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map(d => (
+                      <button
+                        key={d}
+                        type="button"
+                        onClick={() => {
+                          setDays(d);
+                          triggerCalculation(pickup, drop, selectedCar, tripType, d, isNight);
+                        }}
+                        className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                          days === d
+                            ? 'bg-amber-400 text-slate-950 shadow-xs'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        }`}
+                      >
+                        {d}d
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Night Travel Toggle */}
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={isNight}
+                  onChange={(e) => {
+                    setIsNight(e.target.checked);
+                    triggerCalculation(pickup, drop, selectedCar, tripType, days, e.target.checked);
+                  }}
+                  className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400 border-slate-300"
+                />
+                <span className="text-xs font-medium text-slate-700 flex items-center gap-1">
+                  <Moon className="w-3.5 h-3.5 text-indigo-500" />
+                  {lang === 'hi' ? 'रात का सफर (10 PM - 6 AM)' : 'Night Journey (10 PM - 6 AM)'}
+                </span>
+              </label>
+            </div>
+
+            {/* Calculate / Refresh Button */}
+            <button
+              type="button"
+              onClick={handleCalculate}
+              disabled={loading}
+              className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-all active:scale-95 ml-auto"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+              {loading ? (lang === 'hi' ? 'गणना हो रही है...' : 'Calculating...') : (lang === 'hi' ? 'किराया निकालें' : 'Recalculate')}
+            </button>
+          </div>
+
+          {/* Result Strip Banner with glass-panel-dark */}
+          {result && (
+            <div className="rounded-3xl bg-slate-950/90 backdrop-blur-2xl text-white p-6 md:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/15 relative overflow-hidden">
+              {/* Subtle radial ambient glow inside result card */}
+              <div className="absolute top-0 right-1/4 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                {/* Distance & Time */}
+                <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
+                  <span className="text-[11px] uppercase tracking-widest text-slate-400 font-bold block mb-1">
+                    {lang === 'hi' ? 'सड़क दूरी व समय' : 'Road Distance & Time'}
+                  </span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl md:text-5xl font-black text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                      {result.km}
+                    </span>
+                    <span className="text-sm font-bold text-slate-300">KM</span>
+                    <span className="text-slate-600 mx-1">|</span>
+                    <span className="text-lg font-bold text-white flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-amber-400" />
+                      {result.duration}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-1.5">
+                    {tripType === 'round'
+                      ? (lang === 'hi' ? `राउंड ट्रिप बिलिंग: ${result.km * 2} किमी (न्यूनतम 250 किमी/दिन)` : `Round-trip billing: ${result.km * 2} km (min 250 km/day applies)`)
+                      : (lang === 'hi' ? 'वन-वे हाईवे सड़क दूरी' : 'One-way direct road calculation')}
+                  </p>
+                </div>
+
+                {/* Estimated Fare Display */}
+                <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] uppercase tracking-widest text-slate-400 font-bold">
+                      {lang === 'hi' ? 'अनुमानित किराया' : 'Estimated Fare'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowBreakdown(!showBreakdown)}
+                      className="text-[11px] text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold transition-colors"
+                    >
+                      <Info className="w-3.5 h-3.5" />
+                      {showBreakdown ? (lang === 'hi' ? 'छिपाएं' : 'Hide') : (lang === 'hi' ? 'विवरण' : 'Breakdown')}
+                    </button>
+                  </div>
+                  <div className="flex items-baseline gap-1.5 mt-1">
+                    <span className="text-3xl md:text-5xl font-black text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.35)]">
+                      ₹{result.fare.toLocaleString('en-IN')}
+                    </span>
+                    <span className="text-xs text-slate-400 font-semibold">
+                      ({activeVehicle.name})
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-amber-300/90 mt-1.5 flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                    {lang === 'hi' ? 'टोल व पार्किंग सरकारी रसीद पर अलग' : 'Toll, parking & state tax extra as per actual receipt'}
+                  </p>
+                </div>
+
+                {/* Action CTAs (WhatsApp & Phone) with glowing shining beam style */}
+                <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-2.5">
+                  <a
+                    href={getWhatsAppBookingLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-300/40"
+                  >
+                    <MessageSquare className="w-4 h-4 fill-white" />
+                    {lang === 'hi' ? 'व्हाट्सएप पर बुक करें' : 'Book on WhatsApp'}
+                  </a>
+
+                  <a
+                    href={brandData.phone}
+                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-400/40"
+                  >
+                    <PhoneCall className="w-4 h-4" />
+                    {lang === 'hi' ? 'सचिन को सीधे कॉल करें' : 'Call Sachin Now'}
+                  </a>
+                </div>
+              </div>
+
+              {/* Fare Breakdown Drawer */}
+              {showBreakdown && (
+                <div className="relative z-10 mt-5 pt-4 border-t border-white/10 text-xs text-slate-300 space-y-2 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10">
+                  <div className="flex justify-between">
+                    <span>Base rate per km for {activeVehicle.name}:</span>
+                    <span className="font-semibold text-white">₹{activeVehicle.ratePerKm} / km</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Calculated distance:</span>
+                    <span className="font-semibold text-white">{result.km} km {tripType === 'round' ? `(x 2 = ${result.km * 2} km)` : ''}</span>
+                  </div>
+                  {tripType === 'round' && (
+                    <div className="flex justify-between text-amber-300">
+                      <span>Daily minimum billable km ({days} day{days > 1 ? 's' : ''}):</span>
+                      <span>{Math.max(result.km * 2, pricingConfig.rates[selectedCar]?.minKmPerDay * days)} km</span>
+                    </div>
+                  )}
+                  {isNight && (
+                    <div className="flex justify-between text-indigo-300">
+                      <span>Night travel charge:</span>
+                      <span>+₹{pricingConfig.nightCharge.amount}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between pt-2 border-t border-white/10 text-amber-400 font-extrabold text-sm">
+                    <span>Total Estimated Fare:</span>
+                    <span className="text-emerald-400">₹{result.fare.toLocaleString('en-IN')}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Route Map Preview */}
+          {result && (
+            <div className="pt-2">
+              <RouteMap
+                origin={result.from}
+                destination={result.to}
+                km={result.km}
+                duration={result.duration}
+                coordinates={result.coordinates}
+                routePoints={result.polylinePoints}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+  );
+};

@@ -1,0 +1,6 @@
+{
+  "name": "Sachin Sharma Cabs - Modinagar to All India Taxi",
+  "description": "Book verified cabs with Sachin Sharma in Modinagar, Ghaziabad. Real road distance in km, transparent per-km rates, 2025 WagonR fleet, 3D interactive showcase, and instant 1-tap WhatsApp and phone bookings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
