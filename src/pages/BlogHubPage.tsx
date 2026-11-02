@@ -19,7 +19,7 @@ interface BlogHubPageProps {
   lang: 'en' | 'hi';
 }
 
-const CATEGORIES = ['All', 'Pilgrimage', 'Airport', 'Expressway & Tolls', 'Fleet & Tips'];
+const CATEGORIES = ['All', 'Service Information', 'Routes', 'Booking'];
 
 export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -48,14 +48,14 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
             {lang === 'hi'
-              ? 'मोदीनगर व एनसीआर से यात्रा की संपूर्ण जानकारी'
-              : 'Reliable Outstation Travel & Route Insights'}
+              ? 'कैब सेवा और यात्रा जानकारी'
+              : 'Cab Service & Travel Information'}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             {lang === 'hi'
-              ? 'हरिद्वार, दिल्ली एयरपोर्ट, आगरा और एक्सप्रेसवे के टोल चार्ज, सही समय व किराए की विशेषज्ञ सलाह।'
-              : 'Expert insights from Sachin Sharma on highway routes, expressway toll charges, Haridwar pilgrimage schedules, and Delhi Airport travel tips.'}
+              ? 'सेवा क्षेत्रों, लोकप्रिय रूट, बुकिंग और लागू टैक्स की जानकारी।'
+              : 'Information about service areas, popular routes, booking, and applicable taxes.'}
           </p>
         </div>
 
@@ -69,7 +69,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={lang === 'hi' ? 'विषय या कीवर्ड खोजें (उदा. हरिद्वार, एयरपोर्ट, टोल)...' : 'Search routes, tips, or keywords (e.g. Haridwar, Airport, Tolls)...'}
+                placeholder={lang === 'hi' ? 'रूट या सेवा खोजें...' : 'Search routes or services...'}
                 className="w-full h-12 pl-11 pr-4 rounded-2xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
@@ -147,7 +147,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                       />
                       <div>
                         <p className="text-[11px] font-bold text-slate-800">{post.author.name}</p>
-                        <p className="text-[10px] text-slate-400">Owner-Driver</p>
+                        <p className="text-[10px] text-slate-400">Cab & Taxi Service</p>
                       </div>
                     </div>
                   </div>
@@ -169,7 +169,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
         ) : (
           <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 space-y-3">
             <p className="text-base font-bold text-slate-800">No guides found for your query.</p>
-            <p className="text-xs text-slate-500">Try searching for "Haridwar", "Airport", or "Expressway".</p>
+            <p className="text-xs text-slate-500">Try searching for a listed city or route.</p>
             <button
               onClick={() => {
                 setSelectedCategory('All');
@@ -186,12 +186,12 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
         <div className="p-8 rounded-3xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl border border-slate-800">
           <div className="space-y-1 text-center md:text-left">
             <h3 className="text-xl font-extrabold text-white">
-              {lang === 'hi' ? 'अपनी यात्रा के लिए तैयार हैं?' : 'Need Instant Cab Booking for Any Route?'}
+              {lang === 'hi' ? 'कैब के बारे में पूछताछ करें' : 'Enquire About a Cab'}
             </h3>
             <p className="text-xs text-slate-400">
               {lang === 'hi'
-                ? 'सचिन शर्मा से सीधे बात करें। 2025 वैगनआर व सेडान गाड़ियां 24 घंटे उपलब्ध।'
-                : 'Call Sachin Sharma directly for fixed per-km pricing, 2025 WagonR availability, and doorstep pickup.'}
+                ? 'किराया और उपलब्धता की पुष्टि के लिए अपना रूट और यात्रा विवरण भेजें।'
+                : 'Share your route and travel details to confirm fare and cab availability.'}
             </p>
           </div>
 
@@ -204,7 +204,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
               <span>{brandData.phoneDisplay}</span>
             </a>
             <a
-              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Sachin Sharma ji, I read your blog and want to book a cab.')}`}
+              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"

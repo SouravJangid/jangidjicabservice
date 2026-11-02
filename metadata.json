@@ -1,6 +1,6 @@
 {
-  "name": "Sachin Sharma Cabs - Modinagar to All India Taxi",
-  "description": "Book verified cabs with Sachin Sharma in Modinagar, Ghaziabad. Real road distance in km, transparent per-km rates, 2025 WagonR fleet, 3D interactive showcase, and instant 1-tap WhatsApp and phone bookings.",
+  "name": "Jangid Ji Cab Service",
+  "description": "AC and Non-AC cabs for local and outstation travel, with one-way and round-trip booking enquiries on WhatsApp at +91 73518 22181.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

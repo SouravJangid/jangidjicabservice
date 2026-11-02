@@ -30,6 +30,7 @@ export interface Vehicle {
   ac: boolean;
   ratePerKm: number;
   minFare: number;
+  imageUrl?: string;
   badge?: string;
   features: string[];
   bestFor: string;

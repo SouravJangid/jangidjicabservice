@@ -4,7 +4,7 @@ export interface BlogPost {
   title_hi: string;
   excerpt: string;
   excerpt_hi: string;
-  category: 'Pilgrimage' | 'Airport' | 'Expressway & Tolls' | 'Fleet & Tips' | 'Local NCR';
+  category: 'Service Information' | 'Routes' | 'Booking';
   publishDate: string;
   readTime: string;
   author: {

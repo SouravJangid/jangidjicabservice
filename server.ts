@@ -11,7 +11,8 @@ import {
   generateRoutePoints,
   POPULAR_INDIAN_LOCATIONS 
 } from './src/lib/indianPlaces.ts';
-import { brandData } from './src/content/data.ts';
+import { brandData, getPublicContentDomain, publicContentDomains, popularRoutes } from './src/content/data.ts';
+import { BLOG_POSTS } from './src/content/blogData.ts';
 
 dotenv.config();
 
@@ -33,6 +34,21 @@ const ai = new GoogleGenAI({
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
+
+app.get('/api/content', (_req: Request, res: Response) => {
+  res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+  return res.json({ version: 1, domains: publicContentDomains });
+});
+
+app.get('/api/content/:domain', (req: Request, res: Response) => {
+  const data = getPublicContentDomain(req.params.domain);
+  if (data === undefined) {
+    return res.status(404).json({ error: 'Content domain not found' });
+  }
+
+  res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+  return res.json({ version: 1, domain: req.params.domain, data });
+});
 
 // In-memory bookings store for live leads
 const bookings: Array<{
@@ -62,7 +78,7 @@ const bookings: Array<{
         originLng,
         destLat,
         destLng,
-        car = 'wagonr',
+        car = 'ac',
         tripType = 'oneway',
         days = 1,
         isNight = false
@@ -227,8 +243,8 @@ const bookings: Array<{
   // Feature block: "You MUST add image generation to the app using model gemini-3-pro-image-preview and provide an affordance for the user to specify the image size (1K, 2K, and 4K)."
   app.post('/api/generate-image', async (req: Request, res: Response) => {
     try {
-      const { prompt, size = '1K', carType = 'WagonR 2025' } = req.body;
-      const effectivePrompt = prompt || `Professional marketing promotional photograph for 'Sachin Sharma Cabs' in Modinagar, India. A brand new gleaming white 2025 Maruti Suzuki WagonR parked cleanly on the Delhi-Meerut Expressway at golden hour sunset, pristine condition, sharp reflections, high resolution commercial taxi advertisement, 24x7 cab service banner, 8k photo realism.`;
+      const { prompt, size = '1K', carType = 'AC or Non-AC cab' } = req.body;
+      const effectivePrompt = prompt || `Promotional visual for ${brandData.name} in Modinagar, India. Show AC and Non-AC cab options for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at ${brandData.phoneDisplay}. Do not add vehicle models, rates, ratings, or availability claims.`;
 
       // Resolution map
       const resolutionMap: Record<string, string> = {
@@ -274,29 +290,29 @@ const bookings: Array<{
           try {
             const textResponse = await ai.models.generateContent({
               model: 'gemini-3.8-flash',
-              contents: `You are an elite advertising copywriter for Sachin Sharma Cabs (Modinagar to All India taxi, Driver Sachin Sharma, phone +91 90846 94715, featured car: 2025 WagonR). Create a punchy, high-converting banner headline and caption for this campaign theme: "${effectivePrompt}". Format as JSON: {"headline": string, "subtext": string, "cta": string}`,
+              contents: `Write promotional copy for ${brandData.name}, a cab and taxi service in Modinagar. Confirmed details: AC and Non-AC cabs, local and outstation service, one-way and round trips, WhatsApp booking at ${brandData.phoneDisplay}. Do not invent vehicle models, fares, ratings, hours, or availability. Campaign theme: "${effectivePrompt}". Format as JSON: {"headline": string, "subtext": string, "cta": string}`,
               config: {
                 responseMimeType: 'application/json',
               }
             });
             const parsed = JSON.parse(textResponse.text || '{}');
-            generatedHeadline = parsed.headline || 'Safe, Clean & Economical 2025 WagonR Cabs';
-            description = parsed.subtext || 'From Modinagar to Haridwar, Delhi IGI Airport, and All India. Call Sachin Sharma: +91 90846 94715';
+            generatedHeadline = parsed.headline || 'Local & Outstation Cab Service';
+            description = parsed.subtext || `AC and Non-AC cabs. Call or WhatsApp ${brandData.phoneDisplay} to enquire.`;
           } catch {
-            generatedHeadline = 'Your Journey. Your Local Driver.';
-            description = 'Sachin Sharma Cabs - Modinagar to Haridwar, Delhi Airport & All India.';
+            generatedHeadline = brandData.name;
+            description = 'AC and Non-AC cabs for local and outstation travel. Enquire on WhatsApp.';
           }
         }
       } else {
-        generatedHeadline = 'Modinagar to All India - Sachin Sharma Cabs';
-        description = '24x7 Reliable & Fixed Per-Km Taxi Service in brand new 2025 WagonR.';
+        generatedHeadline = brandData.name;
+        description = 'AC and Non-AC cabs for local and outstation travel. Enquire on WhatsApp.';
       }
 
       return res.json({
         success: true,
         imageUrl: imageUrl || null,
-        headline: generatedHeadline || 'Your Journey. Your Local Driver.',
-        description: description || 'Book your comfortable 2025 WagonR or Sedan ride now with Sachin Sharma.',
+        headline: generatedHeadline || brandData.name,
+        description: description || `Enquire about AC and Non-AC cab service at ${brandData.phoneDisplay}.`,
         size,
         resolution: requestedRes,
         prompt: effectivePrompt,
@@ -316,7 +332,7 @@ const bookings: Array<{
         phone,
         pickup,
         drop,
-        car = 'wagonr',
+        car = 'ac',
         tripType = 'oneway',
         date,
         time,
@@ -337,7 +353,7 @@ const bookings: Array<{
         return res.status(400).json({ error: 'Please provide a valid 10-digit Indian mobile number.' });
       }
 
-      const bookingId = `SSC-${Date.now().toString().slice(-6)}`;
+      const bookingId = `JJC-${Date.now().toString().slice(-6)}`;
       const newBooking = {
         id: bookingId,
         createdAt: new Date().toISOString(),
@@ -358,7 +374,7 @@ const bookings: Array<{
       bookings.unshift(newBooking);
 
       // Pre-format direct WhatsApp link for instant 1-tap confirmation
-      const waMsg = `Hello Sachin ji, I want to book a cab with Sachin Sharma Cabs.
+      const waMsg = `Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.
 *Booking ID:* ${bookingId}
 *Name:* ${name}
 *Phone:* ${phoneClean}
@@ -367,16 +383,14 @@ const bookings: Array<{
 *Vehicle:* ${car.toUpperCase()}
 *Trip Type:* ${tripType === 'oneway' ? 'One-Way' : 'Round Trip'}
 *Date & Time:* ${newBooking.date} at ${newBooking.time}
-*Distance:* ${newBooking.estimatedKm > 0 ? `${newBooking.estimatedKm} km` : 'Pending calculation'}
-*Estimated Fare:* ${newBooking.estimatedFare > 0 ? `₹${newBooking.estimatedFare}` : 'As per actual km'}
-Please confirm availability and final fare.`;
+Please confirm cab availability and share the fare.`;
 
       const whatsappUrl = `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(waMsg)}`;
 
       return res.json({
         success: true,
         bookingId,
-        message: 'Your enquiry has been received! Sachin Sharma will call or WhatsApp you shortly to confirm availability and final fare.',
+        message: 'Your enquiry is ready. Continue on WhatsApp to send it and confirm availability and fare.',
         whatsappUrl,
         driverPhone: brandData.phone
       });
@@ -405,54 +419,15 @@ Please confirm availability and final fare.`;
     const category = (req.query.category as string) || '';
     const q = (req.query.q as string || '').toLowerCase().trim();
 
-    // Dynamically retrieve posts
-    let posts = [
-      {
-        slug: 'modinagar-to-haridwar-taxi-fare-guide',
-        title: 'Modinagar to Haridwar Taxi Fare, Route & Ganga Aarti Timings (2026 Guide)',
-        excerpt: 'Planning a trip from Modinagar or Ghaziabad to Haridwar? Check real road distance (165 km), per-km taxi rates, toll plazas, and Ganga Aarti timings.',
-        category: 'Pilgrimage',
-        publishDate: 'October 28, 2026',
-        readTime: '6 min read',
-        coverImage: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=600'
-      },
-      {
-        slug: 'ghaziabad-to-delhi-airport-igi-cab-guide',
-        title: 'Ghaziabad to Delhi Airport (IGI T1/T2/T3) 24x7 Cab: Fare, Route & Early Morning Pickup',
-        excerpt: 'Complete guide for booking a punctual airport taxi from Modinagar or Ghaziabad to Indira Gandhi International Airport without surge pricing.',
-        category: 'Airport',
-        publishDate: 'October 25, 2026',
-        readTime: '5 min read',
-        coverImage: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=600'
-      },
-      {
-        slug: 'delhi-meerut-expressway-toll-rates-speed-limits',
-        title: 'Delhi-Meerut Expressway (DME) Toll Charges, Speed Limits & FastTag Guide for Cabs',
-        excerpt: 'Everything you need to know about travelling on the 14-lane Delhi-Meerut Expressway connecting Delhi, Ghaziabad, Modinagar, and Meerut.',
-        category: 'Expressway & Tolls',
-        publishDate: 'October 20, 2026',
-        readTime: '4 min read',
-        coverImage: 'https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&q=80&w=600'
-      },
-      {
-        slug: 'why-wagonr-2025-best-economical-cab-ncr',
-        title: 'Why the 2025 Maruti Suzuki WagonR is the Best Economical Cab for NCR Outstation Rides',
-        excerpt: 'Explore why Sachin Sharma chose the brand-new 2025 WagonR for his passenger fleet: high headroom, dual chilled AC, and an economical ₹10/km rate.',
-        category: 'Fleet & Tips',
-        publishDate: 'October 15, 2026',
-        readTime: '4 min read',
-        coverImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'
-      },
-      {
-        slug: 'haridwar-rishikesh-neelkanth-pilgrimage-taxi-guide',
-        title: 'Complete Pilgrimage Cab Guide: Modinagar to Haridwar, Rishikesh, Neelkanth & Mansa Devi',
-        excerpt: 'Detailed itinerary, hill safety tips, parking guidelines, and temple darshan schedules for visiting Haridwar, Rishikesh, and Neelkanth Mahadev.',
-        category: 'Pilgrimage',
-        publishDate: 'October 10, 2026',
-        readTime: '7 min read',
-        coverImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=600'
-      }
-    ];
+    let posts = BLOG_POSTS.map(({ slug, title, excerpt, category, publishDate, readTime, coverImage }) => ({
+      slug,
+      title,
+      excerpt,
+      category,
+      publishDate,
+      readTime,
+      coverImage
+    }));
 
     if (category && category !== 'All') {
       posts = posts.filter(p => p.category.toLowerCase() === category.toLowerCase());
@@ -468,14 +443,13 @@ Please confirm availability and final fare.`;
   app.get('/api/routes', (_req: Request, res: Response) => {
     return res.json({
       success: true,
-      routes: [
-        { slug: 'modinagar-to-delhi-taxi', from: 'Modinagar', to: 'Delhi', km: 45, time: '1h 15m' },
-        { slug: 'modinagar-to-haridwar-taxi', from: 'Modinagar', to: 'Haridwar', km: 165, time: '3h 15m' },
-        { slug: 'ghaziabad-to-delhi-airport-cab', from: 'Ghaziabad', to: 'Delhi Airport', km: 42, time: '1h 10m' },
-        { slug: 'modinagar-to-meerut-taxi', from: 'Modinagar', to: 'Meerut', km: 26, time: '40m' },
-        { slug: 'noida-to-gurugram-taxi', from: 'Noida', to: 'Gurugram', km: 55, time: '1h 30m' },
-        { slug: 'delhi-to-haridwar-taxi', from: 'Delhi', to: 'Haridwar', km: 220, time: '4h 15m' }
-      ]
+      routes: popularRoutes.map(({ slug, from, to, approxKm, approxTime }) => ({
+        slug,
+        from,
+        to,
+        km: approxKm || null,
+        time: approxTime
+      }))
     });
   });
 
@@ -496,7 +470,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sachin Sharma Cabs server running on http://0.0.0.0:${PORT}`);
+    console.log(`${brandData.name} server running on http://0.0.0.0:${PORT}`);
   });
 }
 

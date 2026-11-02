@@ -1,6 +1,6 @@
 import React from 'react';
-import { Users, Luggage, Wind, ShieldCheck, ArrowRight, Sparkles, Check } from 'lucide-react';
-import { fleetData, brandData } from '../content/data';
+import { Users, Luggage, Wind, ArrowRight, Sparkles, Check } from 'lucide-react';
+import { fleetData, brandData, componentContent, imageData } from '../content/data';
 import { Vehicle } from '../types';
 
 interface FleetSectionProps {
@@ -16,24 +16,24 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400 text-amber-900 text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            {lang === 'hi' ? 'हमारी गाड़ियां व दरें' : 'Our Vehicle Fleet & Rates'}
+            {lang === 'hi' ? componentContent.fleet.title_hi : componentContent.fleet.title}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             {lang === 'hi'
-              ? 'साफ-सुथरी गाड़ियां, पारदर्शी प्रति-किलोमीटर किराया'
-              : 'Clean, Air-Conditioned Cars with Transparent Per-KM Rates'}
+              ? 'लोकल एवं आउटस्टेशन कैब सेवा'
+              : 'Local & Outstation Cab Service'}
           </h2>
           <p className="text-slate-600 text-sm sm:text-base">
             {lang === 'hi'
-              ? 'अपनी जरूरत के अनुसार 2025 वैगनआर, सेडान, 7-सीटर अर्टिगा या इनोवा चुनें। कोई छुपा शुल्क नहीं।'
-              : 'Choose Sachin Sharma’s own 2025 WagonR for economical daily runs or spacious SUVs for Haridwar pilgrimage and family tours.'}
+              ? 'AC और Non-AC कैब के विकल्प। बुकिंग से पहले किराया और उपलब्धता की पुष्टि करें।'
+              : 'Choose an AC or Non-AC cab for local or outstation travel. Confirm the fare and availability before booking.'}
           </p>
         </div>
 
         {/* Fleet Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {fleetData.map((car: Vehicle) => {
-            const isFeatured = car.id === 'wagonr';
+            const isFeatured = car.id === 'ac';
             return (
               <div
                 key={car.id}
@@ -62,17 +62,11 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                   {/* Car Image Placeholder / Photography */}
                   <div className="relative h-48 bg-slate-900 overflow-hidden flex items-center justify-center">
                     <img
-                      src={
-                        car.id === 'wagonr'
-                          ? 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=600'
-                          : car.id === 'sedan'
-                          ? 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=600'
-                          : car.id === 'ertiga'
-                          ? 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'
-                          : car.id === 'innova'
-                          ? 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=600'
-                          : 'https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&q=80&w=600'
-                      }
+                      src={car.imageUrl || (car.ac ? imageData.cabAc : imageData.cabNonAc)}
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src = imageData.cabAc;
+                      }}
                       alt={car.name}
                       className="w-full h-full object-cover opacity-90 transition-transform duration-500 hover:scale-105"
                     />
@@ -87,11 +81,10 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                         </h3>
                       </div>
                       <div className="text-right">
-                        <span className="text-2xl font-black text-amber-400">
-                          ₹{car.ratePerKm}
-                        </span>
-                        <span className="text-xs text-slate-300 font-semibold block -mt-1">
-                          / km
+                        <span className="text-sm font-black text-amber-400">
+                          {car.ratePerKm > 0
+                            ? `₹${car.ratePerKm}`
+                            : (lang === 'hi' ? componentContent.fleet.fareLabel_hi : componentContent.fleet.fareLabel)}
                         </span>
                       </div>
                     </div>
@@ -108,15 +101,15 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                     <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs font-semibold text-slate-700 text-center">
                       <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50">
                         <Users className="w-4 h-4 text-slate-500 mb-1" />
-                        <span>{car.seats} Seats</span>
+                        <span>{lang === 'hi' ? 'लोकल एवं आउटस्टेशन' : 'Local & Outstation'}</span>
                       </div>
                       <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50">
                         <Luggage className="w-4 h-4 text-slate-500 mb-1" />
-                        <span className="truncate max-w-full text-[10px]">{car.luggage.split('+')[0]}</span>
+                        <span className="truncate max-w-full text-[10px]">{lang === 'hi' ? 'वन-वे और राउंड ट्रिप' : 'One-way & round trips'}</span>
                       </div>
                       <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50">
                         <Wind className="w-4 h-4 text-blue-500 mb-1" />
-                        <span>AC Chilled</span>
+                        <span>{car.ac ? 'AC Cab' : 'Non-AC Cab'}</span>
                       </div>
                     </div>
 
@@ -147,12 +140,12 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                         : 'bg-slate-900 hover:bg-slate-800 text-white'
                     }`}
                   >
-                    <span>{lang === 'hi' ? 'यह गाड़ी चुनें और दूरी निकालें' : `Book ${car.name}`}</span>
+                    <span>{lang === 'hi' ? 'इस कैब के बारे में पूछें' : `Enquire about ${car.name}`}</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
 
                   <a
-                    href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Sachin Sharma ji, I would like to book your ${car.name}.`)}`}
+                    href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I would like to enquire about an ${car.name}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full text-center block text-[11px] font-semibold text-slate-500 hover:text-emerald-600 py-1"

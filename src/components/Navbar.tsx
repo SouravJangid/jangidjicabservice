@@ -39,16 +39,16 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight group-hover:text-amber-300 transition-colors">
-                  Sachin Sharma <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-300">Cabs</span>
+                  Jangid Ji <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-300">Cab Service</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-400/30 shadow-[0_0_12px_rgba(16,185,129,0.25)]">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  24x7
+                  {lang === 'hi' ? 'कैब सेवा' : 'Cab Service'}
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
                 <MapPin className="w-3 h-3 text-amber-400" />
-                Modinagar, Ghaziabad (UP)
+                Modinagar
               </p>
             </div>
           </Link>
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
                   : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              {lang === 'hi' ? 'ड्राइवर परिचय' : 'About'}
+              {lang === 'hi' ? 'हमारे बारे में' : 'About'}
             </Link>
             <Link
               to="/fleet"
@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
                   : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              {lang === 'hi' ? 'गाड़ियां' : 'Fleet & Rates'}
+              {lang === 'hi' ? 'कैब के प्रकार' : 'Cab Types'}
             </Link>
             <Link
               to="/routes"
@@ -142,7 +142,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
 
             {/* WhatsApp Direct CTA */}
             <a
-              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Sachin Sharma ji, I would like to enquire about cab booking.')}`}
+              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 rounded-xl bg-[#25D366]/90 hover:bg-[#25D366] text-white transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,211,102,0.35)] border border-[#25D366]/40"
@@ -203,7 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
               }`}
             >
-              {lang === 'hi' ? 'ड्राइवर परिचय' : 'About'}
+              {lang === 'hi' ? 'हमारे बारे में' : 'About'}
             </Link>
             <Link
               to="/fleet"
@@ -214,7 +214,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
               }`}
             >
-              {lang === 'hi' ? 'गाड़ियां' : 'Fleet & Rates'}
+              {lang === 'hi' ? 'कैब के प्रकार' : 'Cab Types'}
             </Link>
             <Link
               to="/routes"

@@ -8,19 +8,19 @@ interface AiImageStudioProps {
 
 const TEMPLATES = [
   {
-    title: 'Modinagar to Haridwar Ganga Aarti',
-    title_hi: 'मोदीनगर से हरिद्वार गंगा आरती पोस्टर',
-    prompt: 'Premium commercial promotional poster for Sachin Sharma Cabs. A gleaming brand new 2025 white Maruti Suzuki WagonR taxi parked gracefully near the holy ghats of Haridwar with the golden sunset illuminating the sacred Ganga river, Ganga Aarti floating diyas, vibrant Indian temple aesthetic, sharp commercial taxi advertisement quality.'
+    title: 'Local & Outstation Cab Service',
+    title_hi: 'लोकल एवं आउटस्टेशन कैब सेवा',
+    prompt: 'Create a promotional poster for Jangid Ji Cab Service in Modinagar. Feature AC and Non-AC cab service for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at +91 73518 22181. Do not invent vehicle models, fares, ratings, or availability claims.'
   },
   {
-    title: 'Delhi IGI Airport 24x7 Express',
-    title_hi: 'दिल्ली एयरपोर्ट 24x7 एक्सप्रेस बैनर',
-    prompt: 'High resolution digital advertising banner for Sachin Sharma Cabs. Clean white 2025 WagonR and sedan cruising on the illuminated Delhi-Meerut Expressway heading towards Indira Gandhi International Airport Terminal 3, sleek highway lights, luggage bags visible, modern Indian transportation service.'
+    title: 'Service Areas & Popular Routes',
+    title_hi: 'सेवा क्षेत्र और लोकप्रिय रूट',
+    prompt: 'Create a clear promotional graphic for Jangid Ji Cab Service. Mention Modinagar, Ghaziabad, Delhi, Noida, Gurugram, Meerut, Haridwar, and Rishikesh among its service areas. Use a simple route-map visual and WhatsApp contact +91 73518 22181. Do not imply guaranteed service or availability.'
   },
   {
-    title: 'WagonR 2025 Luxury Highway Fleet',
-    title_hi: 'वैगनआर 2025 हाईवे फ्लीट शोकेस',
-    prompt: 'Studio commercial photography of 2025 Maruti Suzuki WagonR taxi with custom Sachin Sharma Cabs branding, pristine glossy finish, dynamic front 3/4 angle, golden hour lighting on smooth highway, advertising poster format.'
+    title: 'AC & Non-AC Cab Options',
+    title_hi: 'AC और Non-AC कैब विकल्प',
+    prompt: 'Create a professional cab service promotion for Jangid Ji Cab Service in Modinagar. Show generic AC and Non-AC cab options without recognizable or named vehicle models. Include local and outstation travel, one-way and round-trip bookings, and WhatsApp number +91 73518 22181. Do not add a fare.'
   }
 ];
 
@@ -45,7 +45,7 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
         body: JSON.stringify({
           prompt,
           size: imageSize,
-          carType: 'WagonR 2025'
+          carType: 'AC or Non-AC cab'
         })
       });
 
@@ -82,13 +82,13 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
                 {lang === 'hi'
-                  ? 'सचिन शर्मा कैब्स - हाई-क्वालिटी पोस्टर जनरेटर'
+                  ? 'जांगिड़ जी कैब सर्विस - पोस्टर जनरेटर'
                   : 'Generate High-Quality Promotional Cab Flyers'}
               </h2>
               <p className="text-sm text-slate-300 max-w-2xl mt-1">
                 {lang === 'hi'
-                  ? 'हरिद्वार, दिल्ली एयरपोर्ट और ऑल-इंडिया यात्रा के लिए 1K, 2K या 4K रेजोल्यूशन में हाई-इम्पैक्ट विजुअल्स बनाएं।'
-                  : 'Create photorealistic marketing banners and WhatsApp promotional graphics for Sachin Sharma Cabs in 1K, 2K, or 4K resolution.'}
+                  ? 'सेवा क्षेत्रों, AC और Non-AC कैब, और WhatsApp बुकिंग के लिए प्रचार सामग्री बनाएं।'
+                  : 'Create promotional graphics for Jangid Ji Cab Service, AC and Non-AC cabs, and WhatsApp booking.'}
               </p>
             </div>
 
@@ -205,7 +205,7 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
                     <div className="w-full h-[280px] rounded-xl bg-gradient-to-br from-slate-900 via-amber-950/40 to-slate-900 p-6 flex flex-col justify-between border border-amber-500/30 shadow-inner relative overflow-hidden">
                       <div className="space-y-2 relative z-10">
                         <span className="px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider shadow">
-                          Sachin Sharma Cabs • Modinagar
+                          Jangid Ji Cab Service • Modinagar
                         </span>
                         <h3 className="text-2xl font-black text-white mt-2 leading-tight">
                           {generatedResult.headline}
@@ -217,11 +217,11 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
 
                       <div className="flex items-center justify-between border-t border-slate-700/60 pt-4 relative z-10">
                         <div className="text-xs">
-                          <p className="font-semibold text-amber-300">New 2025 WagonR & Fleet</p>
-                          <p className="text-[11px] text-slate-400">Haridwar • Delhi Airport • All India</p>
+                          <p className="font-semibold text-amber-300">AC & Non-AC Cabs</p>
+                          <p className="text-[11px] text-slate-400">Local • Outstation • One-Way • Round Trip</p>
                         </div>
                         <div className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-md">
-                          Call: +91 90846 94715
+                          Call / WhatsApp: {brandData.phoneDisplay}
                         </div>
                       </div>
                     </div>
@@ -240,15 +240,15 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
 
                   <div className="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-xs space-y-2">
                     <p className="text-slate-400 font-medium">Included Call to Actions:</p>
-                    <p className="font-semibold text-emerald-400">📞 Call: +91 90846 94715</p>
-                    <p className="font-semibold text-[#25D366]">💬 WhatsApp: +91 90846 94715</p>
-                    <p className="text-[11px] text-slate-400">Base: Modinagar, Ghaziabad (UP)</p>
+                    <p className="font-semibold text-emerald-400">📞 Call: {brandData.phoneDisplay}</p>
+                    <p className="font-semibold text-[#25D366]">💬 WhatsApp: {brandData.phoneDisplay}</p>
+                    <p className="text-[11px] text-slate-400">Base: Modinagar, Uttar Pradesh</p>
                   </div>
 
                   {generatedResult.imageUrl && (
                     <a
                       href={generatedResult.imageUrl}
-                      download={`sachin-cabs-flyer-${generatedResult.size}.png`}
+                      download={`jangid-ji-cab-service-flyer-${generatedResult.size}.png`}
                       className="w-full h-11 rounded-xl bg-white text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-slate-200 shadow-md transition-colors"
                     >
                       <Download className="w-4 h-4" />

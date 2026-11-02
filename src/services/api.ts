@@ -4,6 +4,22 @@ import { BLOG_POSTS, getBlogPostBySlug } from '../content/blogData';
 import { popularRoutes } from '../content/data';
 
 export const apiService = {
+  async getContentIndex(): Promise<{ version: number; domains: string[] }> {
+    const response = await fetch('/api/content');
+    if (!response.ok) throw new Error('Could not load content domain list');
+    return response.json();
+  },
+
+  async getContentDomain<T>(domain: string): Promise<T> {
+    if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(domain)) {
+      throw new Error('Invalid content domain');
+    }
+    const response = await fetch(`/api/content/${encodeURIComponent(domain)}`);
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || 'Could not load content');
+    return payload.data as T;
+  },
+
   // Distance Microservice
   async calculateDistance(params: {
     originName: string;

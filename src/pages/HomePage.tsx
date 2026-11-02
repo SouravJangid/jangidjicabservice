@@ -29,7 +29,7 @@ export const HomePage: React.FC<HomePageProps> = ({ lang }) => {
       {/* Hero Section */}
       <Hero lang={lang} onCalculateClick={scrollToCalculator} />
 
-      {/* About the Driver Section (Sachin Sharma Biography & Safety Commitment) */}
+      {/* Cab service information */}
       <AboutDriver lang={lang} />
 
       {/* Distance & Fare Calculator */}

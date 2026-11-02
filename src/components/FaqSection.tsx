@@ -24,12 +24,12 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
             {lang === 'hi' ? 'अक्सर पूछे जाने वाले सवाल' : 'Frequently Asked Questions'}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            {lang === 'hi' ? 'किराया, टोल व बुकिंग से जुड़ी पूरी जानकारी' : 'Everything You Need to Know Before Travelling'}
+            {lang === 'hi' ? 'कैब बुकिंग से जुड़ी जानकारी' : 'Cab Booking Information'}
           </h2>
           <p className="text-slate-600 text-sm">
             {lang === 'hi'
-              ? 'टोल टैक्स, रात का किराया, कैंसिलेशन और गाड़ियों से जुड़े आपके सामान्य सवाल।'
-              : 'Transparent guidelines on fares, state entry taxes, cancellation policy, and 24x7 bookings.'}
+              ? 'कैब के प्रकार, रूट, बुकिंग और लागू टैक्स से जुड़े सामान्य सवाल।'
+              : 'Information about cab types, routes, booking, and applicable taxes.'}
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
               {lang === 'hi' ? 'कोई अन्य सवाल है?' : 'Have a custom itinerary or specific question?'}
             </h4>
             <p className="text-xs text-amber-900/80 mt-0.5">
-              {lang === 'hi' ? 'सचिन शर्मा से सीधे फोन या व्हाट्सएप पर बात करें।' : 'Speak directly with Sachin Sharma for immediate route assistance.'}
+              {lang === 'hi' ? 'रूट, किराए और उपलब्धता के लिए संपर्क करें।' : 'Contact us to enquire about routes, fares, and availability.'}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -88,7 +88,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
               Call Now
             </a>
             <a
-              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Sachin Sharma ji, I have an enquiry about cab rates.')}`}
+              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I have an enquiry about cab service.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"

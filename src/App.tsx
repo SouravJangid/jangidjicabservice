@@ -12,6 +12,7 @@ import { RouteDetailPage } from './pages/RouteDetailPage';
 import { BlogHubPage } from './pages/BlogHubPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
+import { SeoHead } from './components/SeoHead';
 
 // Scroll to top automatically when route changes
 function ScrollToTop() {
@@ -34,6 +35,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       <ScrollToTop />
+      <SeoHead lang={lang} />
 
       {/* Persistent Sticky Header */}
       <Navbar

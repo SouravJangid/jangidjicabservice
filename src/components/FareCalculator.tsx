@@ -11,8 +11,6 @@ import {
   CheckCircle2, 
   RefreshCw, 
   Calendar,
-  Moon,
-  Info,
   Sparkles
 } from 'lucide-react';
 import { fleetData, brandData, pricingConfig } from '../content/data';
@@ -26,26 +24,27 @@ interface FareCalculatorProps {
 }
 
 const QUICK_ROUTES = [
-  { from: 'Modinagar', to: 'Haridwar (Har Ki Pauri)', label: 'Modinagar ➔ Haridwar' },
-  { from: 'Modinagar', to: 'Delhi (Connaught Place / Central)', label: 'Modinagar ➔ Delhi' },
-  { from: 'Ghaziabad', to: 'Delhi IGI Airport (T1 / T2 / T3)', label: 'Ghaziabad ➔ Delhi Airport' },
+  { from: 'Modinagar', to: 'Delhi', label: 'Modinagar ➔ Delhi' },
+  { from: 'Modinagar', to: 'Noida', label: 'Modinagar ➔ Noida' },
+  { from: 'Modinagar', to: 'Ghaziabad', label: 'Modinagar ➔ Ghaziabad' },
   { from: 'Modinagar', to: 'Meerut', label: 'Modinagar ➔ Meerut' },
-  { from: 'Noida (Sector 18 / Expressway)', to: 'Gurugram (Cyber City / IFFCO)', label: 'Noida ➔ Gurugram' },
-  { from: 'Delhi (Connaught Place / Central)', to: 'Haridwar (Har Ki Pauri)', label: 'Delhi ➔ Haridwar' },
-  { from: 'Modinagar', to: 'Rishikesh (Triveni Ghat / Tapovan)', label: 'Modinagar ➔ Rishikesh' },
-  { from: 'Modinagar', to: 'Agra (Taj Mahal / Cantt)', label: 'Modinagar ➔ Agra' },
+  { from: 'Ghaziabad', to: 'Gurugram', label: 'Ghaziabad ➔ Gurugram' },
+  { from: 'Delhi', to: 'Haridwar', label: 'Delhi ➔ Haridwar' },
+  { from: 'Delhi', to: 'Rishikesh', label: 'Delhi ➔ Rishikesh' },
+  { from: 'Modinagar', to: 'Dehradun', label: 'Modinagar ➔ Dehradun' },
+  { from: 'Modinagar', to: 'Agra', label: 'Modinagar ➔ Agra' },
+  { from: 'Ghaziabad', to: 'Chandigarh', label: 'Ghaziabad ➔ Chandigarh' },
 ];
 
 export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onBookClick }) => {
-  const [pickup, setPickup] = useState<string>('Modinagar (Base)');
-  const [drop, setDrop] = useState<string>('Haridwar (Har Ki Pauri)');
-  const [selectedCar, setSelectedCar] = useState<string>('wagonr');
+  const [pickup, setPickup] = useState<string>('Modinagar');
+  const [drop, setDrop] = useState<string>('Delhi');
+  const [selectedCar, setSelectedCar] = useState<string>('ac');
   const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
   const [days, setDays] = useState<number>(1);
   const [isNight, setIsNight] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<DistanceCalculationResult | null>(null);
-  const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
 
   // Autocomplete dropdown states
   const [pickupSuggestions, setPickupSuggestions] = useState<string[]>([]);
@@ -142,18 +141,17 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
   // Build WhatsApp Pre-filled link
   const getWhatsAppBookingLink = () => {
     const carObj = fleetData.find(c => c.id === selectedCar);
-    const carName = carObj ? carObj.name : 'WagonR 2025';
+    const carName = carObj ? carObj.name : 'AC or Non-AC cab';
     const kmText = result ? `${result.km} km` : 'Pending';
-    const fareText = result ? `₹${result.fare}` : 'As per per-km rate';
 
-    const msg = `Hello Sachin Sharma ji, I want to book a cab with Sachin Sharma Cabs.
+    const msg = `Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.
 *Pickup:* ${pickup}
 *Drop:* ${drop}
 *Vehicle:* ${carName}
 *Trip Type:* ${tripType === 'oneway' ? 'One-Way' : `Round Trip (${days} Day${days > 1 ? 's' : ''})`}
 *Road Distance:* ${kmText}
-*Estimated Fare:* ${fareText}
-Please confirm vehicle availability and final rate for my travel date.`;
+*Fare:* Please share the fare
+Please confirm cab availability and fare for my travel date.`;
 
     return `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(msg)}`;
   };
@@ -177,15 +175,15 @@ Please confirm vehicle availability and final rate for my travel date.`;
               </div>
               <div>
                 <h2 className="text-xl font-black tracking-tight text-white flex items-center gap-2 flex-wrap">
-                  <span>{lang === 'hi' ? 'दूरी (किमी) व किराया कैलकुलेटर' : 'Live Distance (km) & Fare Calculator'}</span>
+                  <span>{lang === 'hi' ? 'दूरी और किराया पूछताछ' : 'Distance & Fare Enquiry'}</span>
                   <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
                     {lang === 'hi' ? 'वास्तविक सड़क दूरी' : 'Real Road KM'}
                   </span>
                 </h2>
                 <p className="text-xs text-slate-400">
                   {lang === 'hi'
-                    ? 'मोदीनगर, गाजियाबाद, दिल्ली, हरिद्वार और पूरे भारत के लिए पारदर्शी प्रति-किमी किराया'
-                    : 'Instant calculation across Modinagar, Ghaziabad, Delhi, Haridwar & All India'}
+                    ? 'रूट की दूरी देखें और WhatsApp पर किराए की पुष्टि करें।'
+                    : 'Check a route distance and enquire on WhatsApp to confirm the fare.'}
                 </p>
               </div>
             </div>
@@ -305,7 +303,7 @@ Please confirm vehicle availability and final rate for my travel date.`;
                     setShowDropList(true);
                   }}
                   onBlur={() => setTimeout(() => setShowDropList(false), 200)}
-                  placeholder="e.g. Haridwar, Delhi Airport, Rishikesh..."
+                  placeholder="e.g. Delhi, Meerut, Chandigarh..."
                   className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
                 />
               </div>
@@ -334,7 +332,7 @@ Please confirm vehicle availability and final rate for my travel date.`;
             <div className="md:col-span-4">
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                 <span>{lang === 'hi' ? 'गाड़ी का प्रकार (Car Type)' : 'Car Type'}</span>
-                <span className="text-amber-600 font-extrabold px-2 py-0.5 bg-amber-50 rounded-md border border-amber-200/60 text-[11px]">₹{activeVehicle.ratePerKm}/km</span>
+                <span className="text-amber-600 font-extrabold px-2 py-0.5 bg-amber-50 rounded-md border border-amber-200/60 text-[11px]">{lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}</span>
               </label>
               <div className="relative">
                 <Car className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
@@ -348,7 +346,7 @@ Please confirm vehicle availability and final rate for my travel date.`;
                 >
                   {fleetData.map((car) => (
                     <option key={car.id} value={car.id}>
-                      {car.name} ({car.seats} seats) • ₹{car.ratePerKm}/km
+                      {car.name}
                     </option>
                   ))}
                 </select>
@@ -391,22 +389,6 @@ Please confirm vehicle availability and final rate for my travel date.`;
                 </div>
               )}
 
-              {/* Night Travel Toggle */}
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={isNight}
-                  onChange={(e) => {
-                    setIsNight(e.target.checked);
-                    triggerCalculation(pickup, drop, selectedCar, tripType, days, e.target.checked);
-                  }}
-                  className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400 border-slate-300"
-                />
-                <span className="text-xs font-medium text-slate-700 flex items-center gap-1">
-                  <Moon className="w-3.5 h-3.5 text-indigo-500" />
-                  {lang === 'hi' ? 'रात का सफर (10 PM - 6 AM)' : 'Night Journey (10 PM - 6 AM)'}
-                </span>
-              </label>
             </div>
 
             {/* Calculate / Refresh Button */}
@@ -417,7 +399,7 @@ Please confirm vehicle availability and final rate for my travel date.`;
               className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-all active:scale-95 ml-auto"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-              {loading ? (lang === 'hi' ? 'गणना हो रही है...' : 'Calculating...') : (lang === 'hi' ? 'किराया निकालें' : 'Recalculate')}
+              {loading ? (lang === 'hi' ? 'गणना हो रही है...' : 'Calculating...') : (lang === 'hi' ? 'दूरी देखें' : 'Check Distance')}
             </button>
           </div>
 
@@ -432,7 +414,7 @@ Please confirm vehicle availability and final rate for my travel date.`;
                 {/* Distance & Time */}
                 <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
                   <span className="text-[11px] uppercase tracking-widest text-slate-400 font-bold block mb-1">
-                    {lang === 'hi' ? 'सड़क दूरी व समय' : 'Road Distance & Time'}
+                    {lang === 'hi' ? 'अनुमानित सड़क दूरी व समय' : 'Approximate Road Distance & Time'}
                   </span>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl md:text-5xl font-black text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.3)]">
@@ -446,38 +428,23 @@ Please confirm vehicle availability and final rate for my travel date.`;
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-400 mt-1.5">
-                    {tripType === 'round'
-                      ? (lang === 'hi' ? `राउंड ट्रिप बिलिंग: ${result.km * 2} किमी (न्यूनतम 250 किमी/दिन)` : `Round-trip billing: ${result.km * 2} km (min 250 km/day applies)`)
-                      : (lang === 'hi' ? 'वन-वे हाईवे सड़क दूरी' : 'One-way direct road calculation')}
+                    {lang === 'hi'
+                      ? 'दूरी और समय अनुमानित हैं। अंतिम जानकारी बुकिंग के समय कन्फर्म करें।'
+                      : 'Distance and time are estimates. Confirm trip details when enquiring.'}
                   </p>
                 </div>
 
-                {/* Estimated Fare Display */}
+                {/* Fare Enquiry */}
                 <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-6">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] uppercase tracking-widest text-slate-400 font-bold">
-                      {lang === 'hi' ? 'अनुमानित किराया' : 'Estimated Fare'}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setShowBreakdown(!showBreakdown)}
-                      className="text-[11px] text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold transition-colors"
-                    >
-                      <Info className="w-3.5 h-3.5" />
-                      {showBreakdown ? (lang === 'hi' ? 'छिपाएं' : 'Hide') : (lang === 'hi' ? 'विवरण' : 'Breakdown')}
-                    </button>
-                  </div>
+                  <span className="text-[11px] uppercase tracking-widest text-slate-400 font-bold">
+                    {lang === 'hi' ? 'किराया' : 'Fare'}
+                  </span>
                   <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl md:text-5xl font-black text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-                      ₹{result.fare.toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-xs text-slate-400 font-semibold">
-                      ({activeVehicle.name})
-                    </span>
+                    <span className="text-2xl md:text-3xl font-black text-emerald-400">{lang === 'hi' ? 'पूछताछ करें' : 'On enquiry'}</span>
                   </div>
                   <p className="text-[11px] text-amber-300/90 mt-1.5 flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                    {lang === 'hi' ? 'टोल व पार्किंग सरकारी रसीद पर अलग' : 'Toll, parking & state tax extra as per actual receipt'}
+                    {lang === 'hi' ? 'लागू राज्य टैक्स और रोड टैक्स अलग से देय' : 'Applicable state tax and road tax are payable separately'}
                   </p>
                 </div>
 
@@ -498,40 +465,11 @@ Please confirm vehicle availability and final rate for my travel date.`;
                     className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-400/40"
                   >
                     <PhoneCall className="w-4 h-4" />
-                    {lang === 'hi' ? 'सचिन को सीधे कॉल करें' : 'Call Sachin Now'}
+                    {lang === 'hi' ? 'अभी कॉल करें' : 'Call Now'}
                   </a>
                 </div>
               </div>
 
-              {/* Fare Breakdown Drawer */}
-              {showBreakdown && (
-                <div className="relative z-10 mt-5 pt-4 border-t border-white/10 text-xs text-slate-300 space-y-2 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10">
-                  <div className="flex justify-between">
-                    <span>Base rate per km for {activeVehicle.name}:</span>
-                    <span className="font-semibold text-white">₹{activeVehicle.ratePerKm} / km</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Calculated distance:</span>
-                    <span className="font-semibold text-white">{result.km} km {tripType === 'round' ? `(x 2 = ${result.km * 2} km)` : ''}</span>
-                  </div>
-                  {tripType === 'round' && (
-                    <div className="flex justify-between text-amber-300">
-                      <span>Daily minimum billable km ({days} day{days > 1 ? 's' : ''}):</span>
-                      <span>{Math.max(result.km * 2, pricingConfig.rates[selectedCar]?.minKmPerDay * days)} km</span>
-                    </div>
-                  )}
-                  {isNight && (
-                    <div className="flex justify-between text-indigo-300">
-                      <span>Night travel charge:</span>
-                      <span>+₹{pricingConfig.nightCharge.amount}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between pt-2 border-t border-white/10 text-amber-400 font-extrabold text-sm">
-                    <span>Total Estimated Fare:</span>
-                    <span className="text-emerald-400">₹{result.fare.toLocaleString('en-IN')}</span>
-                  </div>
-                </div>
-              )}
             </div>
           )}
 

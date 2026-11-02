@@ -1,17 +1,6 @@
-import React from 'react';
-import { 
-  PhoneCall, 
-  MessageSquare, 
-  ShieldCheck, 
-  Star, 
-  Award, 
-  Clock, 
-  MapPin, 
-  CheckCircle2, 
-  Sparkles,
-  ArrowRight
-} from 'lucide-react';
-import { brandData } from '../content/data';
+import React, { useEffect, useState } from 'react';
+import { PhoneCall, MessageSquare, ShieldCheck, Star, Award, Clock, MapPin, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { brandData, componentContent, heroContent, imageData } from '../content/data';
 
 interface HeroProps {
   lang: 'en' | 'hi';
@@ -19,6 +8,38 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const configuredPhrases = lang === 'hi' ? heroContent.rotatingPhrases_hi : heroContent.rotatingPhrases;
+    const phrases = configuredPhrases.length ? configuredPhrases : [brandData.tagline];
+    const phrase = phrases[phraseIndex % phrases.length];
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedText(phrases[0]);
+      return;
+    }
+
+    const isComplete = typedText === phrase;
+    const delay = isDeleting ? 45 : isComplete ? 1400 : 75;
+    const timer = window.setTimeout(() => {
+      if (!isDeleting && isComplete) {
+        setIsDeleting(true);
+      } else if (isDeleting && typedText.length === 0) {
+        setIsDeleting(false);
+        setPhraseIndex((index) => (index + 1) % phrases.length);
+      } else {
+        setTypedText((current) => isDeleting
+          ? current.slice(0, -1)
+          : phrase.slice(0, current.length + 1));
+      }
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [lang, phraseIndex, typedText, isDeleting]);
+
   return (
     <div className="relative overflow-hidden bg-[#050811] text-white pt-10 pb-16 md:pt-16 md:pb-24 border-b border-white/10">
       {/* Animated Floating Gradient Mesh Orbs - Gen-Z Electric Violet, Solar Gold, Cyber Emerald */}
@@ -46,25 +67,30 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
               </span>
               <ShieldCheck className="w-4 h-4 text-amber-400" />
-              <span>
-                {lang === 'hi' ? 'मोदीनगर का अपना वेरिफाइड ड्राइवर • 24x7 उपलब्ध' : 'Modinagar Verified Local Driver • 24x7 Ready'}
-              </span>
+              <span>{lang === 'hi' ? heroContent.badge_hi : heroContent.badge}</span>
             </div>
 
             {/* Main Headline with metallic chrome and Gen-Z gold gradient */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+            <h1
+              aria-label={`${brandData.name}, ${lang === 'hi' ? componentContent.hero.title_hi : componentContent.hero.title}`}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]"
+            >
               {lang === 'hi' ? (
                 <>
-                  सुरक्षित, आरामदायक और किफायती कैब –{' '}
+                  {componentContent.hero.title_hi}{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-amber-400 drop-shadow-[0_4px_25px_rgba(245,158,11,0.4)]">
-                    मोदीनगर से पूरे भारत तक
+                    <span aria-hidden="true" className="inline-block min-h-[1.15em] align-bottom">
+                      {typedText}<span className="motion-safe:animate-pulse">|</span>
+                    </span>
                   </span>
                 </>
               ) : (
                 <>
-                  Your Journey. Your Local Driver.{' '}
+                  {brandData.name}{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-amber-400 drop-shadow-[0_4px_25px_rgba(245,158,11,0.4)]">
-                    Modinagar to All India
+                    <span aria-hidden="true" className="inline-block min-h-[1.15em] align-bottom">
+                      {typedText}<span className="motion-safe:animate-pulse">|</span>
+                    </span>
                   </span>
                 </>
               )}
@@ -72,25 +98,23 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
 
             {/* Subtext description */}
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-              {lang === 'hi'
-                ? 'ड्राइवर सचिन शर्मा (मोदीनगर, गाजियाबाद)। हरिद्वार, दिल्ली एयरपोर्ट, मेरठ, नोएडा, गुरुग्राम और पूरे भारत के लिए पारदर्शी प्रति-किमी दर व सुरक्षित पारिवारिक सेवा।'
-                : 'Contact Sachin Sharma in Modinagar for comfortable outstation trips to Ghaziabad, Meerut, Delhi Airport, Noida, Haridwar & All India. 100% transparent kilometre-based billing.'}
+              {lang === 'hi' ? heroContent.description_hi : heroContent.description}
             </p>
 
-            {/* Gen-Z Iridescent Shining 2025 WagonR Highlight Card */}
+            {/* Cab options and trip types */}
             <div className="shining-beam inline-flex items-center gap-3.5 p-3.5 rounded-2xl bg-gradient-to-r from-white/10 via-white/5 to-white/10 backdrop-blur-2xl border border-white/20 text-left shadow-[0_12px_40px_rgba(0,0,0,0.4)] hover:border-amber-400/60 transition-all">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-300 to-yellow-500 text-slate-950 flex items-center justify-center font-black shrink-0 shadow-[0_0_15px_rgba(245,158,11,0.4)]">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
                 <p className="text-xs font-black text-amber-300 flex items-center gap-2">
-                  <span>{lang === 'hi' ? 'नई 2025 वैगनआर ZXI+ में सफर करें!' : 'Ask about travelling in our brand new 2025 WagonR!'}</span>
+                  <span>{lang === 'hi' ? componentContent.fleet.title_hi : componentContent.fleet.title}</span>
                   <span className="px-2 py-0.5 rounded-full text-[9px] bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 uppercase font-black shadow-xs">
-                    2025 Model
+                    {lang === 'hi' ? componentContent.fleet.fareLabel_hi : componentContent.fleet.fareLabel}
                   </span>
                 </p>
                 <p className="text-[11px] text-slate-300">
-                  {lang === 'hi' ? 'सुपर क्लीन एसी केबिन, अतिरिक्त लेगरूम व सबसे किफायती ₹10/किमी दर' : 'Super clean AC cabin, tall-boy comfort & economical ₹10/km rate'}
+                  {lang === 'hi' ? componentContent.routes.title_hi : componentContent.routes.title}
                 </p>
               </div>
             </div>
@@ -102,11 +126,11 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
               >
                 <PhoneCall className="w-5 h-5 animate-pulse-subtle" />
-                <span>{lang === 'hi' ? '📞 सचिन को कॉल करें' : '📞 Call Sachin Now'}</span>
+                <span>{lang === 'hi' ? '📞 अभी कॉल करें' : '📞 Call Now'}</span>
               </a>
 
               <a
-                href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Sachin Sharma ji, I want to check cab availability and fare.')}`}
+                href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(37,211,102,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-300/40"
@@ -132,8 +156,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <Star className="w-4 h-4 fill-amber-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-black text-white">4.9 / 5.0</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Google Rating</p>
+                  <p className="text-sm font-black text-white">AC & Non-AC</p>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Cab Options</p>
                 </div>
               </div>
 
@@ -142,8 +166,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <Award className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-black text-white">10+ Years</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Driving Exp.</p>
+                  <p className="text-sm font-black text-white">Local</p>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Cab Service</p>
                 </div>
               </div>
 
@@ -152,8 +176,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-black text-white">500+ Trips</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Happy Travelers</p>
+                  <p className="text-sm font-black text-white">Outstation</p>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Cab Service</p>
                 </div>
               </div>
 
@@ -162,8 +186,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <Clock className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-black text-white">24x7</p>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Anytime Pickup</p>
+                  <p className="text-sm font-black text-white">WhatsApp</p>
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider">Booking</p>
                 </div>
               </div>
             </div>
@@ -181,31 +205,32 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 <div className="flex items-center gap-4">
                   <div className="relative">
                     <img
-                      src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=260"
-                      alt="Sachin Sharma Driver"
+                      src={imageData.heroDriver}
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src = imageData.cabAc;
+                      }}
+                      alt="Cab service representative"
                       className="w-20 h-20 rounded-2xl object-cover border-2 border-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
                     />
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[#0A0F1D] flex items-center justify-center shadow-[0_0_10px_rgba(16,185,129,0.7)]" title="Verified Driver">
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[#0A0F1D] flex items-center justify-center shadow-[0_0_10px_rgba(16,185,129,0.7)]" aria-hidden="true">
                       <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                     </div>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-lg font-bold text-white tracking-tight">Sachin Sharma</h3>
+                      <h3 className="text-lg font-bold text-white tracking-tight">Jangid Ji Cab Service</h3>
                       <span className="px-2.5 py-0.5 rounded-md text-[10px] font-black bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 uppercase tracking-wider shadow-sm">
-                        Owner & Driver
+                        {lang === 'hi' ? 'कैब एवं टैक्सी सेवा' : 'Cab & Taxi Service'}
                       </span>
                     </div>
                     <p className="text-xs text-slate-400 flex items-center gap-1 mt-1 font-medium">
                       <MapPin className="w-3 h-3 text-amber-400" />
-                      Modinagar, Ghaziabad, UP
+                      {lang === 'hi' ? 'मोदीनगर' : 'Modinagar'}
                     </p>
                     <div className="flex items-center gap-1 text-amber-400 text-xs mt-1.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-amber-400" />
-                      ))}
-                      <span className="text-slate-300 text-[11px] ml-1 font-semibold">4.9 (500+ Trips)</span>
+                      <span className="text-slate-300 text-[11px] font-semibold">{lang === 'hi' ? 'AC एवं Non-AC कैब' : 'AC & Non-AC Cabs'}</span>
                     </div>
                   </div>
                 </div>
@@ -213,17 +238,21 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 {/* Car Banner Showcase with Shining Gloss */}
                 <div className="shining-beam relative rounded-2xl overflow-hidden bg-black/60 border border-white/10 p-3.5">
                   <img
-                    src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800"
-                    alt="2025 WagonR Taxi"
+                    src={imageData.cabAc}
+                    onError={(event) => {
+                      event.currentTarget.onerror = null;
+                      event.currentTarget.src = imageData.cabNonAc;
+                    }}
+                    alt="Cab service vehicle"
                     className="w-full h-36 object-cover rounded-xl shadow-md"
                   />
                   <div className="mt-3 flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-white">Featured 2025 WagonR ZXI+</span>
-                      <p className="text-[11px] text-slate-400">Tall-Boy Comfort • Chilled AC</p>
+                      <span className="font-bold text-white">{lang === 'hi' ? 'कैब प्रकार' : 'Cab Types'}</span>
+                      <p className="text-[11px] text-slate-400">AC • Non-AC</p>
                     </div>
                     <span className="px-3.5 py-1 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 font-black shadow-[0_0_15px_rgba(245,158,11,0.4)]">
-                      ₹10 / KM
+                      {lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}
                     </span>
                   </div>
                 </div>
@@ -231,7 +260,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 {/* Direct quick call card */}
                 <div className="p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-medium">Direct Driver Line:</span>
+                    <span className="text-[11px] text-slate-400 font-medium">{lang === 'hi' ? 'संपर्क नंबर:' : 'Contact Number:'}</span>
                     <p className="font-black text-white text-sm tracking-wide">{brandData.phoneDisplay}</p>
                   </div>
                   <a

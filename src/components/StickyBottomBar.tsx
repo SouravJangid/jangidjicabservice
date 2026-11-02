@@ -7,7 +7,7 @@ interface StickyBottomBarProps {
 }
 
 export const StickyBottomBar: React.FC<StickyBottomBarProps> = ({ lang = 'en' }) => {
-  const waUrl = `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Sachin Sharma ji, I want to book a cab with Sachin Sharma Cabs.')}`;
+  const waUrl = `https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`;
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50 flex gap-2.5 p-2.5 bg-[#050811]/90 backdrop-blur-2xl shadow-[0_-8px_32px_rgba(0,0,0,0.7)] md:hidden pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-white/10">

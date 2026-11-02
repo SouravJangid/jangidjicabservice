@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   getBlogPostBySlug, 
@@ -15,12 +16,11 @@ import {
   ShieldCheck, 
   Car, 
   MapPin, 
-  CheckCircle2, 
   HelpCircle,
   ChevronDown,
   Tag
 } from 'lucide-react';
-import { brandData } from '../content/data';
+import { brandData, imageData } from '../content/data';
 
 interface BlogPostPageProps {
   lang: 'en' | 'hi';
@@ -53,6 +53,14 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
   }
 
   const relatedPosts = getRelatedBlogPosts(post.slug, 2);
+  const articleHtml = DOMPurify.sanitize(
+    lang === 'hi' && post.contentHtml_hi ? post.contentHtml_hi : post.contentHtml,
+    {
+      ALLOWED_TAGS: ['a', 'br', 'em', 'h2', 'li', 'ol', 'p', 'strong', 'ul'],
+      ALLOWED_ATTR: ['href', 'id'],
+      ALLOW_DATA_ATTR: false
+    }
+  );
 
   // Schema.org BlogPosting + FAQPage Structured Data
   const schemaData = {
@@ -63,22 +71,19 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
     image: post.coverImage,
     datePublished: post.publishDate,
     author: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: post.author.name,
       jobTitle: post.author.role
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Sachin Sharma Cabs',
+      name: brandData.name,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2'
+        url: imageData.cabAc
       }
     },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://sachinsharmacabs.in/blog/${post.slug}`
-    }
+    mainEntityOfPage: { '@type': 'WebPage' }
   };
 
   return (
@@ -134,7 +139,6 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
             <div>
               <p className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
                 {post.author.name}
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </p>
               <p className="text-xs text-slate-500">{post.author.role}</p>
             </div>
@@ -177,7 +181,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
         <div
           className="prose prose-slate max-w-none prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed prose-li:text-slate-700"
           dangerouslySetInnerHTML={{
-            __html: lang === 'hi' && post.contentHtml_hi ? post.contentHtml_hi : post.contentHtml
+            __html: articleHtml
           }}
         />
 
@@ -192,7 +196,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                 Travelling on this route?
               </h3>
               <p className="text-xs text-slate-300 max-w-lg mt-1">
-                Sachin Sharma operates 24x7 with verified commercial permits, brand-new 2025 WagonR, clean AC cabins, and transparent ₹10/km rates.
+                {brandData.name} offers AC and Non-AC cabs for local and outstation travel. Contact us to confirm the fare and availability.
               </p>
             </div>
 
@@ -202,11 +206,11 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                 className="w-full sm:w-auto px-6 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>Call Sachin</span>
+                <span>Call Now</span>
               </a>
 
               <a
-                href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Sachin Sharma ji, I read your article "${post.title}" and would like to enquire about cab booking.`)}`}
+                href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I read your article "${post.title}" and would like to enquire about cab booking.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 h-12 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"

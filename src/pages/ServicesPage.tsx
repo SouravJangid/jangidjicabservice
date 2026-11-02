@@ -21,14 +21,14 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ lang }) => {
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
             {lang === 'hi'
-              ? 'हर यात्रा के लिए सुरक्षित, समयबद्ध और भरोसेमंद सेवा'
-              : 'Complete Cab Solutions Across Modinagar, NCR & All India'}
+              ? 'लोकल एवं आउटस्टेशन कैब सेवा'
+              : 'Local & Outstation Cab Service'}
           </h1>
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             {lang === 'hi'
-              ? 'चाहे दिल्ली एयरपोर्ट की फ्लाइट हो या हरिद्वार की गंगा आरती—सचिन शर्मा के साथ बिना किसी तनाव के सफर करें।'
-              : 'Direct one-on-one booking with Sachin Sharma. Doorstep pickup, clean 2025 air-conditioned cars, and 100% transparent per-km billing.'}
+              ? 'AC और Non-AC कैब के लिए वन-वे और राउंड ट्रिप बुकिंग। किराया और उपलब्धता की पुष्टि के लिए संपर्क करें।'
+              : 'Book AC or Non-AC cabs for one-way or round trips. Contact us to confirm the fare and availability.'}
           </p>
         </div>
       </div>

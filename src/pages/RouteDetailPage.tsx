@@ -52,7 +52,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
     name: route.title,
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Sachin Sharma Cabs',
+      name: brandData.name,
       telephone: brandData.phone,
       address: {
         '@type': 'PostalAddress',
@@ -87,7 +87,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-wider">
               <Navigation className="w-4 h-4 text-amber-400" />
-              <span>{lang === 'hi' ? 'वेरिफाइड हाईवे रूट' : 'Verified Highway Route'}</span>
+              <span>{lang === 'hi' ? 'लोकप्रिय कैब रूट' : 'Popular Cab Route'}</span>
             </div>
 
             <div className="flex items-center gap-2 bg-slate-800 px-3.5 py-1 rounded-xl text-xs font-bold text-amber-300 border border-slate-700">
@@ -109,7 +109,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-800 text-xs">
             <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
               <span className="text-slate-400 block text-[11px]">Distance</span>
-              <span className="text-lg font-black text-amber-400">~{route.approxKm} KM</span>
+              <span className="text-lg font-black text-amber-400">{route.approxKm > 0 ? `~${route.approxKm} KM` : 'Confirm on enquiry'}</span>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
               <span className="text-slate-400 block text-[11px]">Pickup</span>
@@ -120,8 +120,8 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
               <span className="text-sm font-bold text-white truncate block">{route.to}</span>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
-              <span className="text-slate-400 block text-[11px]">Featured Vehicle</span>
-              <span className="text-sm font-bold text-emerald-400">2025 WagonR (₹10/km)</span>
+              <span className="text-slate-400 block text-[11px]">Cab Types</span>
+              <span className="text-sm font-bold text-emerald-400">AC & Non-AC</span>
             </div>
           </div>
 
@@ -135,7 +135,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
               <span>Call: {brandData.phoneDisplay}</span>
             </a>
             <a
-              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Sachin Sharma ji, I want to book a cab for ${route.from} to ${route.to}.`)}`}
+              href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I would like to enquire about a cab from ${route.from} to ${route.to}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 h-12 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
@@ -150,7 +150,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-slate-900">
-              Calculate Exact Distance & Fare for {route.to}
+              Check Distance & Enquire About Fare for {route.to}
             </h2>
           </div>
           <FareCalculator lang={lang} />
@@ -159,26 +159,15 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
         {/* Route Vehicle Rate Card */}
         <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
           <h2 className="text-xl font-bold text-slate-900">
-            Estimated Fares for {route.from} to {route.to} by Vehicle Type
+            Cab Types for {route.from} to {route.to}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {fleetData.slice(0, 4).map((car) => {
-              const estimatedFare = Math.round(Math.max((route.approxKm || 50) * car.ratePerKm, car.minFare));
-              return (
-                <div key={car.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900 text-sm">{car.name}</span>
-                    <span className="text-xs font-semibold text-slate-500">{car.seats} seats</span>
-                  </div>
-                  <div className="text-2xl font-black text-slate-900">
-                    ₹{estimatedFare.toLocaleString('en-IN')}
-                  </div>
-                  <p className="text-[11px] text-slate-500">
-                    Base rate: ₹{car.ratePerKm}/km (toll extra)
-                  </p>
-                </div>
-              );
-            })}
+            {fleetData.map((car) => (
+              <div key={car.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <span className="font-bold text-slate-900 text-sm">{car.name}</span>
+                <p className="text-xs text-slate-600">{car.description}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -190,12 +179,12 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
           </h2>
           <div className="space-y-3 text-xs sm:text-sm text-slate-700">
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-              <h3 className="font-bold text-slate-900 mb-1">Are tolls and parking charges included?</h3>
-              <p className="text-xs text-slate-600">No, all FASTag expressway tolls and parking charges are billed at actuals against government receipts.</p>
+              <h3 className="font-bold text-slate-900 mb-1">Are state and road taxes included?</h3>
+              <p className="text-xs text-slate-600">Applicable state tax and road tax are payable separately by the customer.</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <h3 className="font-bold text-slate-900 mb-1">How do I book?</h3>
-              <p className="text-xs text-slate-600">Call Sachin Sharma at +91 90846 94715 or tap the WhatsApp button to confirm your travel date and vehicle availability.</p>
+              <p className="text-xs text-slate-600">Contact Jangid Ji Cab Service at {brandData.phoneDisplay} or use WhatsApp to confirm your travel date, cab availability, and fare.</p>
             </div>
           </div>
         </section>

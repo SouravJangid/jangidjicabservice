@@ -10,7 +10,6 @@ import {
   Users, 
   Car, 
   MapPin, 
-  ShieldCheck,
   Luggage
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -24,13 +23,12 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [pickup, setPickup] = useState('Modinagar');
-  const [drop, setDrop] = useState('Haridwar');
-  const [car, setCar] = useState('wagonr');
+  const [drop, setDrop] = useState('Delhi');
+  const [car, setCar] = useState('ac');
   const [tripType, setTripType] = useState('oneway');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [passengers, setPassengers] = useState(2);
-  const [luggage, setLuggage] = useState('2 medium bags');
   const [notes, setNotes] = useState('');
   const [honeypot, setHoneypot] = useState(''); // Anti-spam honeypot
 
@@ -91,8 +89,8 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
         setStatusMessage({
           type: 'success',
           text: lang === 'hi'
-            ? `आपकी बुकिंग पूछताछ प्राप्त हो गई है! बुकिंग आईडी: ${data.bookingId}। सचिन शर्मा जल्द ही आपसे संपर्क करेंगे।`
-            : `Booking inquiry received! Booking ID: ${data.bookingId}. Sachin Sharma will call or WhatsApp you shortly.`,
+            ? 'आपकी पूछताछ तैयार है। इसे भेजने और उपलब्धता व किराया कन्फर्म करने के लिए WhatsApp पर आगे बढ़ें।'
+            : 'Your enquiry is ready. Continue to WhatsApp to send it and confirm cab availability and fare.',
           waUrl: data.whatsappUrl
         });
       } else {
@@ -104,7 +102,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
     } catch {
       setStatusMessage({
         type: 'error',
-        text: 'Network error. Please call Sachin Sharma directly.'
+        text: 'Network error. Please contact Jangid Ji Cab Service directly.'
       });
     } finally {
       setLoading(false);
@@ -113,8 +111,8 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
 
   const getDirectWhatsAppUrl = () => {
     const selectedCarObj = fleetData.find(c => c.id === car);
-    const carTitle = selectedCarObj ? selectedCarObj.name : 'WagonR 2025';
-    const msg = `Hello Sachin Sharma ji, I would like to enquire for a ride.
+    const carTitle = selectedCarObj ? selectedCarObj.name : 'AC or Non-AC cab';
+    const msg = `Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.
 *Name:* ${name || 'Customer'}
 *Phone:* ${phone || 'Pending'}
 *Pickup:* ${pickup}
@@ -139,21 +137,20 @@ Please check availability and send me the quote.`;
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <span className="text-xs font-black uppercase tracking-wider text-amber-400 block mb-1">
-                {lang === 'hi' ? 'सीधी बुकिंग पूछताछ' : 'Direct Driver Booking'}
+                {lang === 'hi' ? 'कैब बुकिंग पूछताछ' : 'Cab Booking Enquiry'}
               </span>
               <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-                {lang === 'hi' ? 'गाड़ी बुक करें / कॉल बैक का अनुरोध करें' : 'Request a Ride or Callback'}
+                {lang === 'hi' ? 'कैब बुकिंग के लिए पूछताछ करें' : 'Enquire About a Cab Booking'}
               </h2>
             </div>
             <div className="flex items-center gap-2 text-xs bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span className="font-semibold">{lang === 'hi' ? 'शून्य कैंसिलेशन शुल्क' : 'Zero Cancellation Fee'}</span>
+              <span className="font-semibold">{lang === 'hi' ? 'राज्य और रोड टैक्स अलग से' : 'State and road taxes extra'}</span>
             </div>
           </div>
           <p className="text-xs text-slate-400 mt-2">
             {lang === 'hi'
-              ? 'आपकी पूछताछ पर सचिन शर्मा खुद फोन करके गाड़ी की उपलब्धता और अंतिम किराया कन्फर्म करेंगे।'
-              : 'Your enquiry is not an automated charge. Sachin Sharma will personally confirm the car, schedule and quote.'}
+              ? 'अपनी यात्रा की जानकारी भेजें। बुकिंग से पहले कैब की उपलब्धता और किराया कन्फर्म करें।'
+              : 'Share your travel details and confirm cab availability and fare before booking.'}
           </p>
         </div>
 
@@ -201,7 +198,7 @@ Please check availability and send me the quote.`;
                   maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                  placeholder="9084694715"
+                  placeholder="9876543210"
                   className="w-full h-12 pl-12 pr-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
@@ -218,7 +215,7 @@ Please check availability and send me the quote.`;
                 required
                 value={pickup}
                 onChange={(e) => setPickup(e.target.value)}
-                placeholder="Modinagar, Ghaziabad, Meerut..."
+                placeholder="Modinagar, Muradnagar, Ghaziabad..."
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
@@ -234,7 +231,7 @@ Please check availability and send me the quote.`;
                 required
                 value={drop}
                 onChange={(e) => setDrop(e.target.value)}
-                placeholder="Haridwar, Delhi Airport, Rishikesh..."
+                placeholder="Delhi, Noida, Meerut, Haridwar..."
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
@@ -243,7 +240,7 @@ Please check availability and send me the quote.`;
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Car className="w-3.5 h-3.5 text-slate-600" />
-                {lang === 'hi' ? 'गाड़ी का चयन' : 'Preferred Vehicle'}
+                {lang === 'hi' ? 'कैब का प्रकार' : 'Cab Type'}
               </label>
               <select
                 value={car}
@@ -252,7 +249,7 @@ Please check availability and send me the quote.`;
               >
                 {fleetData.map(c => (
                   <option key={c.id} value={c.id}>
-                    {c.name} ({c.seats} seats) - ₹{c.ratePerKm}/km
+                    {c.name}
                   </option>
                 ))}
               </select>
@@ -268,10 +265,8 @@ Please check availability and send me the quote.`;
                 onChange={(e) => setTripType(e.target.value)}
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
               >
-                <option value="oneway">One-Way Drop</option>
-                <option value="round">Round Trip (Same Day / Multi Day)</option>
-                <option value="airport">Airport Transfer (Delhi IGI)</option>
-                <option value="local">Local City Hourly Package</option>
+                <option value="oneway">One-Way</option>
+                <option value="round">Round Trip</option>
               </select>
             </div>
 
@@ -330,7 +325,7 @@ Please check availability and send me the quote.`;
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="e.g. 2 large bags, infant travelling, early morning flight"
+                placeholder="Any travel preferences"
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
@@ -376,7 +371,7 @@ Please check availability and send me the quote.`;
               className="shining-beam w-full sm:flex-1 h-13 rounded-xl bg-slate-950 hover:bg-slate-900 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl transition-all active:scale-95 disabled:opacity-50 border border-white/10"
             >
               <Send className="w-4 h-4 text-amber-400" />
-              {loading ? (lang === 'hi' ? 'भेजा जा रहा है...' : 'Submitting...') : (lang === 'hi' ? 'कॉल बैक का अनुरोध करें' : 'Request Callback')}
+              {loading ? (lang === 'hi' ? 'तैयार हो रहा है...' : 'Preparing...') : (lang === 'hi' ? 'बुकिंग पूछताछ तैयार करें' : 'Prepare Booking Enquiry')}
             </button>
 
             <a
@@ -386,7 +381,7 @@ Please check availability and send me the quote.`;
               className="shining-beam w-full sm:flex-1 h-13 rounded-xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all active:scale-95 border border-emerald-300/40"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
-              {lang === 'hi' ? 'व्हाट्सएप पर डायरेक्ट बुक करें' : 'Book via WhatsApp'}
+              {lang === 'hi' ? 'WhatsApp पर पूछताछ करें' : 'Enquire on WhatsApp'}
             </a>
 
             <a

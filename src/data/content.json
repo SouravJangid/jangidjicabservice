@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "brand": {
+    "name": "Jangid Ji Cab Service",
+    "driverName": "Jangid Ji Cab Service",
+    "tagline": "Local and Outstation Cab Service",
+    "tagline_hi": "लोकल एवं आउटस्टेशन कैब सेवा",
+    "baseCity": "Modinagar",
+    "district": "Ghaziabad",
+    "state": "Uttar Pradesh",
+    "country": "IN",
+    "phone": "+917351822181",
+    "phoneDisplay": "+91 73518 22181",
+    "whatsapp": "917351822181",
+    "email": "",
+    "address": "Modinagar, Uttar Pradesh",
+    "hours": "Availability by enquiry",
+    "operatingHours": "Please confirm availability when booking",
+    "availabilityText": "Contact us on WhatsApp to confirm cab availability and fare.",
+    "mapsLink": "https://maps.google.com/?q=Modinagar,Uttar+Pradesh",
+    "baseLocation": { "lat": 28.8333, "lng": 77.5833 }
+  },
+  "assets": {
+    "logo": "",
+    "heroDriver": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400",
+    "cabAc": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800",
+    "cabNonAc": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800",
+    "blogCab": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200",
+    "blogRoutes": "https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?auto=format&fit=crop&q=80&w=1200",
+    "blogBooking": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=1200"
+  },
+  "serviceAreas": ["Modinagar", "Muradnagar", "Raj Nagar", "Ghaziabad", "Delhi", "Noida", "Greater Noida", "Gurugram", "Haryana", "Punjab", "Chandigarh", "Meerut", "Saharanpur", "Haridwar", "Rishikesh"],
+  "hero": {
+    "badge": "Local & Outstation Cab Service",
+    "badge_hi": "लोकल एवं आउटस्टेशन कैब सेवा",
+    "description": "Book AC or Non-AC cabs for local and outstation travel from Modinagar. Contact us on WhatsApp for one-way and round-trip enquiries.",
+    "description_hi": "मोदीनगर से लोकल एवं आउटस्टेशन यात्रा के लिए AC और Non-AC कैब। वन-वे और राउंड ट्रिप बुकिंग के लिए WhatsApp पर संपर्क करें।",
+    "rotatingPhrases": ["Local Cab Service", "Outstation Cab Service", "One-Way & Round Trips", "AC & Non-AC Cabs"],
+    "rotatingPhrases_hi": ["लोकल कैब सेवा", "आउटस्टेशन कैब सेवा", "वन-वे और राउंड ट्रिप", "AC और Non-AC कैब"]
+  },
+  "fleet": [
+    {
+      "id": "ac",
+      "name": "AC Cab",
+      "category": "AC Cab",
+      "modelYear": null,
+      "models": "AC Cab",
+      "seats": null,
+      "luggage": "Confirm when booking",
+      "ac": true,
+      "ratePerKm": null,
+      "minFare": null,
+      "image": "cabAc",
+      "features": ["Air-conditioned cab"],
+      "bestFor": "Local and outstation travel",
+      "description": "AC cab service for local and outstation trips. Confirm vehicle availability and fare before booking."
+    },
+    {
+      "id": "non-ac",
+      "name": "Non-AC Cab",
+      "category": "Non-AC Cab",
+      "modelYear": null,
+      "models": "Non-AC Cab",
+      "seats": null,
+      "luggage": "Confirm when booking",
+      "ac": false,
+      "ratePerKm": null,
+      "minFare": null,
+      "image": "cabNonAc",
+      "features": ["Non-air-conditioned cab"],
+      "bestFor": "Local and outstation travel",
+      "description": "Non-AC cab service for local and outstation trips. Confirm vehicle availability and fare before booking."
+    }
+  ],
+  "pricing": {
+    "currency": "INR",
+    "rates": {
+      "ac": { "perKm": null, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null },
+      "non-ac": { "perKm": null, "minFare": null, "minKmPerDay": null, "driverAllowancePerNight": null, "waitingPerHour": null }
+    },
+    "nightCharge": { "enabled": false, "from": "", "to": "", "amount": null },
+    "notes": [
+      "Please confirm the fare and availability before booking.",
+      "Applicable state tax and road tax are payable separately by the customer."
+    ]
+  },
+  "services": [
+    {
+      "id": "ac",
+      "icon": "Wind",
+      "title": "AC Cab Service",
+      "title_hi": "एसी कैब सेवा",
+      "tagline": "Local and outstation travel",
+      "text": "Air-conditioned cabs are available for local and outstation journeys. Contact us to confirm the vehicle and fare.",
+      "text_hi": "लोकल एवं आउटस्टेशन यात्रा के लिए एसी कैब। गाड़ी और किराए की पुष्टि के लिए संपर्क करें।",
+      "highlights": ["Local travel", "Outstation travel", "One-way and round trips"]
+    },
+    {
+      "id": "non-ac",
+      "icon": "Car",
+      "title": "Non-AC Cab Service",
+      "title_hi": "नॉन-एसी कैब सेवा",
+      "tagline": "Local and outstation travel",
+      "text": "Non-AC cabs are available for local and outstation journeys. Contact us to confirm the vehicle and fare.",
+      "text_hi": "लोकल एवं आउटस्टेशन यात्रा के लिए नॉन-एसी कैब। गाड़ी और किराए की पुष्टि के लिए संपर्क करें।",
+      "highlights": ["Local travel", "Outstation travel", "One-way and round trips"]
+    },
+    {
+      "id": "local",
+      "icon": "MapPin",
+      "title": "Local Cab Service",
+      "title_hi": "लोकल कैब सेवा",
+      "tagline": "Travel within the service areas",
+      "text": "Cab service for travel within the listed service areas. Contact us to confirm availability and fare.",
+      "text_hi": "सूचीबद्ध सेवा क्षेत्रों में यात्रा के लिए कैब। उपलब्धता और किराए की पुष्टि के लिए संपर्क करें।",
+      "highlights": ["AC and Non-AC options", "WhatsApp booking", "Fare confirmed before booking"]
+    },
+    {
+      "id": "outstation",
+      "icon": "Navigation",
+      "title": "Outstation Cab Service",
+      "title_hi": "आउटस्टेशन कैब सेवा",
+      "tagline": "Travel to listed cities and regions",
+      "text": "AC and Non-AC cab options for outstation journeys. Share your route and travel details on WhatsApp to confirm availability and fare.",
+      "text_hi": "आउटस्टेशन यात्रा के लिए एसी और नॉन-एसी कैब। उपलब्धता और किराए की पुष्टि के लिए अपना रूट WhatsApp पर भेजें।",
+      "highlights": ["One-way trips", "Round trips", "Applicable state and road taxes extra"]
+    }
+  ],
+  "routes": [
+    { "slug": "modinagar-to-delhi-taxi", "from": "Modinagar", "to": "Delhi", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Delhi", "title_hi": "मोदीनगर से दिल्ली", "intro": "Popular route: Modinagar to Delhi via Muradnagar, Raj Nagar, and Ghaziabad. Contact us to confirm the fare and cab availability.", "intro_hi": "लोकप्रिय रूट: मोदीनगर से मुरादनगर, राजनगर और गाजियाबाद होते हुए दिल्ली। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "modinagar-to-noida-taxi", "from": "Modinagar", "to": "Noida", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Noida", "title_hi": "मोदीनगर से नोएडा", "intro": "Cab bookings are available for the Modinagar to Noida route. Contact us to confirm the fare and cab availability.", "intro_hi": "मोदीनगर से नोएडा रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "modinagar-to-ghaziabad-taxi", "from": "Modinagar", "to": "Ghaziabad", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Ghaziabad", "title_hi": "मोदीनगर से गाजियाबाद", "intro": "Cab bookings are available for the Modinagar to Ghaziabad route. Contact us to confirm the fare and cab availability.", "intro_hi": "मोदीनगर से गाजियाबाद रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "modinagar-to-meerut-taxi", "from": "Modinagar", "to": "Meerut", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Meerut", "title_hi": "मोदीनगर से मेरठ", "intro": "Cab bookings are available for the Modinagar to Meerut route. Contact us to confirm the fare and cab availability.", "intro_hi": "मोदीनगर से मेरठ रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "ghaziabad-to-gurugram-taxi", "from": "Ghaziabad", "to": "Gurugram", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Ghaziabad to Gurugram", "title_hi": "गाजियाबाद से गुरुग्राम", "intro": "Cab bookings are available for the Ghaziabad to Gurugram route. Contact us to confirm the fare and cab availability.", "intro_hi": "गाजियाबाद से गुरुग्राम रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "delhi-to-haridwar-taxi", "from": "Delhi", "to": "Haridwar", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Delhi to Haridwar", "title_hi": "दिल्ली से हरिद्वार", "intro": "Cab bookings are available for the Delhi to Haridwar route. Contact us to confirm the fare and cab availability.", "intro_hi": "दिल्ली से हरिद्वार रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "delhi-to-rishikesh-taxi", "from": "Delhi", "to": "Rishikesh", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Delhi to Rishikesh", "title_hi": "दिल्ली से ऋषिकेश", "intro": "Cab bookings are available for the Delhi to Rishikesh route. Contact us to confirm the fare and cab availability.", "intro_hi": "दिल्ली से ऋषिकेश रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "modinagar-to-dehradun-taxi", "from": "Modinagar", "to": "Dehradun", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Dehradun", "title_hi": "मोदीनगर से देहरादून", "intro": "Cab bookings are available for the Modinagar to Dehradun route. Contact us to confirm the fare and cab availability.", "intro_hi": "मोदीनगर से देहरादून रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "modinagar-to-agra-taxi", "from": "Modinagar", "to": "Agra", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Modinagar to Agra", "title_hi": "मोदीनगर से आगरा", "intro": "Cab bookings are available for the Modinagar to Agra route. Contact us to confirm the fare and cab availability.", "intro_hi": "मोदीनगर से आगरा रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "ghaziabad-to-chandigarh-taxi", "from": "Ghaziabad", "to": "Chandigarh", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Ghaziabad to Chandigarh", "title_hi": "गाजियाबाद से चंडीगढ़", "intro": "Cab bookings are available for the Ghaziabad to Chandigarh route. Contact us to confirm the fare and cab availability.", "intro_hi": "गाजियाबाद से चंडीगढ़ रूट के लिए कैब बुकिंग। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "noida-to-gurugram-taxi", "from": "Noida", "to": "Gurugram", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Noida to Gurugram", "title_hi": "नोएडा से गुरुग्राम", "intro": "Popular route: Noida to Gurugram via Greater Noida. Contact us to confirm the fare and cab availability.", "intro_hi": "लोकप्रिय रूट: नोएडा से ग्रेटर नोएडा होते हुए गुरुग्राम। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." },
+    { "slug": "meerut-to-rishikesh-taxi", "from": "Meerut", "to": "Rishikesh", "approxKm": null, "approxTime": "Confirm on enquiry", "title": "Meerut to Rishikesh", "title_hi": "मेरठ से ऋषिकेश", "intro": "Popular route: Meerut to Rishikesh via Saharanpur and Haridwar. Contact us to confirm the fare and cab availability.", "intro_hi": "लोकप्रिय रूट: मेरठ से सहारनपुर और हरिद्वार होते हुए ऋषिकेश। किराए और उपलब्धता की पुष्टि के लिए संपर्क करें।", "popularFor": "Local and outstation travel", "tollNote": "Applicable state and road taxes are payable separately." }
+  ],
+  "locations": [
+    { "name": "Modinagar", "state": "Uttar Pradesh", "lat": 28.8333, "lng": 77.5833, "category": "primary", "aliases": ["modi nagar"] },
+    { "name": "Muradnagar", "state": "Uttar Pradesh", "lat": 28.7807, "lng": 77.4987, "category": "primary" },
+    { "name": "Raj Nagar", "state": "Uttar Pradesh", "lat": 28.6863, "lng": 77.4416, "category": "primary", "aliases": ["rajnagar"] },
+    { "name": "Ghaziabad", "state": "Uttar Pradesh", "lat": 28.6692, "lng": 77.4538, "category": "primary" },
+    { "name": "Delhi", "state": "Delhi", "lat": 28.6139, "lng": 77.209, "category": "primary", "aliases": ["new delhi"] },
+    { "name": "Noida", "state": "Uttar Pradesh", "lat": 28.5355, "lng": 77.391, "category": "primary" },
+    { "name": "Greater Noida", "state": "Uttar Pradesh", "lat": 28.4744, "lng": 77.504, "category": "city" },
+    { "name": "Gurugram", "state": "Haryana", "lat": 28.4595, "lng": 77.0266, "category": "primary", "aliases": ["gurgaon"] },
+    { "name": "Meerut", "state": "Uttar Pradesh", "lat": 28.9845, "lng": 77.7064, "category": "primary" },
+    { "name": "Saharanpur", "state": "Uttar Pradesh", "lat": 29.968, "lng": 77.5552, "category": "city" },
+    { "name": "Haridwar", "state": "Uttarakhand", "lat": 29.9457, "lng": 78.1642, "category": "pilgrimage" },
+    { "name": "Rishikesh", "state": "Uttarakhand", "lat": 30.0869, "lng": 78.2676, "category": "pilgrimage" },
+    { "name": "Dehradun", "state": "Uttarakhand", "lat": 30.3165, "lng": 78.0322, "category": "city" },
+    { "name": "Agra", "state": "Uttar Pradesh", "lat": 27.1767, "lng": 78.0081, "category": "city" },
+    { "name": "Chandigarh", "state": "Chandigarh", "lat": 30.7333, "lng": 76.7794, "category": "city" }
+  ],
+  "reviews": [],
+  "faqs": [
+    { "category": "Booking", "q": "How can I book a cab?", "q_hi": "कैब कैसे बुक करें?", "a": "Send your pickup, destination, travel date, pickup time, trip type, cab type, and passenger count on WhatsApp. Confirm availability and fare before booking.", "a_hi": "WhatsApp पर पिकअप, गंतव्य, यात्रा की तारीख, समय, ट्रिप का प्रकार, कैब का प्रकार और यात्रियों की संख्या भेजें। बुकिंग से पहले उपलब्धता और किराए की पुष्टि करें।" },
+    { "category": "Cab Types", "q": "Are AC and Non-AC cabs available?", "q_hi": "क्या एसी और नॉन-एसी कैब उपलब्ध हैं?", "a": "AC and Non-AC cab options are offered. Please confirm the vehicle's availability for your route and date.", "a_hi": "एसी और नॉन-एसी कैब के विकल्प उपलब्ध हैं। अपने रूट और तारीख के लिए गाड़ी की उपलब्धता की पुष्टि करें।" },
+    { "category": "Trip Types", "q": "Can I book a one-way or round trip?", "q_hi": "क्या वन-वे और राउंड ट्रिप बुक कर सकते हैं?", "a": "One-way and round-trip bookings are offered. Share your itinerary on WhatsApp to confirm the fare and availability.", "a_hi": "वन-वे और राउंड ट्रिप बुकिंग उपलब्ध है। किराए और उपलब्धता की पुष्टि के लिए अपना यात्रा विवरण WhatsApp पर भेजें।" },
+    { "category": "Service Areas", "q": "Which areas do you serve?", "q_hi": "आप किन क्षेत्रों में सेवा देते हैं?", "a": "Service areas include Modinagar, Muradnagar, Raj Nagar, Ghaziabad, Delhi, Noida, Greater Noida, Gurugram, Haryana, Punjab, Chandigarh, Meerut, Saharanpur, Haridwar, and Rishikesh. Confirm your exact route when enquiring.", "a_hi": "सेवा क्षेत्र: मोदीनगर, मुरादनगर, राजनगर, गाजियाबाद, दिल्ली, नोएडा, ग्रेटर नोएडा, गुरुग्राम, हरियाणा, पंजाब, चंडीगढ़, मेरठ, सहारनपुर, हरिद्वार और ऋषिकेश। अपने रूट की पुष्टि पूछताछ के समय करें।" },
+    { "category": "Fare & Taxes", "q": "How can I confirm the fare and taxes?", "q_hi": "किराए और टैक्स की पुष्टि कैसे करें?", "a": "Ask for the fare before confirming your booking. Applicable state tax and road tax are payable separately by the customer.", "a_hi": "बुकिंग की पुष्टि से पहले किराया पूछें। लागू राज्य टैक्स और रोड टैक्स का भुगतान ग्राहक द्वारा अलग से किया जाएगा।" },
+    { "category": "Service Types", "q": "Do you provide local and outstation cab service?", "q_hi": "क्या लोकल और आउटस्टेशन कैब सेवा उपलब्ध है?", "a": "Both local and outstation cab bookings are offered. Contact us with your route and travel details to check availability.", "a_hi": "लोकल और आउटस्टेशन दोनों तरह की कैब बुकिंग उपलब्ध है। उपलब्धता जानने के लिए अपना रूट और यात्रा विवरण भेजें।" }
+  ],
+  "seo": {
+    "title": "Jangid Ji Cab Service | Local & Outstation Cab Booking",
+    "description": "Book AC and Non-AC cabs for local and outstation travel. One-way and round-trip enquiries in Modinagar and nearby service areas.",
+    "keywords": ["cab service Modinagar", "taxi booking Modinagar", "AC cab", "Non-AC cab", "outstation cab", "one-way taxi", "round-trip cab"]
+  },
+  "components": {
+    "hero": {
+      "title": "Jangid Ji Cab Service",
+      "title_hi": "जांगिड़ जी कैब सर्विस",
+      "bookingLabel": "Enquire on WhatsApp",
+      "bookingLabel_hi": "WhatsApp पर पूछताछ करें"
+    },
+    "fleet": {
+      "title": "AC & Non-AC Cab Options",
+      "title_hi": "AC और Non-AC कैब विकल्प",
+      "fareLabel": "Fare on enquiry",
+      "fareLabel_hi": "किराया पूछें"
+    },
+    "routes": {
+      "title": "Popular Cab Routes",
+      "title_hi": "लोकप्रिय कैब रूट",
+      "availabilityLabel": "Confirm on enquiry",
+      "availabilityLabel_hi": "पूछताछ पर पुष्टि करें"
+    },
+    "services": {
+      "title": "Local & Outstation Cab Travel",
+      "title_hi": "लोकल एवं आउटस्टेशन यात्रा के लिए",
+      "description": "AC and Non-AC cabs. Enquire on WhatsApp about one-way and round-trip bookings.",
+      "description_hi": "AC और Non-AC कैब सेवा। वन-वे और राउंड ट्रिप के लिए WhatsApp पर पूछताछ करें।"
+    },
+    "about": {
+      "title": "About the Cab Service",
+      "title_hi": "कैब सेवा की जानकारी",
+      "description": "AC and Non-AC cab service for local and outstation travel from Modinagar.",
+      "description_hi": "मोदीनगर से लोकल एवं आउटस्टेशन यात्रा के लिए AC और Non-AC कैब सेवा।",
+      "bookingText": "Share your route and travel details on WhatsApp to enquire about availability and fare.",
+      "bookingText_hi": "उपलब्धता और किराए की पूछताछ के लिए अपना रूट और यात्रा विवरण WhatsApp पर भेजें।",
+      "serviceDetails": "Jangid Ji Cab Service offers AC and Non-AC cabs for local and outstation travel. Contact us on WhatsApp with your route and travel details to enquire about availability and fare.",
+      "serviceDetails_hi": "जांगिड़ जी कैब सर्विस मोदीनगर से लोकल और आउटस्टेशन यात्रा के लिए AC और Non-AC कैब के विकल्प देती है। उपलब्धता और किराए की पूछताछ के लिए WhatsApp पर अपनी यात्रा की जानकारी भेजें।",
+      "serviceAreaDetails": "Service areas include Modinagar, Muradnagar, Raj Nagar, Ghaziabad, Delhi, Noida, Greater Noida, Gurugram, Haryana, Punjab, Chandigarh, Meerut, Saharanpur, Haridwar, and Rishikesh. Applicable state tax and road tax are payable separately by the customer.",
+      "serviceAreaDetails_hi": "सेवा क्षेत्र में मोदीनगर, मुरादनगर, राजनगर, गाजियाबाद, दिल्ली, नोएडा, ग्रेटर नोएडा, गुरुग्राम, हरियाणा, पंजाब, चंडीगढ़, मेरठ, सहारनपुर, हरिद्वार और ऋषिकेश शामिल हैं। लागू राज्य टैक्स और रोड टैक्स ग्राहक द्वारा अलग से देय होंगे।",
+      "highlights": [
+        { "icon": "HeartHandshake", "title": "AC & Non-AC Cabs", "title_hi": "AC और Non-AC कैब", "text": "Share your preferred cab type when enquiring.", "text_hi": "पूछताछ के समय अपना पसंदीदा कैब प्रकार बताएं।" },
+        { "icon": "Clock", "title": "Local & Outstation", "title_hi": "लोकल एवं आउटस्टेशन", "text": "Enquire about local rides and travel to other cities.", "text_hi": "स्थानीय यात्रा और दूसरे शहरों की यात्रा के लिए पूछताछ करें।" },
+        { "icon": "Car", "title": "One-Way & Round Trips", "title_hi": "वन-वे और राउंड ट्रिप", "text": "Choose the trip type that matches your itinerary.", "text_hi": "अपनी यात्रा के अनुसार ट्रिप का प्रकार बताएं।" },
+        { "icon": "ShieldCheck", "title": "Fare & Taxes", "title_hi": "किराया और टैक्स", "text": "Confirm the fare before booking. Applicable state and road taxes are separate.", "text_hi": "बुकिंग से पहले किराया कन्फर्म करें। राज्य और रोड टैक्स अलग से देय हैं।" }
+      ]
+    },
+    "contact": {
+      "title": "Contact & Booking",
+      "title_hi": "संपर्क एवं बुकिंग",
+      "description": "Share your travel details on WhatsApp to confirm cab availability and fare.",
+      "description_hi": "अपनी यात्रा का विवरण WhatsApp पर भेजें और कैब की उपलब्धता व किराए की पुष्टि करें।",
+      "phoneTitle": "Phone Call",
+      "phoneTitle_hi": "फोन कॉल",
+      "phoneDescription": "Call to enquire about local or outstation cab bookings.",
+      "phoneDescription_hi": "लोकल या आउटस्टेशन कैब बुकिंग के लिए पूछताछ करें।",
+      "whatsappTitle": "WhatsApp Chat",
+      "whatsappTitle_hi": "WhatsApp चैट",
+      "serviceBaseTitle": "Service Base",
+      "serviceBaseTitle_hi": "सेवा का आधार",
+      "whatsappDescription": "Send your pickup, destination, travel date, trip type, and cab type to enquire.",
+      "whatsappDescription_hi": "पूछताछ के लिए पिकअप, गंतव्य, यात्रा की तारीख, ट्रिप का प्रकार और कैब का प्रकार भेजें।",
+      "availabilityLabel": "Please confirm availability when booking",
+      "availabilityLabel_hi": "बुकिंग के समय उपलब्धता की पुष्टि करें",
+      "mapButtonLabel": "Open in Google Maps",
+      "mapButtonLabel_hi": "Google Maps पर खोलें"
+    },
+    "footer": {
+      "description": "Jangid Ji Cab Service offers AC and Non-AC cabs for local and outstation travel from Modinagar.",
+      "description_hi": "जांगिड़ जी कैब सर्विस मोदीनगर से लोकल एवं आउटस्टेशन यात्रा के लिए AC और Non-AC कैब सेवा प्रदान करती है।",
+      "serviceBadges": ["AC & Non-AC Cabs", "Local & Outstation", "One-Way & Round Trips"],
+      "serviceBadges_hi": ["AC और Non-AC कैब", "लोकल एवं आउटस्टेशन", "वन-वे और राउंड ट्रिप"],
+      "taxNotice": "Applicable state tax and road tax are payable separately.",
+      "taxNotice_hi": "लागू राज्य टैक्स और रोड टैक्स अलग से देय हैं।"
+    },
+    "reviews": {
+      "title": "Share Your Experience",
+      "title_hi": "अपना अनुभव साझा करें",
+      "submissionNotice": "Reviews are sent privately to WhatsApp and are not published without permission.",
+      "submissionNotice_hi": "समीक्षा WhatsApp पर निजी रूप से भेजी जाएगी और अनुमति के बिना प्रकाशित नहीं होगी।"
+    }
+  },
+  "blogs": [
+    {
+      "slug": "cab-types-and-trip-options",
+      "title": "AC and Non-AC Cab Booking Options",
+      "title_hi": "AC और Non-AC कैब बुकिंग विकल्प",
+      "excerpt": "Jangid Ji Cab Service offers AC and Non-AC cabs for local and outstation travel, with one-way and round-trip booking options.",
+      "excerpt_hi": "जांगिड़ जी कैब सर्विस लोकल और आउटस्टेशन यात्रा के लिए AC और Non-AC कैब तथा वन-वे और राउंड ट्रिप बुकिंग विकल्प प्रदान करती है।",
+      "category": "Service Information",
+      "publishDate": "2026",
+      "readTime": "2 min read",
+      "authorName": "Jangid Ji Cab Service",
+      "authorRole": "Cab & Taxi Service",
+      "authorImageKey": "heroDriver",
+      "coverImageKey": "blogCab",
+      "tags": ["AC Cab", "Non-AC Cab", "Local Travel", "Outstation Travel"],
+      "tableOfContents": [],
+      "contentHtml": "<h2>Cab types</h2><p>Jangid Ji Cab Service offers AC and Non-AC cab options. Confirm which cab type is available for your route and travel date when enquiring.</p><h2>Trip options</h2><p>One-way and round-trip bookings are available for local and outstation travel.</p><h2>How to enquire</h2><p>Send your pickup, destination, travel date, pickup time, trip type, preferred cab type, and passenger count on WhatsApp at <a href='https://wa.me/917351822181'>+91 73518 22181</a>. Confirm the fare and availability before booking.</p>",
+      "contentHtml_hi": "<h2>कैब के प्रकार</h2><p>जांगिड़ जी कैब सर्विस AC और Non-AC कैब के विकल्प प्रदान करती है। अपने रूट और यात्रा की तारीख के लिए कैब की उपलब्धता पूछताछ के समय कन्फर्म करें।</p><h2>यात्रा के विकल्प</h2><p>लोकल और आउटस्टेशन यात्रा के लिए वन-वे और राउंड ट्रिप बुकिंग उपलब्ध है।</p><h2>पूछताछ कैसे करें</h2><p>WhatsApp नंबर <a href='https://wa.me/917351822181'>+91 73518 22181</a> पर यात्रा की जानकारी भेजें और बुकिंग से पहले किराया व उपलब्धता कन्फर्म करें।</p>",
+      "faq": [
+        { "q": "Are AC and Non-AC cabs available?", "a": "Both cab types are offered. Confirm availability for your route and date when enquiring." },
+        { "q": "Can I book a one-way trip?", "a": "Yes. One-way and round-trip booking options are available." }
+      ]
+    },
+    {
+      "slug": "service-areas-and-popular-routes",
+      "title": "Service Areas and Popular Cab Routes",
+      "title_hi": "सेवा क्षेत्र और लोकप्रिय कैब रूट",
+      "excerpt": "See the listed Jangid Ji Cab Service areas and popular routes, including Modinagar, Delhi, Gurugram, Haridwar, and Rishikesh.",
+      "excerpt_hi": "जांगिड़ जी कैब सर्विस के सेवा क्षेत्र और लोकप्रिय रूट देखें, जिनमें मोदीनगर, दिल्ली, गुरुग्राम, हरिद्वार और ऋषिकेश शामिल हैं।",
+      "category": "Routes",
+      "publishDate": "2026",
+      "readTime": "2 min read",
+      "authorName": "Jangid Ji Cab Service",
+      "authorRole": "Cab & Taxi Service",
+      "authorImageKey": "heroDriver",
+      "coverImageKey": "blogRoutes",
+      "tags": ["Service Areas", "Popular Routes", "Modinagar", "Outstation Cab"],
+      "tableOfContents": [],
+      "contentHtml": "<h2>Service areas</h2><p>Service areas include Modinagar, Muradnagar, Raj Nagar, Ghaziabad, Delhi, Noida, Greater Noida, Gurugram, Haryana, Punjab, Chandigarh, Meerut, Saharanpur, Haridwar, and Rishikesh.</p><h2>Popular routes</h2><ul><li>Modinagar to Delhi via Muradnagar, Raj Nagar, and Ghaziabad</li><li>Noida to Gurugram via Greater Noida</li><li>Meerut to Rishikesh via Saharanpur and Haridwar</li><li>Modinagar to Noida, Ghaziabad, Meerut, Dehradun, and Agra</li><li>Delhi to Haridwar and Rishikesh</li><li>Ghaziabad to Gurugram and Chandigarh</li></ul><p>Contact us to confirm availability and fare for your exact route and date.</p>",
+      "contentHtml_hi": "<h2>सेवा क्षेत्र</h2><p>सेवा क्षेत्रों में मोदीनगर, मुरादनगर, राजनगर, गाजियाबाद, दिल्ली, नोएडा, ग्रेटर नोएडा, गुरुग्राम, हरियाणा, पंजाब, चंडीगढ़, मेरठ, सहारनपुर, हरिद्वार और ऋषिकेश शामिल हैं।</p><h2>लोकप्रिय रूट</h2><ul><li>मोदीनगर से मुरादनगर, राजनगर और गाजियाबाद होते हुए दिल्ली</li><li>नोएडा से ग्रेटर नोएडा होते हुए गुरुग्राम</li><li>मेरठ से सहारनपुर और हरिद्वार होते हुए ऋषिकेश</li><li>मोदीनगर से नोएडा, गाजियाबाद, मेरठ, देहरादून और आगरा</li><li>दिल्ली से हरिद्वार और ऋषिकेश</li><li>गाजियाबाद से गुरुग्राम और चंडीगढ़</li></ul><p>अपने रूट और तारीख के लिए उपलब्धता व किराया कन्फर्म करें।</p>",
+      "faq": [
+        { "q": "Do you serve areas outside Modinagar?", "a": "The listed service areas include nearby cities and regions. Confirm your exact route and date when enquiring." }
+      ]
+    },
+    {
+      "slug": "booking-fares-and-taxes",
+      "title": "Cab Booking, Fare Confirmation, and Taxes",
+      "title_hi": "कैब बुकिंग, किराया पुष्टि और टैक्स",
+      "excerpt": "What travel details to share when enquiring and which taxes are payable separately.",
+      "excerpt_hi": "कैब पूछताछ के समय कौन-सी यात्रा जानकारी भेजें और कौन-से टैक्स अलग से देय होंगे।",
+      "category": "Booking",
+      "publishDate": "2026",
+      "readTime": "2 min read",
+      "authorName": "Jangid Ji Cab Service",
+      "authorRole": "Cab & Taxi Service",
+      "authorImageKey": "heroDriver",
+      "coverImageKey": "blogBooking",
+      "tags": ["WhatsApp Booking", "Fare Enquiry", "State Tax", "Road Tax"],
+      "tableOfContents": [],
+      "contentHtml": "<h2>Details to share</h2><p>For a booking enquiry, share your pickup, destination, travel date, pickup time, trip type, preferred cab type, and number of passengers on WhatsApp at <a href='https://wa.me/917351822181'>+91 73518 22181</a>.</p><h2>Confirming the fare</h2><p>Fare and cab availability depend on the trip details. Ask for and confirm both before booking.</p><h2>Applicable taxes</h2><p>Applicable state tax and road tax are payable separately by the customer.</p>",
+      "contentHtml_hi": "<h2>पूछताछ में दी जाने वाली जानकारी</h2><p>WhatsApp नंबर <a href='https://wa.me/917351822181'>+91 73518 22181</a> पर पिकअप, गंतव्य, यात्रा की तारीख और समय, ट्रिप का प्रकार, कैब का प्रकार और यात्रियों की संख्या भेजें।</p><h2>किराए की पुष्टि</h2><p>किराया और कैब की उपलब्धता यात्रा के विवरण पर निर्भर करती है। बुकिंग से पहले दोनों की पुष्टि करें।</p><h2>लागू टैक्स</h2><p>लागू राज्य टैक्स और रोड टैक्स का भुगतान ग्राहक द्वारा अलग से किया जाएगा।</p>",
+      "faq": [
+        { "q": "Are state and road taxes included?", "a": "Applicable state tax and road tax are payable separately by the customer." }
+      ]
+    }
+  ]
+}

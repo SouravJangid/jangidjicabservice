@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   CheckCircle2
 } from 'lucide-react';
-import { servicesData, brandData } from '../content/data';
+import { componentContent, servicesData, brandData } from '../content/data';
 import { ServiceItem } from '../types';
 
 interface ServicesSectionProps {
@@ -37,14 +37,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang }) => {
             {lang === 'hi' ? 'हमारी प्रमुख सेवाएं' : 'Professional Cab Services'}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            {lang === 'hi'
-              ? 'मोदीनगर व एनसीआर से हर प्रकार की यात्रा के लिए'
-              : 'Reliable Cab Solutions for Every Travel Need'}
+            {lang === 'hi' ? componentContent.services.title_hi : componentContent.services.title}
           </h2>
           <p className="text-slate-600 text-sm sm:text-base">
-            {lang === 'hi'
-              ? 'एयरपोर्ट ड्रॉप, हरिद्वार यात्रा या दिल्ली मीटिंग—सचिन शर्मा के साथ बिना किसी तनाव के सफर करें।'
-              : 'Direct one-on-one booking with Sachin Sharma. No call-center waiting, no last-minute app cancellations.'}
+            {lang === 'hi' ? componentContent.services.description_hi : componentContent.services.description}
           </p>
         </div>
 
@@ -86,7 +82,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang }) => {
 
               <div className="pt-6 mt-4">
                 <a
-                  href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Sachin ji, I need cab service for: ${svc.title}`)}`}
+                  href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I need cab service for: ${svc.title}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors"

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Navigation, Clock, ShieldCheck, ArrowRight, Sparkles, MapPin } from 'lucide-react';
-import { popularRoutes, brandData } from '../content/data';
+import { Navigation, Clock, ArrowRight } from 'lucide-react';
+import { componentContent, popularRoutes, brandData } from '../content/data';
 import { RouteItem } from '../types';
 
 interface RoutesSectionProps {
@@ -20,17 +20,17 @@ export const RoutesSection: React.FC<RoutesSectionProps> = ({ lang, onSelectRout
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider shadow-sm">
             <Navigation className="w-3.5 h-3.5 text-amber-400" />
-            {lang === 'hi' ? 'लोकप्रिय यात्रा रूट्स' : 'High-Demand Popular Routes'}
+            {lang === 'hi' ? componentContent.routes.title_hi : componentContent.routes.title}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             {lang === 'hi'
-              ? 'मोदीनगर व एनसीआर से प्रमुख गंतव्य'
-              : 'Direct Highway Cabs from Modinagar & NCR'}
+              ? 'मोदीनगर से लोकप्रिय रूट'
+              : 'Popular Routes from Modinagar and Nearby Areas'}
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
             {lang === 'hi'
-              ? 'दिल्ली-मेरठ एक्सप्रेसवे (DME) और ईस्टर्न पेरिफेरल एक्सप्रेसवे (EPE) द्वारा सबसे तेज़ और सुरक्षित सफर।'
-              : 'Fixed estimated highway distances and travel times. Click any route to load instant live calculation.'}
+              ? 'रूट के लिए AC या Non-AC कैब और वन-वे या राउंड ट्रिप के बारे में पूछताछ करें।'
+              : 'Enquire about AC or Non-AC cabs and one-way or round-trip bookings for these routes.'}
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export const RoutesSection: React.FC<RoutesSectionProps> = ({ lang, onSelectRout
                 {/* Route Header */}
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-extrabold text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-                    {route.approxKm > 0 ? `~${route.approxKm} km` : 'All India'}
+                    {lang === 'hi' ? componentContent.fleet.title_hi : componentContent.fleet.title}
                   </span>
                   <span className="text-slate-400 flex items-center gap-1 font-medium">
                     <Clock className="w-3.5 h-3.5 text-amber-400" />
@@ -62,8 +62,8 @@ export const RoutesSection: React.FC<RoutesSectionProps> = ({ lang, onSelectRout
                 </p>
 
                 <div className="pt-2 text-[11px] text-slate-400">
-                  <span className="text-slate-300 font-semibold">Best for: </span>
-                  {route.popularFor}
+                    <span className="text-slate-300 font-semibold">{lang === 'hi' ? 'बुकिंग प्रकार: ' : 'Trip types: '}</span>
+                  {lang === 'hi' ? 'वन-वे और राउंड ट्रिप' : 'One-way and round trip'}
                 </div>
               </div>
 
@@ -78,12 +78,12 @@ export const RoutesSection: React.FC<RoutesSectionProps> = ({ lang, onSelectRout
                   }}
                   className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition-colors"
                 >
-                  <span>{lang === 'hi' ? 'किराया देखें' : 'Get Exact Fare'}</span>
+                  <span>{lang === 'hi' ? 'रूट पूछताछ' : 'Enquire About Route'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <a
-                  href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Sachin ji, what is the rate for ${route.from} to ${route.to}?`)}`}
+                  href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, please share the fare and availability for ${route.from} to ${route.to}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[11px] text-emerald-400 hover:underline font-semibold"
