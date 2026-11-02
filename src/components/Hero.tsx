@@ -245,6 +245,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
     </div>
   );
 };

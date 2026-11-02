@@ -31,12 +31,11 @@ const ai = new GoogleGenAI({
   },
 });
 
-async function startServer() {
-  const app = express();
-  app.use(express.json({ limit: '10mb' }));
+const app = express();
+app.use(express.json({ limit: '10mb' }));
 
-  // In-memory bookings store for live leads
-  const bookings: Array<{
+// In-memory bookings store for live leads
+const bookings: Array<{
     id: string;
     createdAt: string;
     name: string;
@@ -51,7 +50,7 @@ async function startServer() {
     estimatedKm: number;
     estimatedFare: number;
     notes?: string;
-  }> = [];
+}> = [];
 
   // API 1: Distance and Fare calculation
   app.post('/api/distance', async (req: Request, res: Response) => {
@@ -480,6 +479,7 @@ Please confirm availability and final fare.`;
     });
   });
 
+async function startServer() {
   // Vite Integration:
   if (!isProd) {
     const vite = await createViteServer({
@@ -500,4 +500,8 @@ Please confirm availability and final fare.`;
   });
 }
 
-startServer();
+export { app };
+
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  startServer();
+}
