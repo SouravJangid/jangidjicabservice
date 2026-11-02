@@ -94,6 +94,8 @@ export const HomePage: React.FC<HomePageProps> = ({ lang }) => {
                   <div className="relative h-44 overflow-hidden bg-slate-900">
                     <img
                       src={post.coverImage}
+                      loading="lazy"
+                      decoding="async"
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                     />

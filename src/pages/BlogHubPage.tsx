@@ -106,6 +106,8 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                   <div className="relative h-52 overflow-hidden bg-slate-900">
                     <img
                       src={post.coverImage}
+                      loading="lazy"
+                      decoding="async"
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                     />
@@ -142,6 +144,8 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                     <div className="flex items-center gap-2 pt-3 border-t border-slate-100">
                       <img
                         src={post.author.avatar}
+                        loading="lazy"
+                        decoding="async"
                         alt={post.author.name}
                         className="w-7 h-7 rounded-full object-cover border border-amber-400"
                       />

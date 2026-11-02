@@ -63,6 +63,8 @@ export const FleetSection: React.FC<FleetSectionProps> = ({ lang, onSelectCar })
                   <div className="relative h-48 bg-slate-900 overflow-hidden flex items-center justify-center">
                     <img
                       src={car.imageUrl || (car.ac ? imageData.cabAc : imageData.cabNonAc)}
+                      loading="lazy"
+                      decoding="async"
                       onError={(event) => {
                         event.currentTarget.onerror = null;
                         event.currentTarget.src = imageData.cabAc;

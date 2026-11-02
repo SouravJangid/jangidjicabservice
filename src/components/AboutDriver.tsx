@@ -59,6 +59,8 @@ export const AboutDriver: React.FC<AboutDriverProps> = ({ lang = 'en' }) => {
                   <div className="relative shrink-0">
                     <img
                       src={imageData.heroDriver}
+                      loading="lazy"
+                      decoding="async"
                       onError={(event) => {
                         event.currentTarget.onerror = null;
                         event.currentTarget.src = imageData.cabAc;

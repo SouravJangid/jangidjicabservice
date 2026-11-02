@@ -133,6 +133,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
           <div className="flex items-center gap-3 pt-2">
             <img
               src={post.author.avatar}
+              loading="lazy"
+              decoding="async"
               alt={post.author.name}
               className="w-12 h-12 rounded-full object-cover border-2 border-amber-400 shadow-md"
             />
@@ -149,6 +151,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
         <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200">
           <img
             src={post.coverImage}
+            loading="lazy"
+            decoding="async"
             alt={post.title}
             className="w-full h-[320px] sm:h-[420px] object-cover"
           />
@@ -269,6 +273,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                 >
                   <img
                     src={rel.coverImage}
+                    loading="lazy"
+                    decoding="async"
                     alt={rel.title}
                     className="w-16 h-16 rounded-xl object-cover shrink-0"
                   />

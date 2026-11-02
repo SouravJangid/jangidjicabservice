@@ -14,7 +14,8 @@ import {
   Sparkles
 } from 'lucide-react';
 import { fleetData, brandData, pricingConfig } from '../content/data';
-import { POPULAR_INDIAN_LOCATIONS } from '../lib/indianPlaces';
+import { estimateRoadDistanceAndDuration, findLocationByName, generateRoutePoints, POPULAR_INDIAN_LOCATIONS } from '../lib/indianPlaces';
+import { calculateFare } from '../lib/fare';
 import { DistanceCalculationResult } from '../types';
 import { RouteMap } from './RouteMap';
 
@@ -45,6 +46,7 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
   const [isNight, setIsNight] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<DistanceCalculationResult | null>(null);
+  const [calculationNotice, setCalculationNotice] = useState<{ type: 'fallback' | 'error'; text: string } | null>(null);
 
   // Autocomplete dropdown states
   const [pickupSuggestions, setPickupSuggestions] = useState<string[]>([]);
@@ -95,6 +97,7 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
     night: boolean
   ) => {
     setLoading(true);
+    setCalculationNotice(null);
     try {
       const res = await fetch('/api/distance', {
         method: 'POST',
@@ -109,26 +112,66 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
         })
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        setResult({
-          from: data.from,
-          to: data.to,
-          km: data.km,
-          duration: data.duration,
-          durationSeconds: data.durationSeconds,
-          fare: data.fare,
-          car: data.car,
-          tripType: data.tripType,
-          days: data.days,
-          nightChargeApplied: night,
-          tollNote: 'Toll & parking extra as per actual receipts',
-          coordinates: data.coordinates,
-          polylinePoints: data.routePoints
-        });
+      if (!res.ok) throw new Error(`Distance API returned ${res.status}`);
+      const data = await res.json();
+      if (!Number.isFinite(data.km) || !data.coordinates?.origin || !data.coordinates?.dest) {
+        throw new Error('Distance API returned an invalid response');
       }
-    } catch (err) {
-      console.error('Calculation error:', err);
+      setResult({
+        from: data.from,
+        to: data.to,
+        km: data.km,
+        duration: data.duration,
+        durationSeconds: data.durationSeconds,
+        fare: data.fare,
+        car: data.car,
+        tripType: data.tripType,
+        days: data.days,
+        nightChargeApplied: night,
+        tollNote: 'Toll & parking extra as per actual receipts',
+        coordinates: data.coordinates,
+        polylinePoints: data.routePoints
+      });
+    } catch {
+      const origin = findLocationByName(p);
+      const destination = findLocationByName(d);
+      if (!origin || !destination) {
+        setResult(null);
+        setCalculationNotice({
+          type: 'error',
+          text: lang === 'hi'
+            ? 'स्थान नहीं मिला। दूरी देखने के लिए सूची से स्थान चुनें।'
+            : 'Location not found. Choose a suggested location to calculate distance.'
+        });
+        return;
+      }
+
+      const estimate = estimateRoadDistanceAndDuration(
+        { lat: origin.lat, lng: origin.lng, name: origin.name },
+        { lat: destination.lat, lng: destination.lng, name: destination.name }
+      );
+      const fare = calculateFare({ distanceKm: estimate.km, carId: car, tripType: type, days: numDays, isNight: night });
+      setResult({
+        from: origin.name,
+        to: destination.name,
+        km: estimate.km,
+        duration: estimate.duration,
+        durationSeconds: estimate.durationSec,
+        fare: fare.totalFare,
+        car,
+        tripType: type,
+        days: numDays,
+        nightChargeApplied: night,
+        tollNote: 'Toll & parking extra as per actual receipts',
+        coordinates: { origin: [origin.lat, origin.lng], dest: [destination.lat, destination.lng] },
+        polylinePoints: generateRoutePoints([origin.lat, origin.lng], [destination.lat, destination.lng])
+      });
+      setCalculationNotice({
+        type: 'fallback',
+        text: lang === 'hi'
+          ? 'स्थानीय अनुमान दिखाया जा रहा है। सटीक रूट उपलब्ध नहीं है।'
+          : 'Showing a local estimate because live route calculation is unavailable.'
+      });
     } finally {
       setLoading(false);
     }
@@ -177,7 +220,7 @@ Please confirm cab availability and fare for my travel date.`;
                 <h2 className="text-xl font-black tracking-tight text-white flex items-center gap-2 flex-wrap">
                   <span>{lang === 'hi' ? 'दूरी और किराया पूछताछ' : 'Distance & Fare Enquiry'}</span>
                   <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 shadow-[0_0_10px_rgba(245,158,11,0.3)]">
-                    {lang === 'hi' ? 'वास्तविक सड़क दूरी' : 'Real Road KM'}
+                    {lang === 'hi' ? 'अनुमानित सड़क दूरी' : 'Road KM Estimate'}
                   </span>
                 </h2>
                 <p className="text-xs text-slate-400">
@@ -402,6 +445,15 @@ Please confirm cab availability and fare for my travel date.`;
               {loading ? (lang === 'hi' ? 'गणना हो रही है...' : 'Calculating...') : (lang === 'hi' ? 'दूरी देखें' : 'Check Distance')}
             </button>
           </div>
+
+          {calculationNotice && (
+            <p
+              role={calculationNotice.type === 'error' ? 'alert' : 'status'}
+              className={`text-xs ${calculationNotice.type === 'error' ? 'text-red-700' : 'text-amber-800'}`}
+            >
+              {calculationNotice.text}
+            </p>
+          )}
 
           {/* Result Strip Banner with glass-panel-dark */}
           {result && (

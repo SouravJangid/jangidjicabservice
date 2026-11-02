@@ -217,6 +217,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <div className="relative">
                     <img
                       src={imageData.heroDriver}
+                      loading="eager"
+                      decoding="async"
                       onError={(event) => {
                         event.currentTarget.onerror = null;
                         event.currentTarget.src = imageData.cabAc;
@@ -251,6 +253,9 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   <img
                     key={activeVehicle.id}
                     src={activeVehicle.imageUrl || imageData.cabAc}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     onError={(event) => {
                       event.currentTarget.onerror = null;
                       event.currentTarget.src = imageData.cabAc;
