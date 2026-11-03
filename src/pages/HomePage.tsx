@@ -36,6 +36,7 @@ export const HomePage: React.FC<HomePageProps> = ({ lang }) => {
       <section className="relative py-12 px-4 sm:px-6 lg:px-8 bg-slate-100/50">
         <FareCalculator
           lang={lang}
+          requestLocationOnStart
           onBookClick={() => {
             const el = document.getElementById('booking');
             if (el) el.scrollIntoView({ behavior: 'smooth' });

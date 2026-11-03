@@ -23,6 +23,7 @@ import { RouteMap } from './RouteMap';
 interface FareCalculatorProps {
   lang?: 'en' | 'hi';
   onBookClick?: (details: any) => void;
+  requestLocationOnStart?: boolean;
 }
 
 const QUICK_ROUTES = [
@@ -43,11 +44,18 @@ interface CurrentCoordinates {
   longitude: number;
 }
 
-export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onBookClick }) => {
+export const FareCalculator: React.FC<FareCalculatorProps> = ({
+  lang = 'en',
+  onBookClick,
+  requestLocationOnStart = false
+}) => {
   const [pickup, setPickup] = useState<string>('Modinagar');
   const [pickupCoordinates, setPickupCoordinates] = useState<CurrentCoordinates | null>(null);
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [showLocationPrompt, setShowLocationPrompt] = useState(
+    () => requestLocationOnStart && sessionStorage.getItem('location-prompt-dismissed') !== 'true'
+  );
   const [drop, setDrop] = useState<string>('Delhi');
   const [selectedCar, setSelectedCar] = useState<string>(fleetData[0]?.id ?? '');
   const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
@@ -153,6 +161,11 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
     );
+  };
+
+  const dismissLocationPrompt = () => {
+    sessionStorage.setItem('location-prompt-dismissed', 'true');
+    setShowLocationPrompt(false);
   };
 
   const triggerCalculation = async (
@@ -324,6 +337,61 @@ Please confirm cab availability and fare for my travel date.`;
 
   return (
     <div id="calculator" className="w-full max-w-6xl mx-auto relative">
+      {showLocationPrompt && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) dismissLocationPrompt();
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="location-prompt-title"
+            className="w-full max-w-md rounded-3xl border border-white/15 bg-slate-950 p-6 text-white shadow-2xl sm:p-8"
+          >
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
+              <LocateFixed className="h-7 w-7" />
+            </div>
+            <h2 id="location-prompt-title" className="text-center text-xl font-black">
+              {lang === 'hi' ? 'नज़दीकी पिकअप के लिए लोकेशन इस्तेमाल करें?' : 'Use your location for pickup?'}
+            </h2>
+            <p className="mt-3 text-center text-sm leading-relaxed text-slate-300">
+              {lang === 'hi'
+                ? 'आपकी अनुमति से हम वर्तमान लोकेशन को पिकअप के रूप में सेट करेंगे। आप चाहें तो बाद में भी लोकेशन चुन सकते हैं।'
+                : 'With your permission, we’ll set your current location as the pickup. You can also choose it later.'}
+            </p>
+            {locationError && (
+              <p role="alert" className="mt-3 text-center text-xs text-rose-300">
+                {locationError}
+              </p>
+            )}
+            <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={dismissLocationPrompt}
+                className="min-h-11 flex-1 rounded-xl border border-white/15 px-4 py-2.5 text-sm font-bold text-slate-200 hover:bg-white/10"
+              >
+                {lang === 'hi' ? 'अभी नहीं' : 'Not now'}
+              </button>
+              <button
+                type="button"
+                disabled={locating}
+                onClick={() => {
+                  dismissLocationPrompt();
+                  handleUseCurrentLocation();
+                }}
+                className="min-h-11 flex-1 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-black text-slate-950 hover:bg-emerald-400 disabled:opacity-60"
+              >
+                {locating
+                  ? (lang === 'hi' ? 'लोकेशन प्राप्त हो रही है...' : 'Getting location...')
+                  : (lang === 'hi' ? 'लोकेशन इस्तेमाल करें' : 'Use my location')}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+
       {/* Decorative ambient backdrop orbs */}
       <div className="absolute -top-12 -left-12 w-72 h-72 bg-gradient-to-tr from-violet-600/15 to-transparent rounded-full blur-3xl pointer-events-none animate-float" />
       <div className="absolute -bottom-12 -right-12 w-72 h-72 bg-gradient-to-br from-amber-400/15 to-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-float-reverse" />
