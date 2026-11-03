@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { StickyBottomBar } from './components/StickyBottomBar';
 import { HomePage } from './pages/HomePage';
 import { SeoHead } from './components/SeoHead';
+import { WelcomeIntro } from './components/WelcomeIntro';
 
 const AboutPage = lazy(() => import('./pages/AboutPage').then(({ AboutPage: page }) => ({ default: page })));
 const FleetPage = lazy(() => import('./pages/FleetPage').then(({ FleetPage: page }) => ({ default: page })));
@@ -37,6 +38,7 @@ export default function App() {
     <div className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       <ScrollToTop />
       <SeoHead lang={lang} />
+      <WelcomeIntro />
 
       {/* Persistent Sticky Header */}
       <Navbar
