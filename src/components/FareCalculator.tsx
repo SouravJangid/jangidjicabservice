@@ -11,7 +11,8 @@ import {
   CheckCircle2, 
   RefreshCw, 
   Calendar,
-  Sparkles
+  Sparkles,
+  LocateFixed
 } from 'lucide-react';
 import { fleetData, brandData, pricingConfig } from '../content/data';
 import { estimateRoadDistanceAndDuration, findLocationByName, generateRoutePoints, POPULAR_INDIAN_LOCATIONS } from '../lib/indianPlaces';
@@ -37,8 +38,16 @@ const QUICK_ROUTES = [
   { from: 'Ghaziabad', to: 'Chandigarh', label: 'Ghaziabad ➔ Chandigarh' },
 ];
 
+interface CurrentCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onBookClick }) => {
   const [pickup, setPickup] = useState<string>('Modinagar');
+  const [pickupCoordinates, setPickupCoordinates] = useState<CurrentCoordinates | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [drop, setDrop] = useState<string>('Delhi');
   const [selectedCar, setSelectedCar] = useState<string>(fleetData[0]?.id ?? '');
   const [tripType, setTripType] = useState<'oneway' | 'round'>('oneway');
@@ -76,6 +85,8 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
   const handlePickupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setPickup(val);
+    setPickupCoordinates(null);
+    setLocationError(null);
     setPickupSuggestions(filterPlaces(val));
     setShowPickupList(true);
   };
@@ -89,8 +100,59 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
 
   const handleSelectQuickRoute = (r: { from: string; to: string }) => {
     setPickup(r.from);
+    setPickupCoordinates(null);
+    setLocationError(null);
     setDrop(r.to);
-    triggerCalculation(r.from, r.to, selectedCar, tripType, days, isNight);
+    triggerCalculation(r.from, r.to, selectedCar, tripType, days, isNight, null);
+  };
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError(lang === 'hi'
+        ? 'यह ब्राउज़र लोकेशन एक्सेस का समर्थन नहीं करता।'
+        : 'This browser does not support location access.');
+      return;
+    }
+
+    setLocating(true);
+    setLocationError(null);
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const currentCoordinates = {
+          latitude: coords.latitude,
+          longitude: coords.longitude
+        };
+        setPickupCoordinates(currentCoordinates);
+        setPickup(lang === 'hi' ? 'वर्तमान स्थान' : 'Current location');
+        setShowPickupList(false);
+        setLocating(false);
+        void triggerCalculation(
+          lang === 'hi' ? 'वर्तमान स्थान' : 'Current location',
+          drop,
+          selectedCar,
+          tripType,
+          days,
+          isNight,
+          currentCoordinates
+        );
+      },
+      (error) => {
+        const message = error.code === error.PERMISSION_DENIED
+          ? (lang === 'hi'
+            ? 'लोकेशन की अनुमति नहीं मिली। ब्राउज़र सेटिंग्स में अनुमति दें और फिर कोशिश करें।'
+            : 'Location permission was denied. Allow location access in your browser settings and try again.')
+          : error.code === error.POSITION_UNAVAILABLE
+            ? (lang === 'hi'
+              ? 'आपकी लोकेशन उपलब्ध नहीं है। GPS चालू करके फिर कोशिश करें।'
+              : 'Your location is unavailable. Turn on GPS and try again.')
+            : (lang === 'hi'
+              ? 'लोकेशन प्राप्त करने में समय समाप्त हुआ। फिर कोशिश करें।'
+              : 'Getting your location timed out. Please try again.');
+        setLocationError(message);
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+    );
   };
 
   const triggerCalculation = async (
@@ -99,7 +161,8 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
     car: string,
     type: 'oneway' | 'round',
     numDays: number,
-    night: boolean
+    night: boolean,
+    originCoordinates: CurrentCoordinates | null = pickupCoordinates
   ) => {
     setLoading(true);
     setCalculationNotice(null);
@@ -113,7 +176,11 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
           car,
           tripType: type,
           days: numDays,
-          isNight: night
+          isNight: night,
+          ...(originCoordinates && {
+            originLat: originCoordinates.latitude,
+            originLng: originCoordinates.longitude
+          })
         })
       });
 
@@ -138,7 +205,9 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
         polylinePoints: data.routePoints
       });
     } catch {
-      const origin = findLocationByName(p);
+      const origin = originCoordinates
+        ? { name: p, lat: originCoordinates.latitude, lng: originCoordinates.longitude }
+        : findLocationByName(p);
       const destination = findLocationByName(d);
       if (!origin || !destination) {
         setResult(null);
@@ -149,6 +218,53 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({ lang = 'en', onB
             : 'Location not found. Choose a suggested location to calculate distance.'
         });
         return;
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 8000);
+        const routeUrl = `https://router.project-osrm.org/route/v1/driving/${origin.lng},${origin.lat};${destination.lng},${destination.lat}?overview=simplified&geometries=geojson`;
+        let routeResponse: Response;
+        try {
+          routeResponse = await fetch(routeUrl, { signal: controller.signal });
+        } finally {
+          window.clearTimeout(timeoutId);
+        }
+
+        if (!routeResponse.ok) throw new Error(`Routing service returned ${routeResponse.status}`);
+        const routeData = await routeResponse.json();
+        const route = routeData.routes?.[0];
+        if (!Number.isFinite(route?.distance) || !Number.isFinite(route?.duration)) {
+          throw new Error('Routing service returned an invalid route');
+        }
+
+        const km = Math.round((route.distance / 1000) * 10) / 10;
+        const durationSeconds = Math.round(route.duration);
+        const hours = Math.floor(durationSeconds / 3600);
+        const minutes = Math.round((durationSeconds % 3600) / 60);
+        const fare = calculateFare({ distanceKm: km, carId: car, tripType: type, days: numDays, isNight: night });
+        const routePoints: [number, number][] = route.geometry?.coordinates?.map(
+          ([longitude, latitude]: [number, number]) => [latitude, longitude]
+        ) ?? [];
+
+        setResult({
+          from: origin.name,
+          to: destination.name,
+          km,
+          duration: hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`,
+          durationSeconds,
+          fare: fare.totalFare,
+          car,
+          tripType: type,
+          days: numDays,
+          nightChargeApplied: night,
+          tollNote: 'Toll & parking extra as per actual receipts',
+          coordinates: { origin: [origin.lat, origin.lng], dest: [destination.lat, destination.lng] },
+          polylinePoints: routePoints
+        });
+        return;
+      } catch {
+        // Use the local estimate when both the app API and public router are unavailable.
       }
 
       const estimate = estimateRoadDistanceAndDuration(
@@ -314,6 +430,22 @@ Please confirm cab availability and fare for my travel date.`;
                   className="w-full h-12 pl-10 pr-4 rounded-xl border border-slate-300/80 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 bg-white/90 backdrop-blur-sm shadow-xs transition-all"
                 />
               </div>
+              <button
+                type="button"
+                onClick={handleUseCurrentLocation}
+                disabled={locating}
+                className="mt-2 inline-flex min-h-11 items-center gap-2 rounded-lg px-2 text-xs font-bold text-emerald-700 hover:bg-emerald-50 disabled:cursor-wait disabled:opacity-60"
+              >
+                <LocateFixed className={`h-4 w-4 ${locating ? 'animate-pulse' : ''}`} />
+                {locating
+                  ? (lang === 'hi' ? 'लोकेशन प्राप्त हो रही है...' : 'Getting your location...')
+                  : (lang === 'hi' ? 'मेरी वर्तमान लोकेशन इस्तेमाल करें' : 'Use my current location')}
+              </button>
+              {locationError && (
+                <p role="alert" className="mt-1 text-xs text-red-700">
+                  {locationError}
+                </p>
+              )}
 
               {/* Autocomplete Dropdown */}
               {showPickupList && (
@@ -323,6 +455,8 @@ Please confirm cab availability and fare for my travel date.`;
                       key={idx}
                       onMouseDown={() => {
                         setPickup(place);
+                        setPickupCoordinates(null);
+                        setLocationError(null);
                         setShowPickupList(false);
                       }}
                       className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between"
