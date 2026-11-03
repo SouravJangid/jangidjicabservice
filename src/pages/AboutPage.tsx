@@ -88,7 +88,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ lang }) => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="px-8 h-13 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />

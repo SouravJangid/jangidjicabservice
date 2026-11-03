@@ -20,7 +20,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ lang }) => {
   return (
-    <footer className="bg-slate-950 text-white border-t border-slate-800 pt-16 pb-24 md:pb-12">
+    <footer className="bg-slate-950 text-white border-t border-slate-800 pt-16 pb-24 2xl:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Col 1: Brand & Driver Identity */}
@@ -57,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
             </h4>
             <div className="space-y-3 text-xs">
               <a
-                href={brandData.phone}
+                href={`tel:${brandData.phone}`}
                 className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500 text-slate-200 transition-colors group"
               >
                 <PhoneCall className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />

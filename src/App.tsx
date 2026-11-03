@@ -53,7 +53,7 @@ export default function App() {
       />
 
       {/* Dynamic Multi-Page Routes */}
-      <main className="flex-1">
+      <main className="min-w-0 flex-1">
         <Suspense fallback={<div role="status" className="min-h-[40vh] grid place-items-center text-sm text-slate-500">Loading page...</div>}>
           <Routes>
             <Route path="/" element={<HomePage lang={lang} />} />

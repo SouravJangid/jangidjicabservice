@@ -201,7 +201,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
 
           <div className="flex items-center gap-3">
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />

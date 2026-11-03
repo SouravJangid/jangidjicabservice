@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           </Link>
 
           {/* Desktop Navigation Links with Gen-Z Glass Pills */}
-          <div className="hidden xl:flex items-center gap-1 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-inner text-xs font-semibold">
+          <div className="hidden 2xl:flex items-center gap-1 bg-white/5 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xl shadow-inner text-xs font-semibold">
             <Link
               to="/"
               className={`px-3.5 py-1.5 rounded-xl transition-all ${
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           </div>
 
           {/* Actions: Lang toggle, Shining Glass buttons */}
-          <div className="hidden xl:flex items-center gap-2.5">
+          <div className="hidden 2xl:flex items-center gap-2.5">
             {/* Language Switcher Glass Pill */}
             <button
               onClick={onToggleLang}
@@ -144,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
 
             {/* Direct Call CTA with Shining Light Beam & Emerald Aura */}
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="shining-beam px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
             >
               <PhoneCall className="w-4 h-4 animate-pulse-subtle" />
@@ -153,16 +153,19 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           </div>
 
           {/* Mobile Menu Toggle Button */}
-          <div className="flex xl:hidden items-center gap-2">
+          <div className="flex 2xl:hidden items-center gap-2">
             <button
               onClick={onToggleLang}
-              className="px-2.5 py-1.5 rounded-xl bg-white/10 text-slate-200 text-xs font-bold border border-white/15 backdrop-blur-md"
+              className="min-h-11 min-w-11 px-2.5 py-1.5 rounded-xl bg-white/10 text-slate-200 text-xs font-bold border border-white/15 backdrop-blur-md"
             >
               {lang === 'en' ? 'हिन्दी' : 'EN'}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-white/10 text-slate-200 hover:text-white border border-white/15 backdrop-blur-md"
+              className="min-h-11 min-w-11 p-2 rounded-xl bg-white/10 text-slate-200 hover:text-white border border-white/15 backdrop-blur-md"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -172,12 +175,12 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
 
       {/* Mobile Drawer Dropdown with Glass Panel */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-slate-950/95 border-b border-white/10 px-5 pt-3 pb-6 space-y-3 backdrop-blur-2xl">
+        <div id="mobile-navigation" className="2xl:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto bg-slate-950/95 border-b border-white/10 px-5 pt-3 pb-6 space-y-3 backdrop-blur-2xl">
           <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-300">
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
@@ -188,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/about"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/about')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
@@ -199,7 +202,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/fleet"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/fleet')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
@@ -210,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/routes"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/routes')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
@@ -221,7 +224,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/services"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/services')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'
@@ -232,7 +235,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/blog"
               onClick={() => setMobileMenuOpen(false)}
-              className={`p-2.5 rounded-xl border text-center transition-all ${
+              className={`min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/blog')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10 text-amber-300'
@@ -243,7 +246,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             <Link
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className={`col-span-2 p-2.5 rounded-xl border text-center transition-all ${
+              className={`col-span-2 min-h-11 flex items-center justify-center p-2.5 rounded-xl border text-center transition-all ${
                 isActive('/contact')
                   ? 'bg-amber-400 text-slate-950 font-bold border-amber-300'
                   : 'bg-white/5 border-white/5 hover:bg-white/10'

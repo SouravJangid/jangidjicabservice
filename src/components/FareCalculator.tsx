@@ -520,7 +520,7 @@ Please confirm cab availability and fare for my travel date.`;
                   </a>
 
                   <a
-                    href={brandData.phone}
+                    href={`tel:${brandData.phone}`}
                     className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-400/40"
                   >
                     <PhoneCall className="w-4 h-4" />

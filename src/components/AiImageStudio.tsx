@@ -10,17 +10,17 @@ const TEMPLATES = [
   {
     title: 'Local & Outstation Cab Service',
     title_hi: 'लोकल एवं आउटस्टेशन कैब सेवा',
-    prompt: 'Create a promotional poster for Jangid Ji Cab Service in Modinagar. Feature AC and Non-AC cab service for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at +91 73518 22181. Do not invent vehicle models, fares, ratings, or availability claims.'
+    prompt: 'Create a promotional poster for Jangid Ji Cab Service in Modinagar. Feature AC and Non-AC cab service for local and outstation travel, one-way and round-trip booking, and WhatsApp enquiries at +91 73518 82181. Do not invent vehicle models, fares, ratings, or availability claims.'
   },
   {
     title: 'Service Areas & Popular Routes',
     title_hi: 'सेवा क्षेत्र और लोकप्रिय रूट',
-    prompt: 'Create a clear promotional graphic for Jangid Ji Cab Service. Mention Modinagar, Ghaziabad, Delhi, Noida, Gurugram, Meerut, Haridwar, and Rishikesh among its service areas. Use a simple route-map visual and WhatsApp contact +91 73518 22181. Do not imply guaranteed service or availability.'
+    prompt: 'Create a clear promotional graphic for Jangid Ji Cab Service. Mention Modinagar, Ghaziabad, Delhi, Noida, Gurugram, Meerut, Haridwar, and Rishikesh among its service areas. Use a simple route-map visual and WhatsApp contact +91 73518 82181. Do not imply guaranteed service or availability.'
   },
   {
     title: 'AC & Non-AC Cab Options',
     title_hi: 'AC और Non-AC कैब विकल्प',
-    prompt: 'Create a professional cab service promotion for Jangid Ji Cab Service in Modinagar. Show generic AC and Non-AC cab options without recognizable or named vehicle models. Include local and outstation travel, one-way and round-trip bookings, and WhatsApp number +91 73518 22181. Do not add a fare.'
+    prompt: 'Create a professional cab service promotion for Jangid Ji Cab Service in Modinagar. Show generic AC and Non-AC cab options without recognizable or named vehicle models. Include local and outstation travel, one-way and round-trip bookings, and WhatsApp number +91 73518 82181. Do not add a fare.'
   }
 ];
 

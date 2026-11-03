@@ -206,7 +206,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <a
-                href={brandData.phone}
+                href={`tel:${brandData.phone}`}
                 className="w-full sm:w-auto px-6 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
               >
                 <PhoneCall className="w-4 h-4" />

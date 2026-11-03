@@ -81,7 +81,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"
             >
               <PhoneCall className="w-3.5 h-3.5" />

@@ -128,7 +128,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
           {/* Direct CTA Buttons */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="px-6 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />

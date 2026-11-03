@@ -59,7 +59,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ lang }) => {
               </p>
             </div>
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="w-full h-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95"
             >
               <PhoneCall className="w-3.5 h-3.5" />

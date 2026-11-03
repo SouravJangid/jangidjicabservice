@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  Send, 
   MessageSquare, 
   PhoneCall, 
   CheckCircle2, 
@@ -93,6 +92,16 @@ export const BookingForm: React.FC<BookingFormProps> = ({ lang = 'en' }) => {
             : 'Your enquiry is ready. Continue to WhatsApp to send it and confirm cab availability and fare.',
           waUrl: data.whatsappUrl
         });
+        setName('');
+        setPhone('');
+        setPickup('');
+        setDrop('');
+        setCar(fleetData[0]?.id ?? '');
+        setTripType('oneway');
+        setDate('');
+        setTime('');
+        setPassengers(2);
+        setNotes('');
       } else {
         setStatusMessage({
           type: 'error',
@@ -365,15 +374,6 @@ Please check availability and send me the quote.`;
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-slate-100">
-            <button
-              type="submit"
-              disabled={loading}
-              className="shining-beam w-full sm:flex-1 h-13 rounded-xl bg-slate-950 hover:bg-slate-900 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl transition-all active:scale-95 disabled:opacity-50 border border-white/10"
-            >
-              <Send className="w-4 h-4 text-amber-400" />
-              {loading ? (lang === 'hi' ? 'तैयार हो रहा है...' : 'Preparing...') : (lang === 'hi' ? 'बुकिंग पूछताछ तैयार करें' : 'Prepare Booking Enquiry')}
-            </button>
-
             <a
               href={getDirectWhatsAppUrl()}
               target="_blank"
@@ -385,7 +385,7 @@ Please check availability and send me the quote.`;
             </a>
 
             <a
-              href={brandData.phone}
+              href={`tel:${brandData.phone}`}
               className="w-full sm:w-auto px-6 h-13 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />

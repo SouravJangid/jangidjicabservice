@@ -133,7 +133,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
             {/* Gen-Z Glowing Shining Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <a
-                href={brandData.phone}
+                href={`tel:${brandData.phone}`}
                 className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
               >
                 <PhoneCall className="w-5 h-5 animate-pulse-subtle" />
@@ -313,7 +313,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                     <p className="font-black text-white text-sm tracking-wide">{brandData.phoneDisplay}</p>
                   </div>
                   <a
-                    href={brandData.phone}
+                    href={`tel:${brandData.phone}`}
                     className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95"
                   >
                     <PhoneCall className="w-3.5 h-3.5" />

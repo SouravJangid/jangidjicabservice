@@ -1,6 +1,6 @@
 {
   "name": "Jangid Ji Cab Service",
-  "description": "AC and Non-AC cabs for local and outstation travel, with one-way and round-trip booking enquiries on WhatsApp at +91 73518 22181.",
+  "description": "AC and Non-AC cabs for local and outstation travel, with one-way and round-trip booking enquiries on WhatsApp at +91 73518 82181.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
