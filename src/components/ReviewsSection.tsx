@@ -74,14 +74,14 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ lang }) => {
               {/* Author */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <p className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
                     {rev.name}
                     {rev.verified && (
                       <span title="Verified Customer">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                       </span>
                     )}
-                  </h4>
+                  </p>
                   <p className="text-[11px] text-slate-500">{rev.city}</p>
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-200">
@@ -156,7 +156,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ lang }) => {
                 }}
                 className={`mx-auto w-full sm:w-auto min-h-11 px-5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
                   reviewText.trim()
-                    ? 'bg-[#25D366] hover:bg-[#20ba59] text-white'
+                    ? 'bg-[#15803d] hover:bg-[#166534] text-white'
                     : 'bg-slate-200 text-slate-500 cursor-not-allowed'
                 }`}
               >

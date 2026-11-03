@@ -171,7 +171,7 @@ export const AboutDriver: React.FC<AboutDriverProps> = ({ lang = 'en' }) => {
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <a
                 href={`tel:${brandData.phone}`}
-                className="shining-beam px-6 h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all active:scale-95 border border-emerald-400/40"
+                className="shining-beam px-6 h-12 rounded-xl bg-gradient-to-r from-emerald-700 via-emerald-700 to-teal-700 hover:from-emerald-800 hover:to-teal-800 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all active:scale-95 border border-emerald-400/40"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>{lang === 'hi' ? 'अभी कॉल करें' : 'Call Now'}</span>
@@ -181,7 +181,7 @@ export const AboutDriver: React.FC<AboutDriverProps> = ({ lang = 'en' }) => {
                 href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shining-beam px-6 h-12 rounded-xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all active:scale-95 border border-emerald-300/40"
+                className="shining-beam px-6 h-12 rounded-xl bg-gradient-to-r from-[#15803d] to-[#15803d] hover:from-[#166534] hover:to-[#166534] text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all active:scale-95 border border-emerald-300/40"
               >
                 <MessageSquare className="w-4 h-4 fill-white" />
                 <span>{lang === 'hi' ? 'व्हाट्सएप पर संपर्क करें' : 'WhatsApp'}</span>

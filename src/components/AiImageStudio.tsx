@@ -220,7 +220,7 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
                           <p className="font-semibold text-amber-300">AC & Non-AC Cabs</p>
                           <p className="text-[11px] text-slate-400">Local • Outstation • One-Way • Round Trip</p>
                         </div>
-                        <div className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs shadow-md">
+                        <div className="px-4 py-2 rounded-lg bg-emerald-700 text-white font-bold text-xs shadow-md">
                           Call / WhatsApp: {brandData.phoneDisplay}
                         </div>
                       </div>
@@ -241,7 +241,7 @@ export const AiImageStudio: React.FC<AiImageStudioProps> = ({ lang = 'en' }) => 
                   <div className="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-xs space-y-2">
                     <p className="text-slate-400 font-medium">Included Call to Actions:</p>
                     <p className="font-semibold text-emerald-400">📞 Call: {brandData.phoneDisplay}</p>
-                    <p className="font-semibold text-[#25D366]">💬 WhatsApp: {brandData.phoneDisplay}</p>
+                    <p className="font-semibold text-[#15803d]">💬 WhatsApp: {brandData.phoneDisplay}</p>
                     <p className="text-[11px] text-slate-400">Base: Modinagar, Uttar Pradesh</p>
                   </div>
 

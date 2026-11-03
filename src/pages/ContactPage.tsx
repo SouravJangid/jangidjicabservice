@@ -60,7 +60,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ lang }) => {
             </div>
             <a
               href={`tel:${brandData.phone}`}
-              className="w-full h-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95"
+              className="w-full h-11 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95"
             >
               <PhoneCall className="w-3.5 h-3.5" />
               Call Now
@@ -70,8 +70,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ lang }) => {
           {/* Card 2: WhatsApp */}
           <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-4">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#25D366] flex items-center justify-center font-bold">
-                <MessageSquare className="w-6 h-6 fill-[#25D366]" />
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#166534] flex items-center justify-center font-bold">
+                <MessageSquare className="w-6 h-6 fill-[#166534]" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">{lang === 'hi' ? componentContent.contact.whatsappTitle_hi : componentContent.contact.whatsappTitle}</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -85,7 +85,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ lang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full h-11 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95"
+              className="w-full h-11 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-95"
             >
               <MessageSquare className="w-3.5 h-3.5 fill-white" />
               Chat on WhatsApp
@@ -95,7 +95,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ lang }) => {
           {/* Card 3: Base Location */}
           <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-4">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold">
                 <MapPin className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">{lang === 'hi' ? componentContent.contact.serviceBaseTitle_hi : componentContent.contact.serviceBaseTitle}</h3>

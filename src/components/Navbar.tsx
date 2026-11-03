@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
           {/* Brand logo */}
           <Link to="/" className="flex items-center gap-2.5 group" aria-label={brandData.name}>
             <img
-              src={imageData.logo || '/assets/images/logo.png'}
+              src={imageData.logo || '/assets/images/logo.webp'}
               alt={brandData.name}
               className="h-14 w-32 sm:w-40 object-contain shrink-0 transition-transform group-hover:scale-[1.03]"
             />
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#25D366]/90 hover:bg-[#25D366] text-white transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,211,102,0.35)] border border-[#25D366]/40"
+              className="p-2.5 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(37,211,102,0.35)] border border-emerald-300/40"
               title="Chat on WhatsApp"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
@@ -145,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLang }) => {
             {/* Direct Call CTA with Shining Light Beam & Emerald Aura */}
             <a
               href={`tel:${brandData.phone}`}
-              className="shining-beam px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
+              className="shining-beam px-4.5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-700 via-emerald-700 to-teal-700 hover:from-emerald-800 hover:to-teal-800 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
             >
               <PhoneCall className="w-4 h-4 animate-pulse-subtle" />
               <span>{lang === 'hi' ? 'कॉल करें' : 'Call Now'}</span>

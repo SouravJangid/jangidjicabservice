@@ -89,7 +89,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ lang }) => {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
               href={`tel:${brandData.phone}`}
-              className="px-8 h-13 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg transition-transform active:scale-95"
+              className="px-8 h-13 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Call: {brandData.phoneDisplay}</span>
@@ -98,7 +98,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ lang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 h-13 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg transition-transform active:scale-95"
+              className="px-8 h-13 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg transition-transform active:scale-95"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
               <span>WhatsApp Chat</span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PhoneCall, MessageSquare, ShieldCheck, Star, Award, Clock, MapPin, CheckCircle2, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { brandData, componentContent, fleetData, heroContent, imageData } from '../content/data';
 
@@ -8,48 +8,12 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [typedText, setTypedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
   const [activeVehicleIndex, setActiveVehicleIndex] = useState(0);
 
-  useEffect(() => {
-    if (fleetData.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => {
-      setActiveVehicleIndex((index) => (index + 1) % fleetData.length);
-    }, 5000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const configuredPhrases = lang === 'hi' ? heroContent.rotatingPhrases_hi : heroContent.rotatingPhrases;
-    const phrases = configuredPhrases.length ? configuredPhrases : [brandData.tagline];
-    const phrase = phrases[phraseIndex % phrases.length];
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTypedText(phrases[0]);
-      return;
-    }
-
-    const isComplete = typedText === phrase;
-    const delay = isDeleting ? 45 : isComplete ? 1400 : 75;
-    const timer = window.setTimeout(() => {
-      if (!isDeleting && isComplete) {
-        setIsDeleting(true);
-      } else if (isDeleting && typedText.length === 0) {
-        setIsDeleting(false);
-        setPhraseIndex((index) => (index + 1) % phrases.length);
-      } else {
-        setTypedText((current) => isDeleting
-          ? current.slice(0, -1)
-          : phrase.slice(0, current.length + 1));
-      }
-    }, delay);
-
-    return () => window.clearTimeout(timer);
-  }, [lang, phraseIndex, typedText, isDeleting]);
-
   const activeVehicle = fleetData[activeVehicleIndex % fleetData.length];
+  const heroPhrase = lang === 'hi'
+    ? heroContent.rotatingPhrases_hi[0] || brandData.tagline_hi
+    : heroContent.rotatingPhrases[0] || brandData.tagline;
 
   return (
     <div className="relative overflow-hidden bg-[#050811] text-white pt-10 pb-16 md:pt-16 md:pb-24 border-b border-white/10">
@@ -91,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   {componentContent.hero.title_hi}{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-amber-400 drop-shadow-[0_4px_25px_rgba(245,158,11,0.4)]">
                     <span aria-hidden="true" className="inline-block min-h-[1.15em] align-bottom">
-                      {typedText}<span className="motion-safe:animate-pulse">|</span>
+                      {heroPhrase}
                     </span>
                   </span>
                 </>
@@ -100,7 +64,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   {brandData.name}{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-amber-400 drop-shadow-[0_4px_25px_rgba(245,158,11,0.4)]">
                     <span aria-hidden="true" className="inline-block min-h-[1.15em] align-bottom">
-                      {typedText}<span className="motion-safe:animate-pulse">|</span>
+                      {heroPhrase}
                     </span>
                   </span>
                 </>
@@ -134,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <a
                 href={`tel:${brandData.phone}`}
-                className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
+                className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-emerald-700 via-emerald-700 to-teal-700 hover:from-emerald-800 hover:to-teal-800 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(16,185,129,0.45)] transition-all hover:scale-105 active:scale-95 border border-emerald-400/40"
               >
                 <PhoneCall className="w-5 h-5 animate-pulse-subtle" />
                 <span>{lang === 'hi' ? '📞 अभी कॉल करें' : '📞 Call Now'}</span>
@@ -144,7 +108,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                 href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(37,211,102,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-300/40"
+                className="shining-beam w-full sm:w-auto px-8 h-14 rounded-2xl bg-gradient-to-r from-[#15803d] to-[#15803d] hover:from-[#166534] hover:to-[#166534] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(37,211,102,0.4)] transition-all hover:scale-105 active:scale-95 border border-emerald-300/40"
               >
                 <MessageSquare className="w-5 h-5 fill-white" />
                 <span>{lang === 'hi' ? 'व्हाट्सएप पर बात करें' : 'Chat on WhatsApp'}</span>
@@ -233,7 +197,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
 
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-lg font-bold text-white tracking-tight">Jangid Ji Cab Service</h3>
+                      <p className="text-lg font-bold text-white tracking-tight">Jangid Ji Cab Service</p>
                       <span className="px-2.5 py-0.5 rounded-md text-[10px] font-black bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 uppercase tracking-wider shadow-sm">
                         {lang === 'hi' ? 'कैब एवं टैक्सी सेवा' : 'Cab & Taxi Service'}
                       </span>
@@ -290,8 +254,10 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                             onClick={() => setActiveVehicleIndex(index)}
                             aria-label={`Show ${vehicle.name}`}
                             aria-pressed={index === activeVehicleIndex}
-                            className={`h-2.5 rounded-full transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 ${index === activeVehicleIndex ? 'w-6 bg-amber-400' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
-                          />
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+                          >
+                            <span className={`h-2.5 rounded-full transition-all ${index === activeVehicleIndex ? 'w-6 bg-amber-400' : 'w-2.5 bg-white/50 hover:bg-white/80'}`} />
+                          </button>
                         ))}
                       </div>
                       <button
@@ -314,7 +280,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onCalculateClick }) => {
                   </div>
                   <a
                     href={`tel:${brandData.phone}`}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95"
+                    className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:scale-105 active:scale-95"
                   >
                     <PhoneCall className="w-3.5 h-3.5" />
                     Call

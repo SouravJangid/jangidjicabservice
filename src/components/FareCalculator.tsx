@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Calculator, 
   MapPin, 
@@ -44,6 +44,41 @@ interface CurrentCoordinates {
   longitude: number;
 }
 
+function getLocalEstimate(
+  pickup: string,
+  drop: string,
+  car: string,
+  tripType: 'oneway' | 'round',
+  days: number,
+  isNight: boolean
+): DistanceCalculationResult | null {
+  const origin = findLocationByName(pickup);
+  const destination = findLocationByName(drop);
+  if (!origin || !destination) return null;
+
+  const estimate = estimateRoadDistanceAndDuration(
+    { lat: origin.lat, lng: origin.lng, name: origin.name },
+    { lat: destination.lat, lng: destination.lng, name: destination.name }
+  );
+  const fare = calculateFare({ distanceKm: estimate.km, carId: car, tripType, days, isNight });
+
+  return {
+    from: origin.name,
+    to: destination.name,
+    km: estimate.km,
+    duration: estimate.duration,
+    durationSeconds: estimate.durationSec,
+    fare: fare.totalFare,
+    car,
+    tripType,
+    days,
+    nightChargeApplied: isNight,
+    tollNote: 'Toll & parking extra as per actual receipts',
+    coordinates: { origin: [origin.lat, origin.lng], dest: [destination.lat, destination.lng] },
+    polylinePoints: generateRoutePoints([origin.lat, origin.lng], [destination.lat, destination.lng])
+  };
+}
+
 export const FareCalculator: React.FC<FareCalculatorProps> = ({
   lang = 'en',
   onBookClick,
@@ -62,7 +97,9 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({
   const [days, setDays] = useState<number>(1);
   const [isNight, setIsNight] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [result, setResult] = useState<DistanceCalculationResult | null>(null);
+  const [result, setResult] = useState<DistanceCalculationResult | null>(() =>
+    getLocalEstimate('Modinagar', 'Delhi', fleetData[0]?.id ?? '', 'oneway', 1, false)
+  );
   const [calculationNotice, setCalculationNotice] = useState<{ type: 'fallback' | 'error'; text: string } | null>(null);
 
   // Autocomplete dropdown states
@@ -70,11 +107,6 @@ export const FareCalculator: React.FC<FareCalculatorProps> = ({
   const [dropSuggestions, setDropSuggestions] = useState<string[]>([]);
   const [showPickupList, setShowPickupList] = useState<boolean>(false);
   const [showDropList, setShowDropList] = useState<boolean>(false);
-
-  // Auto-calculate on initial load
-  useEffect(() => {
-    handleCalculate();
-  }, []);
 
   const filterPlaces = (val: string) => {
     if (!val.trim()) return POPULAR_INDIAN_LOCATIONS.slice(0, 6).map(p => p.name);
@@ -478,13 +510,14 @@ Please confirm cab availability and fare for my travel date.`;
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-end">
             {/* Pickup Input */}
             <div className="md:col-span-4 relative">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="fare-pickup" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                 {lang === 'hi' ? 'पिकअप स्थान (Pickup Location)' : 'Pickup Location'}
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-600" />
                 <input
+                  id="fare-pickup"
                   type="text"
                   value={pickup}
                   onChange={handlePickupChange}
@@ -539,13 +572,14 @@ Please confirm cab availability and fare for my travel date.`;
 
             {/* Drop Input */}
             <div className="md:col-span-4 relative">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="fare-drop" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
                 {lang === 'hi' ? 'ड्रॉप स्थान (Drop Destination)' : 'Drop Destination'}
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-600" />
                 <input
+                  id="fare-drop"
                   type="text"
                   value={drop}
                   onChange={handleDropChange}
@@ -573,7 +607,7 @@ Please confirm cab availability and fare for my travel date.`;
                       className="px-4 py-2.5 text-xs text-slate-800 hover:bg-amber-50 hover:text-amber-900 cursor-pointer border-b border-slate-100 last:border-none flex items-center justify-between transition-colors"
                     >
                       <span className="font-semibold">{place}</span>
-                      <span className="text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md">{findLocationByName(place) ? (lang === 'hi' ? 'चुनें' : 'Select') : (lang === 'hi' ? 'पूरा पता इस्तेमाल करें' : 'Use this address')}</span>
+                      <span className="text-[10px] text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded-md">{findLocationByName(place) ? (lang === 'hi' ? 'चुनें' : 'Select') : (lang === 'hi' ? 'पूरा पता इस्तेमाल करें' : 'Use this address')}</span>
                     </div>
                   ))}
                 </div>
@@ -582,13 +616,14 @@ Please confirm cab availability and fare for my travel date.`;
 
             {/* Car Selection */}
             <div className="md:col-span-4">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+              <label htmlFor="fare-car" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                 <span>{lang === 'hi' ? 'गाड़ी का प्रकार (Car Type)' : 'Car Type'}</span>
-                <span className="text-amber-600 font-extrabold px-2 py-0.5 bg-amber-50 rounded-md border border-amber-200/60 text-[11px]">{lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}</span>
+                <span className="text-amber-800 font-extrabold px-2 py-0.5 bg-amber-50 rounded-md border border-amber-200/60 text-[11px]">{lang === 'hi' ? 'किराया पूछें' : 'Fare on enquiry'}</span>
               </label>
               <div className="relative">
                 <Car className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                 <select
+                  id="fare-car"
                   value={selectedCar}
                   onChange={(e) => {
                     setSelectedCar(e.target.value);
@@ -715,7 +750,7 @@ Please confirm cab availability and fare for my travel date.`;
                     href={getWhatsAppBookingLink()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-300/40"
+                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-[#15803d] to-[#15803d] hover:from-[#166534] hover:to-[#166534] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-300/40"
                   >
                     <MessageSquare className="w-4 h-4 fill-white" />
                     {lang === 'hi' ? 'व्हाट्सएप पर बुक करें' : 'Book on WhatsApp'}
@@ -723,7 +758,7 @@ Please confirm cab availability and fare for my travel date.`;
 
                   <a
                     href={`tel:${brandData.phone}`}
-                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-400/40"
+                    className="shining-beam flex-1 h-12 rounded-xl bg-gradient-to-r from-emerald-700 via-emerald-700 to-teal-700 hover:from-emerald-800 hover:to-teal-800 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-95 border border-emerald-400/40"
                   >
                     <PhoneCall className="w-4 h-4" />
                     {lang === 'hi' ? 'अभी कॉल करें' : 'Call Now'}

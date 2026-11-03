@@ -21,17 +21,17 @@
     "baseLocation": { "lat": 28.8333, "lng": 77.5833 }
   },
   "assets": {
-    "logo": "/assets/images/logo.png",
-    "heroDriver": "/assets/images/sachinpic.jpeg",
-    "wagonr": "/assets/images/WagonR.png",
-    "dzire": "/assets/images/Dzire.png",
-    "aura": "/assets/images/Aura.png",
-    "ertiga": "/assets/images/Ertiga%20.png",
+    "logo": "/assets/images/logo.webp",
+    "heroDriver": "/assets/images/sachinpic.webp",
+    "wagonr": "/assets/images/wagonr.webp",
+    "dzire": "/assets/images/dzire.webp",
+    "aura": "/assets/images/aura.webp",
+    "ertiga": "/assets/images/ertiga.webp",
     "cabAc": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800",
     "cabNonAc": "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800",
-    "blogCab": "/assets/images/WagonR.png",
-    "blogRoutes": "/assets/images/Dzire.png",
-    "blogBooking": "/assets/images/Aura.png"
+    "blogCab": "/assets/images/wagonr.webp",
+    "blogRoutes": "/assets/images/dzire.webp",
+    "blogBooking": "/assets/images/aura.webp"
   },
   "serviceAreas": ["Modinagar", "Muradnagar", "Raj Nagar", "Ghaziabad", "Delhi", "Noida", "Greater Noida", "Gurugram", "Haryana", "Punjab", "Chandigarh", "Meerut", "Saharanpur", "Haridwar", "Rishikesh"],
   "hero": {

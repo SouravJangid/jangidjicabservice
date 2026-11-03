@@ -179,10 +179,11 @@ Please check availability and send me the quote.`;
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {/* Full Name */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="booking-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 {lang === 'hi' ? 'पूरा नाम *' : 'Full Name *'}
               </label>
               <input
+                id="booking-name"
                 type="text"
                 required
                 value={name}
@@ -194,7 +195,7 @@ Please check availability and send me the quote.`;
 
             {/* Mobile Number */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="booking-phone" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 {lang === 'hi' ? 'मोबाइल नंबर (10 अंक) *' : 'Mobile Number (10 digits) *'}
               </label>
               <div className="relative">
@@ -202,6 +203,7 @@ Please check availability and send me the quote.`;
                   +91
                 </span>
                 <input
+                  id="booking-phone"
                   type="tel"
                   required
                   maxLength={10}
@@ -215,11 +217,12 @@ Please check availability and send me the quote.`;
 
             {/* Pickup */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-pickup" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-emerald-600" />
                 {lang === 'hi' ? 'पिकअप लोकेशन *' : 'Pickup Location *'}
               </label>
               <input
+                id="booking-pickup"
                 type="text"
                 required
                 value={pickup}
@@ -231,11 +234,12 @@ Please check availability and send me the quote.`;
 
             {/* Drop */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-drop" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-amber-600" />
                 {lang === 'hi' ? 'ड्रॉप लोकेशन *' : 'Drop Destination *'}
               </label>
               <input
+                id="booking-drop"
                 type="text"
                 required
                 value={drop}
@@ -247,11 +251,12 @@ Please check availability and send me the quote.`;
 
             {/* Vehicle Selection */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-car" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Car className="w-3.5 h-3.5 text-slate-600" />
                 {lang === 'hi' ? 'कैब का प्रकार' : 'Cab Type'}
               </label>
               <select
+                id="booking-car"
                 value={car}
                 onChange={(e) => setCar(e.target.value)}
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
@@ -266,10 +271,11 @@ Please check availability and send me the quote.`;
 
             {/* Trip Type */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="booking-trip-type" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 {lang === 'hi' ? 'यात्रा का प्रकार' : 'Trip Type'}
               </label>
               <select
+                id="booking-trip-type"
                 value={tripType}
                 onChange={(e) => setTripType(e.target.value)}
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
@@ -281,11 +287,12 @@ Please check availability and send me the quote.`;
 
             {/* Travel Date */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-date" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-slate-600" />
                 {lang === 'hi' ? 'यात्रा की तारीख' : 'Travel Date'}
               </label>
               <input
+                id="booking-date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -295,11 +302,12 @@ Please check availability and send me the quote.`;
 
             {/* Travel Time */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-time" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-slate-600" />
                 {lang === 'hi' ? 'पिकअप का समय' : 'Pickup Time'}
               </label>
               <input
+                id="booking-time"
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
@@ -309,11 +317,12 @@ Please check availability and send me the quote.`;
 
             {/* Passengers & Luggage */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-passengers" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5 text-slate-600" />
                 {lang === 'hi' ? 'यात्रियों की संख्या' : 'Passengers'}
               </label>
               <select
+                id="booking-passengers"
                 value={passengers}
                 onChange={(e) => setPassengers(Number(e.target.value))}
                 className="w-full h-12 px-4 rounded-xl border border-slate-300 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white"
@@ -326,11 +335,12 @@ Please check availability and send me the quote.`;
 
             {/* Special Notes */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <label htmlFor="booking-notes" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <Luggage className="w-3.5 h-3.5 text-slate-600" />
                 {lang === 'hi' ? 'सामान या विशेष अनुरोध' : 'Luggage / Notes'}
               </label>
               <input
+                id="booking-notes"
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
@@ -363,7 +373,7 @@ Please check availability and send me the quote.`;
                   href={statusMessage.waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-[#25D366] text-white font-bold text-xs shrink-0 flex items-center gap-1.5 shadow"
+                  className="px-3 py-1.5 rounded-lg bg-[#15803d] text-white font-bold text-xs shrink-0 flex items-center gap-1.5 shadow"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
                   Chat on WhatsApp
@@ -378,7 +388,7 @@ Please check availability and send me the quote.`;
               href={getDirectWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="shining-beam w-full sm:flex-1 h-13 rounded-xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] hover:from-[#20ba59] hover:to-[#17a84e] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all active:scale-95 border border-emerald-300/40"
+              className="shining-beam w-full sm:flex-1 h-13 rounded-xl bg-gradient-to-r from-[#15803d] to-[#15803d] hover:from-[#166534] hover:to-[#166534] text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all active:scale-95 border border-emerald-300/40"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
               {lang === 'hi' ? 'WhatsApp पर पूछताछ करें' : 'Enquire on WhatsApp'}
@@ -386,7 +396,7 @@ Please check availability and send me the quote.`;
 
             <a
               href={`tel:${brandData.phone}`}
-              className="w-full sm:w-auto px-6 h-13 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95"
+              className="w-full sm:w-auto px-6 h-13 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />
               {lang === 'hi' ? 'कॉल करें' : 'Call'}

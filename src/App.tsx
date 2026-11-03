@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { StickyBottomBar } from './components/StickyBottomBar';
 import { HomePage } from './pages/HomePage';
 import { SeoHead } from './components/SeoHead';
-import { apiService } from './services/api';
 
 const AboutPage = lazy(() => import('./pages/AboutPage').then(({ AboutPage: page }) => ({ default: page })));
 const FleetPage = lazy(() => import('./pages/FleetPage').then(({ FleetPage: page }) => ({ default: page })));
@@ -29,20 +28,13 @@ function ScrollToTop() {
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'hi'>('en');
-  const [contentVersion, setContentVersion] = useState(0);
-
-  useEffect(() => {
-    void apiService.loadContentCatalog().then((loaded) => {
-      if (loaded) setContentVersion((version) => version + 1);
-    });
-  }, []);
 
   const toggleLanguage = () => {
     setLang(prev => (prev === 'en' ? 'hi' : 'en'));
   };
 
   return (
-    <div data-content-version={contentVersion} className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
+    <div className="min-h-screen bg-[#F9FAFB] text-[#111827] flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
       <ScrollToTop />
       <SeoHead lang={lang} />
 

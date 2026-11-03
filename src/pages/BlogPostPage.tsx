@@ -97,9 +97,9 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 overflow-x-auto whitespace-nowrap">
-          <Link to="/" className="hover:text-amber-600 transition-colors">Home</Link>
+          <Link to="/" className="hover:text-amber-700 transition-colors">Home</Link>
           <span>/</span>
-          <Link to="/blog" className="hover:text-amber-600 transition-colors">Travel Blog</Link>
+          <Link to="/blog" className="hover:text-amber-700 transition-colors">Travel Blog</Link>
           <span>/</span>
           <span className="text-slate-900 font-semibold truncate max-w-xs">{post.title}</span>
         </nav>
@@ -170,7 +170,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
-                    className="hover:text-amber-600 transition-colors flex items-center gap-1.5"
+                    className="hover:text-amber-700 transition-colors flex items-center gap-1.5"
                   >
                     <span className="text-amber-400">›</span>
                     <span>{item.text}</span>
@@ -207,7 +207,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <a
                 href={`tel:${brandData.phone}`}
-                className="w-full sm:w-auto px-6 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
+                className="w-full sm:w-auto px-6 h-12 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>Call Now</span>
@@ -217,7 +217,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                 href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I read your article "${post.title}" and would like to enquire about cab booking.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 h-12 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
+                className="w-full sm:w-auto px-6 h-12 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-transform active:scale-95"
               >
                 <MessageSquare className="w-4 h-4 fill-white" />
                 <span>WhatsApp</span>
@@ -282,7 +282,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ lang }) => {
                     <p className="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2">
                       {lang === 'hi' ? rel.title_hi : rel.title}
                     </p>
-                    <p className="text-[10px] text-slate-400">{rel.readTime}</p>
+                    <p className="text-[10px] text-slate-600">{rel.readTime}</p>
                   </div>
                 </Link>
               ))}

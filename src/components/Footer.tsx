@@ -52,9 +52,9 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
           {/* Col 2: Direct Contact & Booking */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-amber-400">
               {lang === 'hi' ? componentContent.contact.title_hi : componentContent.contact.title}
-            </h4>
+            </h2>
             <div className="space-y-3 text-xs">
               <a
                 href={`tel:${brandData.phone}`}
@@ -94,9 +94,9 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
           {/* Col 3: Popular Route Landing Links & Pages */}
           <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-amber-400">
               {lang === 'hi' ? 'लोकप्रिय रूट' : 'Popular Routes'}
-            </h4>
+            </h2>
             <ul className="space-y-2 text-xs text-slate-400">
               {popularRoutes.slice(0, 5).map(r => (
                 <li key={r.slug}>
@@ -117,9 +117,9 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
           {/* Col 4: Trust & Verification Badges */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-amber-400">
               {lang === 'hi' ? 'कैब सेवा जानकारी' : 'Cab Service Details'}
-            </h4>
+            </h2>
             <div className="space-y-2 text-[11px] text-slate-300">
               {(lang === 'hi' ? componentContent.footer.serviceBadges_hi : componentContent.footer.serviceBadges).map((badge, index) => (
                 <div key={`${badge}-${index}`} className="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800">

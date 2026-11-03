@@ -67,6 +67,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
+                aria-label={lang === 'hi' ? 'रूट या सेवा खोजें' : 'Search routes or services'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={lang === 'hi' ? 'रूट या सेवा खोजें...' : 'Search routes or services...'}
@@ -130,7 +131,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                       </span>
                     </div>
 
-                    <h2 className="text-lg font-bold text-slate-900 group-hover:text-amber-600 transition-colors leading-snug line-clamp-2">
+                    <h2 className="text-lg font-bold text-slate-900 group-hover:text-amber-700 transition-colors leading-snug line-clamp-2">
                       <Link to={`/blog/${post.slug}`}>
                         {lang === 'hi' ? post.title_hi : post.title}
                       </Link>
@@ -151,7 +152,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
                       />
                       <div>
                         <p className="text-[11px] font-bold text-slate-800">{post.author.name}</p>
-                        <p className="text-[10px] text-slate-400">Cab & Taxi Service</p>
+                        <p className="text-[10px] text-slate-600">Cab & Taxi Service</p>
                       </div>
                     </div>
                   </div>
@@ -202,7 +203,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
           <div className="flex items-center gap-3">
             <a
               href={`tel:${brandData.phone}`}
-              className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"
+              className="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />
               <span>{brandData.phoneDisplay}</span>
@@ -211,7 +212,7 @@ export const BlogHubPage: React.FC<BlogHubPageProps> = ({ lang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I would like to enquire about a cab booking.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"
+              className="px-5 py-3 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-transform active:scale-95"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
               <span>WhatsApp</span>

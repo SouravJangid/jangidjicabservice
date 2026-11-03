@@ -106,10 +106,10 @@ export const HomePage: React.FC<HomePageProps> = ({ lang }) => {
                   </div>
 
                   <div className="p-5 space-y-2">
-                    <span className="text-[11px] text-slate-400 font-medium">
+                    <span className="text-[11px] text-slate-600 font-medium">
                       {post.publishDate} • {post.readTime}
                     </span>
-                    <h3 className="text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2">
+                    <h3 className="text-base font-bold text-slate-900 group-hover:text-amber-700 transition-colors line-clamp-2">
                       {lang === 'hi' ? post.title_hi : post.title}
                     </h3>
                     <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
@@ -118,7 +118,7 @@ export const HomePage: React.FC<HomePageProps> = ({ lang }) => {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0 flex items-center gap-1 text-xs font-bold text-amber-600 group-hover:text-amber-700">
+                <div className="p-5 pt-0 flex items-center gap-1 text-xs font-bold text-amber-700 group-hover:text-amber-800">
                   <span>{lang === 'hi' ? 'पूरा लेख पढ़ें' : 'Read Full Guide'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>

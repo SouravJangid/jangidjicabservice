@@ -129,7 +129,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
               href={`tel:${brandData.phone}`}
-              className="px-6 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
+              className="px-6 h-12 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Call: {brandData.phoneDisplay}</span>
@@ -138,7 +138,7 @@ export const RouteDetailPage: React.FC<RouteDetailPageProps> = ({ lang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I would like to enquire about a cab from ${route.from} to ${route.to}.`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 h-12 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
+              className="px-6 h-12 rounded-xl bg-[#15803d] hover:bg-[#166534] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95"
             >
               <MessageSquare className="w-4 h-4 fill-white" />
               <span>Book via WhatsApp</span>

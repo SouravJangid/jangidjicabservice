@@ -72,9 +72,9 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
         {/* Help Banner */}
         <div className="mt-12 p-6 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <h4 className="text-sm font-bold text-amber-950">
+            <h3 className="text-sm font-bold text-amber-950">
               {lang === 'hi' ? 'कोई अन्य सवाल है?' : 'Have a custom itinerary or specific question?'}
-            </h4>
+            </h3>
             <p className="text-xs text-amber-900/80 mt-0.5">
               {lang === 'hi' ? 'रूट, किराए और उपलब्धता के लिए संपर्क करें।' : 'Contact us to enquire about routes, fares, and availability.'}
             </p>
@@ -82,7 +82,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
           <div className="flex items-center gap-3">
             <a
               href={`tel:${brandData.phone}`}
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"
+              className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"
             >
               <PhoneCall className="w-3.5 h-3.5" />
               Call Now
@@ -91,7 +91,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ lang }) => {
               href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent('Hello Jangid Ji Cab Service, I have an enquiry about cab service.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-[#25D366] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"
+              className="px-4 py-2 rounded-xl bg-[#15803d] text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               WhatsApp

@@ -61,7 +61,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang }) => {
                 </div>
 
                 <div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">
                     {svc.tagline}
                   </span>
                   <h3 className="text-lg font-bold text-slate-900 mt-1">
@@ -89,7 +89,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang }) => {
                   href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, I need cab service for: ${svc.title}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 group-hover:text-amber-700 transition-colors"
                 >
                   <span>{lang === 'hi' ? 'पूछताछ करें' : 'Enquire Now'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

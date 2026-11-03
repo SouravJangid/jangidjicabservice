@@ -83,7 +83,7 @@ export const RoutesPage: React.FC<RoutesPageProps> = ({ lang }) => {
                   href={`https://wa.me/${brandData.whatsapp}?text=${encodeURIComponent(`Hello Jangid Ji Cab Service, please share the fare and availability for ${route.from} to ${route.to}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs font-bold text-[#25D366] hover:underline"
+                  className="text-xs font-bold text-[#15803d] hover:underline"
                 >
                   WhatsApp
                 </a>
